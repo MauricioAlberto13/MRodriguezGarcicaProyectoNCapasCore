@@ -6,12 +6,13 @@ namespace PL_.Controllers
     {
 
         private readonly BL.Usuario _usuario;
+        private readonly BL.Rol _rol;
 
-        public UsuarioController(BL.Usuario usuario)
+        public UsuarioController(BL.Usuario usuario, BL.Rol rol)
         {
             _usuario = usuario;
+            _rol = rol;
         }
-
 
 
 
@@ -35,7 +36,29 @@ namespace PL_.Controllers
 
         }
 
+        //[HttpGet]
+        //public IActionResult GetAll()
+        //{
 
+        //    ML.Usuario usuario = new ML.Usuario();
+        //    usuario.Nombre = "";
+        //    usuario.ApellidoPaterno = "";
+        //    usuario.ApellidoMaterno = "";
+
+
+        //    ML.Result result = _usuario.GetAll();
+        //    ML.Result resultRol = _rol.GetAll();
+
+
+        //    if (result.Correct.HasValue)
+        //    {
+        //        usuario.Usuarios = result.Objects;
+        //        usuario.Rol = new ML.Rol();
+        //        usuario.Rol.Roles = resultRol.Objects;
+        //    }
+
+        //    return View(usuario);
+        //}
 
     }
 }
