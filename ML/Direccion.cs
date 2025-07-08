@@ -28,5 +28,6 @@ namespace ML
         public ML.Colonia? Colonia { get; set; }
 
         public List<object>? Direccciones { get; set; }
+
     }
 }

@@ -9,13 +9,11 @@ namespace ML
 {
     public class Estado
     {
-        public Estado() { }
+
         [Key]
-        public int IdEstado { get; set; }
-        public string NombreEstado { get; set; }
+        public int? IdEstado { get; set; }
+        public string? NombreEstado { get; set; }
 
-
-
-        public List<object> Estados { get; set; }
+        public List<object>? Estados { get; set; }
     }
 }
