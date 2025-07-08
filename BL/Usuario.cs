@@ -202,7 +202,6 @@ namespace BL
             return result;
         }
 
-
         public ML.Result GetAll(ML.Usuario usuario)
         {
             ML.Result result = new ML.Result();
