@@ -6,7 +6,6 @@ namespace PL_.Controllers
     {
 
         private readonly BL.Usuario _usuario;
-        private readonly BL.Rol _rol;
 
         public UsuarioController(BL.Usuario usuario)
         {
@@ -14,31 +13,21 @@ namespace PL_.Controllers
         }
 
 
-        public UsuarioController(BL.Rol rol)
-        {
-            _rol = rol;
-        }
 
-        public IActionResult GetAll()
-        {
-            return View();
-        }
+
+        //public IActionResult GetAll()
+        //{
+        //    return View();
+        //}
 
         [HttpGet]
-        public IActionResult GetAllV()
+        public IActionResult GetAll()
         {
+
             ML.Usuario usuario = new ML.Usuario();
-            usuario.Rol = new ML.Rol();
-
-            usuario.Rol.IdRol = usuario.Rol.IdRol;
-
-            ML.Result resultRol = _rol.GetAll();
-            if ((bool)resultRol.Correct)
-            {
-                usuario.Rol.Roles = resultRol.Objects;
-            }
-            ML.Result result = _usuario.GetAll(usuario);
-            if ((bool)result.Correct)
+            //ML.Result result = _restaurante.GetAll();
+            ML.Result result = _usuario.GetAll();
+            if (result.Correct.HasValue)
             {
                 usuario.Usuarios = result.Objects;
             }
