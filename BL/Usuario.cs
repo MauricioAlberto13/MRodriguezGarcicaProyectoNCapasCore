@@ -210,12 +210,83 @@ namespace BL
                 //Se quita el bloque using ya que la conexion ya se encuentra y solo vive en el BL
 
                var query = _context.VwUsuarioGetAlls.FromSqlRaw("select * from vwUsuarioGetAll ").ToList();
-                //var query = _context.VwUsuarioGetAlls.FromSqlRaw($"UsuarioGetsAllView ").ToList();
+                //var query = _context.VwUsuarioGetAlls.FromSqlRaw($"UsuarioGetsAllView '{Usuario.}',' ',' ',' ' ").ToList();
                 //var query = _context.VwUsuarioGetAlls.FromSqlRaw($"UsuarioGetsAllView ").ToList();
                 //Recuerdad que entity core no mapea los store procedures y se tienen que mandar a llamar con From SQl Raw en caso de que sea una consulta SELECT
                 //var listUsers = context.UsuarioGetsAllView(usuario.Nombre, usuario.ApellidoPaterno, usuario.ApellidoMaterno, usuario.Rol.IdRol).ToList();
 
+                //' '
+                result.Objects = new List<object>();
 
+                if (query.Count > 0)
+                {
+                    foreach (var item in query)
+                    {
+                        ML.Usuario usuarioItem = new ML.Usuario();
+                        usuarioItem.Rol = new ML.Rol();
+                        usuarioItem.Direccion = new ML.Direccion();
+                        usuarioItem.Direccion.Colonia = new ML.Colonia();
+                        usuarioItem.Direccion.Colonia.Municipio = new ML.Municipio();
+                        usuarioItem.Direccion.Colonia.Municipio.Estado = new ML.Estado();
+
+                        usuarioItem.IdUsuario = item.IdUsuario;
+                        usuarioItem.UserName = item.UserName;
+                        usuarioItem.Nombre = item.Nombre;
+                        usuarioItem.ApellidoPaterno = item.ApellidoPaterno;
+                        usuarioItem.ApellidoMaterno = item.ApellidoMaterno;
+                        usuarioItem.Email = item.Email;
+                        usuarioItem.Password = item.Password;
+                        usuarioItem.Sexo = item.Sexo;
+                        usuarioItem.Telefono = item.Telefono;
+                        usuarioItem.Celular = item.Celular;
+                        usuarioItem.Fecha = item.FechaNacimiento;
+                        usuarioItem.CURP = item.Curp;
+
+                        usuarioItem.Rol.NombreR = item.Rol;
+
+                        usuarioItem.Imagen = item.Imagen;
+                        //   usuarioItem.ImagenBase64 = Convert.ToBase64String(item.Imagen);
+
+
+                        usuarioItem.Direccion.Calle = item.Calle;
+                        usuarioItem.Direccion.NumeroExterior = item.NumeroExterior;
+                        usuarioItem.Direccion.NumeroInterior = item.NumeroInterior;
+                        usuarioItem.Direccion.Colonia.Nombre = item.Colonia;
+                        usuarioItem.Direccion.Colonia.CodigoPostal = item.CodigoPostal;
+                        usuarioItem.Direccion.Colonia.Municipio.NombreMunicipio = item.Municipio;
+                        usuarioItem.Direccion.Colonia.Municipio.Estado.NombreEstado = item.Estado;
+
+                        usuarioItem.Status = Convert.ToBoolean(item.Status);
+
+                        result.Objects.Add(usuarioItem);
+                    }
+                    result.Correct = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
+        }
+
+
+
+        public ML.Result GetAllV(ML.Usuario usuario)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                //Se quita el bloque using ya que la conexion ya se encuentra y solo vive en el BL
+
+                var query = _context.VwUsuarioGetAlls.FromSqlRaw($"UsuarioGetsAllView '{usuario.Nombre}','{usuario.ApellidoPaterno}','{usuario.ApellidoMaterno}','{usuario.Rol.IdRol}' ").ToList();
+                //var query = _context.VwUsuarioGetAlls.FromSqlRaw($"UsuarioGetsAllView ").ToList();
+                //Recuerdad que entity core no mapea los store procedures y se tienen que mandar a llamar con From SQl Raw en caso de que sea una consulta SELECT
+                //var listUsers = context.UsuarioGetsAllView(usuario.Nombre, usuario.ApellidoPaterno, usuario.ApellidoMaterno, usuario.Rol.IdRol).ToList();
+
+                //' '
                 result.Objects = new List<object>();
 
                 if (query.Count > 0)
