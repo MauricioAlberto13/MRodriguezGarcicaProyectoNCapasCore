@@ -19,7 +19,7 @@ namespace BL
 
 
 
-        public ML.Result GetAll(ML.Usuario usuario)
+        public ML.Result GetAll()
         {
             ML.Result result = new ML.Result();
             try
