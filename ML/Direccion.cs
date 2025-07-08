@@ -10,7 +10,7 @@ namespace ML
     public class Direccion
     {
 
-        public int? IdDireccion { get; set; }
+        public int IdDireccion { get; set; }
         [StringLength(50, ErrorMessage = "Máximo 50 caracteres")]
         [Required(ErrorMessage = "Ingresa una calle es requerido")]
 

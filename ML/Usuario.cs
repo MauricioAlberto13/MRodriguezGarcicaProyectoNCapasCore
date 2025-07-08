@@ -49,7 +49,6 @@ namespace ML
         public string? Celular { get; set; }
 
 
-        public DateTime? FechaNacimiento { get; set; }
 
         [Required(ErrorMessage = "Ingresa una fecha es obligatorio")]
         public string? Fecha { get; set; }
