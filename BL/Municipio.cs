@@ -25,7 +25,7 @@ namespace BL
             ML.Result result = new ML.Result();
             try
             {
-                var listColonias = _context.VwUsuarioGetAlls.FromSqlRaw($"GetMunicipioByIdEstado {IdEstado}").AsEnumerable()
+                var listColonias = _context.Municipios.FromSqlRaw($"Exec GetMunicipioByIdEstado2 {IdEstado}").AsEnumerable()
                     .ToList();
 
 
@@ -38,8 +38,8 @@ namespace BL
                         // municipio.Estado = new ML.Estado();
 
                         municipio.IdMunicipio = item.IdMunicipio;
-                        municipio.NombreMunicipio = item.Municipio;
-                        //municipio.Estado.NombreEstado = item.Estado;
+                        municipio.NombreMunicipio = item.Nombre;
+                       // municipio.Estado.NombreEstado = item.n;
 
                         result.Objects.Add(municipio);
                     }

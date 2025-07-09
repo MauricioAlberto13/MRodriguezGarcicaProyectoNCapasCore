@@ -22,7 +22,7 @@ namespace BL
             ML.Result result = new ML.Result();
             try
             {
-                var listColonias = _context.VwUsuarioGetAlls.FromSqlRaw($"GetColinasByMunicipio {IdMunicipio}").AsEnumerable()
+                var listColonias = _context.Colonia.FromSqlRaw($"GetColinasByMunicipio2 {IdMunicipio}").AsEnumerable()
                     .ToList();
 
 

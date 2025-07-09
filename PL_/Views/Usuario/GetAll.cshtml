@@ -140,7 +140,7 @@
                         <h2 class="text-bg-light d-none">Usuarios</h2>
                     </div>
                     <div class="col-3 text-end">
-                        <a href="@Url.Action("Form","Usuarios" )" class="btn btn-success">
+                        <a href="@Url.Action("Form","Usuario" )" class="btn btn-success">
                             Agregar usuarios <i class="bi bi-person-plus-fill"></i>
                         </a>
                     </div>
@@ -204,7 +204,7 @@
 
 
                                 <td>
-                                    <a href="@Url.Action("Form", "Usuarios", new { IdUsuario = usuario.IdUsuario })"
+                                    <a href="@Url.Action("Form", "Usuario", new { IdUsuario = usuario.IdUsuario })"
                                        type="button" class="btn btn-primary" ;">
                                         <i class="bi bi-pencil-square"></i>
                                         Update
@@ -297,7 +297,7 @@
                     var nuevoEstado = $(this).is(':checked');
 
                     $.ajax({
-                        url: '@Url.Action("CambiarStatus", "Usuarios")',
+                        url: '@Url.Action("CambiarStatus", "Usuario")',
                         dataType: 'JSON',
                         method: 'POST',
                         data: { IdUsuario: IdUsuario, Status: nuevoEstado },

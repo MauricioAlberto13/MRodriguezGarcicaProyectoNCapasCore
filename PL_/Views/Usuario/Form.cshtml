@@ -1,0 +1,762 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model ML.Usuario
+
+@*<link rel="stylesheet" href="~/Scripts/Jquery/jquery-ui-1.13.3.custom/jquery-ui.css">*@
+
+
+<h2 class="text-bg-primary text-center"> Usuarios</h2>
+
+@* @section styles {
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+}
+ *@
+
+<style>
+    .sombra:active {
+        box-shadow: 2px 2px 15px #076eff inset;
+    }
+</style>
+
+@using (Html.BeginForm("Form", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data", id = "myForm", @class = "needs-validation", @novalidate = "novalidate" }))
+
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <div>
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+                    @*@Html.LabelFor(Model => Model.IdUsuario, new { @class = "form-label" })
+                        @Html.TextBoxFor(Model => Model.IdUsuario, new { @class = "form-control" })*@
+                    @Html.HiddenFor(Model => Model.IdUsuario)
+
+                    @Html.LabelFor(Model => Model.Nombre, new { @class = "form-label" })
+                    @Html.TextBoxFor(Model => Model.Nombre, new { @class = "form-control sombra ", id = "txtNombre", placeholder = "Ingresa el nombre", onkeypress = "validarLetra(this, event)", onblur = "validarLetra(this, event)", required = "required" })
+                    <p class="invalid-feedback" hidden="hidden"></p>
+                    @Html.ValidationMessageFor(Model => Model.Nombre, "", new { @class = "badge bg-danger" })
+                </div>
+
+                <br />
+                <div>
+                    @Html.LabelFor(Model => Model.UserName, new { @class = "form-label" })
+                    <i class="bi bi-person-fill text-primary"></i>
+                    @Html.TextBoxFor(Model => Model.UserName, new { @class = "form-control sombra", placeholder = "Ingresa el usuario", id = "UserName", required = "required", onblur = "validarUser(this, event)", onkeypress = "validarUser(this, event)" })
+
+                    <div id="UserName" class="invalid-feedback">
+                        Tiene que ser mayor a 5 caracteres y no puede contener espacios
+                    </div>
+                    @Html.ValidationMessageFor(Model => Model.UserName, "", new { @class = "badge bg-danger" })
+
+                </div>
+                <br />
+
+                <div>
+                    @Html.LabelFor(Model => Model.ApellidoPaterno, new { @class = "form-label" })
+                    @Html.TextBoxFor(Model => Model.ApellidoPaterno, new { @class = "form-control sombra", placeholder = "Ingresa el Apellido Paterno", id = "txtApellidoP", required = "required", onkeypress = "validarLetra(this, event)", onblur = "validarLetra(this, event)" })
+                    <p class="invalid-feedback" hidden="hidden"></p>
+                    @Html.ValidationMessageFor(Model => Model.ApellidoPaterno, "", new { @class = "badge bg-danger" })
+
+                </div>
+                <br />
+
+                <div>
+                    @Html.LabelFor(Model => Model.ApellidoMaterno, new { @class = "form-label" })
+                    @Html.TextBoxFor(Model => Model.ApellidoMaterno, new { @class = "form-control sombra", placeholder = "Ingresa el Apellido Materno", id = "txtApellidoM", onkeypress = "validarLetra(this, event)", onblur = "validarLetra(this, event)" })
+                    <p class="invalid-feedback" hidden="hidden"></p>
+                    @Html.ValidationMessageFor(Model => Model.ApellidoMaterno, "", new { @class = "badge bg-danger" })
+
+                </div>
+
+                <br />
+                <div>
+
+                    @Html.LabelFor(Model => Model.Email, new { @class = "form-label" })
+                    <i class="bi bi-envelope-fill text-primary"></i>
+                    @Html.TextBoxFor(Model => Model.Email, new { @class = "form-control sombra", placeholder = "Ingresa el email", id = "Email", onblur = "validarEmail(this, event)", required = "required", @type = "email", @onpaste = "return false;" })
+                    <div class="invalid-feedback">
+                        Email invalido
+                    </div>
+                    @Html.ValidationMessageFor(Model => Model.Email, "", new { @class = "badge bg-danger" })
+                    <div>
+                        <br />
+                        <label>Confirma tu correo </label>
+                        <input type="email" class="form-control sombra" id="Email2" placeholder="Confirma tu correo" onblur="validarEmail(this, event)" required onpaste="return false;">
+                        <span id="message"></span>
+
+                    </div>
+                </div>
+                <br />
+                <div>
+
+
+                    @Html.LabelFor(Model => Model.Password, new { @class = "form-label" })
+                    <i class="bi bi-alphabet  text-primary"></i>
+                    <div class="input-group">
+                        @Html.TextBoxFor(Model => Model.Password, new { @type = "password", @class = "form-control sombra", placeholder = "Ingresa tu password", required = "required", id = "Contra", onblur = "validarPassword(this, event)", @onpaste = "return false;" })
+
+                        <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                            <i class="bi bi-eye-fill"></i>
+                        </button>
+                        <div class="invalid-feedback">
+                            Tu password deber ser mayor a 6 caracteres y no debe contener espacios
+                        </div>
+                    </div>
+
+                    <div>
+                        @Html.ValidationMessageFor(Model => Model.Password, "", new { @class = "badge bg-danger" })
+
+                        <br />
+                        <label>Confirma tu password </label>
+                        <input type="password" class="form-control sombra" id="Contra2" placeholder="Confirma tu password" onblur="validarPassword(this, event)" required onpaste="return false;">
+                        <span id="message2"></span>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-4">
+                @Html.LabelFor(Model => Model.Sexo, new { @class = "form-label" })
+                <br />
+
+                @Html.RadioButtonFor(Model => Model.Sexo, "H", new { required = "required" }) @Html.Label("H")
+                @Html.RadioButtonFor(Model => Model.Sexo, "M", new { required = "required" }) @Html.Label("M")
+                <div class="invalid-feedback">
+                    Por favor selecciona uno.
+                </div>
+                @Html.ValidationMessageFor(Model => Model.Sexo, "", new { @class = "badge bg-danger" })
+
+                <br /> <br />
+                <div>
+                    @Html.LabelFor(Model => Model.Telefono, new { @class = "form-label" })
+                    <i class="bi bi-telephone-fill text-primary"></i>
+                    @Html.TextBoxFor(Model => Model.Telefono, new { @maxlength = "10", @class = "form-control sombra", placeholder = "Ingresa tu telefono", onkeypress = "validarNumero(this, event)", onblur = "validarNumero(this, event)", required = "required", id = "Telefono" })
+                    <p class="invalid-feedback" hidden="hidden"></p>
+
+                </div>
+                @Html.ValidationMessageFor(Model => Model.Telefono, "", new { @class = "text-danger" })
+
+                <br />
+                <div>
+                    @Html.LabelFor(Model => Model.Celular, new { @class = "form-label" })
+                    <i class="bi bi-phone-fill text-primary"></i>
+                    @Html.TextBoxFor(Model => Model.Celular, new { @maxlength = "10", @class = "form-control sombra", placeholder = "Ingresa tu celular", onkeypress = "validarNumero(this, event)", id = "Celular", onblur = "validarNumero(this, event)" })
+                    <p class="invalid-feedback" hidden="hidden"></p>
+
+                    @Html.ValidationMessageFor(Model => Model.Celular, "", new { @class = "badge bg-danger" })
+
+                </div>
+                <br />
+                <div>
+                    @Html.LabelFor(Model => Model.Fecha, new { @class = "form-label" })
+                    <i class="bi bi-calendar-date-fill text-primary"></i>
+                    @Html.TextBoxFor(Model => Model.Fecha, new { @maxlength = "10", @class = "form-control sombra", placeholder = "Ingresa tu fecha de nacimiento", id = "FechaNacimiento", required = "required", @readonly = true })
+                    <div class="invalid-feedback">
+                        Ingresa una fecha de nacimiento real.
+                    </div>
+                    @Html.ValidationMessageFor(Model => Model.Fecha, "", new { @class = "badge bg-danger" })
+
+                </div>
+                <br />
+                <div>
+                    @Html.LabelFor(Model => Model.CURP, new { @class = "form-label" })
+                    @Html.TextBoxFor(Model => Model.CURP, new { @class = "form-control sombra", placeholder = "Ingresa tu Curp", id = "CURP", @maxlength = "18", oninput = "this.value = this.value.toUpperCase()", onblur = "validarCurp(this, event)" })
+                    <div id="CURP" class="invalid-feedback">
+                        Ingrea una CURP válida
+                    </div>
+                    @Html.ValidationMessageFor(Model => Model.CURP, "", new { @class = "badge bg-danger" })
+
+                </div>
+                <br />
+                <div>
+                    @Html.LabelFor(Model => Model.Rol.IdRol, new { @class = "form-label" })
+                    @Html.DropDownListFor(Model => Model.Rol.IdRol, new SelectList(Model.Rol.Roles, "IdRol", "NombreR"), "Selecciona una opcion", new { @class = "form-control bg-success text-white", required = "required" })
+                    <div class="invalid-feedback">Selecciona una opcion</div>
+                    <br />
+                    @Html.ValidationMessageFor(Model => Model.Rol.IdRol, "", new { @class = "badge bg-danger" })
+
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div>
+                    @Html.LabelFor(Model => Model.Direccion.Colonia.Municipio.Estado.NombreEstado, new { @class = "form-label" })
+                    <i class="bi bi-map-fill text-primary"></i>
+                    @Html.DropDownListFor(Model => Model.Direccion.Colonia.Municipio.Estado.IdEstado, new SelectList(Model.Direccion.Colonia.Municipio.Estado.Estados, "IdEstado", "NombreEstado"),
+                             "Seleccione un estado", new { @class = "form-control bg-primary text-white", @id = "ddlEstado", @onchange = "FillMunicipios()", required = "required" })
+                    <div class="invalid-feedback">Selecciona un estado</div>
+
+
+                    <br />
+                    @if (Model.Direccion.Colonia.Municipio.Municipios != null)
+                    {
+
+                        @Html.LabelFor(Model => Model.Direccion.Colonia.Municipio.NombreMunicipio, new { @class = "form-label" })
+                        <i class="bi bi-geo-alt-fill text-primary"></i>
+                        @Html.DropDownListFor(Model => Model.Direccion.Colonia.Municipio.IdMunicipio, new SelectList(Model.Direccion.Colonia.Municipio.Municipios, "IdMunicipio", "NombreMunicipio"),
+                                 "Seleccione un municipio", new { @class = "form-control bg-secondary text-white", @id = "ddlMunicipio", @onchange = "FillColonias()", required = "required" })
+                        <div class="invalid-feedback">Selecciona un municipio</div>
+
+                        @Html.ValidationMessageFor(Model => Model.Direccion.Colonia.Municipio.IdMunicipio, "", new { @class = "badge bg-danger" })
+
+                    }
+                    else
+                    {
+                        @Html.LabelFor(Model => Model.Direccion.Colonia.Municipio.NombreMunicipio, new { @class = "form-label" })
+                        <i class="bi bi-geo-alt-fill text-primary"></i>
+                        @Html.DropDownListFor(Model => Model.Direccion.Colonia.Municipio.IdMunicipio, new SelectList(string.Empty, "IdMunicipio", "Nombre"),
+                                 "Seleccione un municipio", new { @class = "form-control bg-secondary text-white", @id = "ddlMunicipio", @onchange = "FillColonias()" })
+
+                        <br />
+                    }
+
+                    @if (Model.Direccion.Colonia.Colonias != null)
+                    {
+                        @Html.LabelFor(Model => Model.Direccion.Colonia.Colonias, new { @class = "form-label" })
+                        <i class="bi bi-geo-fill text-primary"></i>
+                        @Html.DropDownListFor(Model => Model.Direccion.Colonia.IdColonia, new SelectList(Model.Direccion.Colonia.Colonias, "IdColonia", "Nombre"),
+                                 "Seleccione una colonia", new { @class = "form-control bg-secondary text-white", @id = "ddlColonia", required = "required" })
+                        <div class="invalid-feedback">Selecciona una colonia</div>
+                        @Html.ValidationMessageFor(Model => Model.Direccion.Colonia.IdColonia, "", new { @class = "badge bg-danger" })
+
+                        <br />
+                    }
+                    else
+                    {
+                        @Html.LabelFor(Model => Model.Direccion.Colonia.Colonias, new { @class = "form-label" })
+                        <i class="bi bi-geo-fill text-primary"></i>
+                        @Html.DropDownListFor(Model => Model.Direccion.Colonia.IdColonia, new SelectList(string.Empty, "IdColonia", "Nombre"),
+                                 "Seleccione una colonia", new { @class = "form-control bg-secondary text-white", @id = "ddlColonia" })
+                        <br />
+                    }
+                    @Html.LabelFor(Model => Model.Direccion.Calle, new { @class = "form-label" })
+                    <i class="bi bi-signpost-fill text-primary"></i>
+                    @Html.TextBoxFor(Model => Model.Direccion.Calle, new { @class = "form-control sombra", placeholder = "Ingresa tu calle", id = "txtCalle", onkeypress = "validarLetra(this, event)", required = "required", onblur = "validarLetra(this, event)" })
+                    <p class="invalid-feedback" hidden="hidden"></p>
+                    @Html.ValidationMessageFor(Model => Model.Direccion.Calle, "", new { @class = "badge bg-danger" })
+
+                    <br />
+                    <div>
+                        @Html.LabelFor(Model => Model.Direccion.NumeroInterior, new { @class = "form-label" })
+                        <i class="bi bi-123 text-primary"></i>
+                        @Html.TextBoxFor(Model => Model.Direccion.NumeroInterior, new { @class = "form-control sombra", placeholder = "Ingresa tu Num. interior", @maxlength = "5", onkeypress = "validarNumeroCalle(this, event)", required = "required", onblur = "validarNumeroCalle(this, event)" })
+                        <p class="invalid-feedback" hidden="hidden"></p>
+                        @Html.ValidationMessageFor(Model => Model.Direccion.NumeroInterior, "", new { @class = "badge bg-danger" })
+
+                    </div>
+                    <br />
+                    <div>
+                        @Html.LabelFor(Model => Model.Direccion.NumeroExterior, new { @class = "form-label" })
+                        <i class="bi bi-123 text-primary"></i>
+                        @Html.TextBoxFor(Model => Model.Direccion.NumeroExterior, new { @class = "form-control sombra", placeholder = "Ingresa tu Num. Exterior", @maxlength = "5", onkeypress = "validarNumeroCalle(this, event)", onblur = "validarNumeroCalle(this, event)" })
+                        <p class="invalid-feedback" hidden="hidden"></p>
+                        @Html.ValidationMessageFor(Model => Model.Direccion.NumeroExterior, "", new { @class = "badge bg-danger" })
+
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <label for="imagen">Imagen </label>
+                <input type="file" id="imagen" name="imagenUser" accept="image/*" onchange="CargarArchivo(event)" class="form-control" />
+                <br />
+
+                @Html.HiddenFor(Model => Model.Imagen)
+                @if (Model.Imagen != null)
+                {
+                    <img id="imgInput" class="img-thumbnail" src="data:image/*;base64,@Convert.ToBase64String(Model.Imagen)" style="max-width: 200px; height: auto;" />
+                }
+                else
+                {
+                    <img id="imgInput" class="img-thumbnail" src="~/Content/Images/defaultUser.png" style="max-width: 200px; height: auto;" />
+                }
+            </div>
+            <div class="row">
+
+
+                <button type="submit" class="btn btn-success" onclick="validar()">
+                    <i class="bi bi-floppy2"></i>
+                    Guardar informacion
+                </button>
+
+            </div>
+
+            <script>
+
+                function validarLetra(input, event) {
+                    const regex = /^[A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙñÑ.-\s]+$/;
+                    var letra = event.key;
+                    console.log($(input).closest('div'))
+                    let errorSpan = $(input).closest('div').find('p')
+                    if (event.type == "keypress") {
+                        console.log(errorSpan)
+                        if (regex.test(letra) && letra.length > 0) {
+                            /*   console.log("correcto")*/
+                            $(input).addClass("is-valid");
+                            $(input).removeClass("is-invalid");
+                            /*          errorSpan.hide();*/
+                            $(errorSpan).attr("hidden", "hidden")
+                        }
+                        else {
+
+                            event.preventDefault();
+                            $(input).addClass("is-invalid");
+                            $(input).removeClass("is-valid");
+                            /*errorSpan.text('Solo se permiten letras').show();*/
+                            $(errorSpan).removeAttr('hidden').text("Solo se aceptan letras");
+                        }
+                    }
+                    console.log($(input).val());
+                    if (event.type == "blur") {
+                        const regex = /^[A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙñÑ.-\s]+$/;
+                        console.log("Hola");
+                        console.log($(input).val());
+                        if (regex.test($(input).val())) {
+                            $(input).addClass("is-valid");
+                            $(input).removeClass("is-invalid");
+                            $(errorSpan).attr("hidden", "hidden")
+                        }
+                        else {
+                            event.preventDefault();
+                            $(input).addClass("is-invalid");
+                            $(input).removeClass("is-valid");
+                            $(errorSpan).removeAttr('hidden').text("Solo se aceptan letras");
+                        }
+                    }
+                }
+
+                function validarNumero(inputNumero, event) {
+
+                    const regex = /^[0-9]$/;
+                    const key = String.fromCharCode(event.which);
+
+                    let errorSpan = $(inputNumero).closest('div').find('p')
+                    console.log(key)
+                    if (event.type == "keypress") {
+                        if (regex.test(key) && key.length > 0) {
+                            console.log("correcto")
+                            console.log($(inputNumero).val());
+                            $(inputNumero).addClass("is-valid");
+                            $(inputNumero).removeClass("is-invalid");
+                            $(errorSpan).attr("hidden", "hidden")
+
+                        }
+                        else {
+                            console.log("error")
+                            event.preventDefault();
+                            $(inputNumero).addClass("is-invalid");
+                            $(inputNumero).removeClass("is-valid");
+                            $(errorSpan).removeAttr('hidden').text("Solo se aceptan numeros");
+
+                        }
+                    }
+                    if (event.type == "blur") {
+                        if (($(inputNumero).val()).length>=10) {
+                            $(inputNumero).addClass("is-valid");
+                            $(inputNumero).removeClass("is-invalid");
+                        }
+                        else {
+                            event.preventDefault();
+                            $(inputNumero).addClass("is-invalid");
+                            $(inputNumero).removeClass("is-valid");
+                            $(errorSpan).removeAttr('hidden').text("Tienen que ser 10 numeros");
+                        }
+                    }
+
+                }
+                function validarNumeroCalle(inputNumero, event) {
+
+                    const regex = /^[0-9]$/;
+                    const key = String.fromCharCode(event.which);
+
+                    let errorSpan = $(inputNumero).closest('div').find('p')
+                    console.log(key)
+                    if (event.type == "keypress") {
+                        if (regex.test(key) && key.length > 0) {
+                            console.log("correcto")
+                            console.log($(inputNumero).val());
+                            $(inputNumero).addClass("is-valid");
+                            $(inputNumero).removeClass("is-invalid");
+                            $(errorSpan).attr("hidden", "hidden")
+
+                        }
+                        else {
+                            console.log("error")
+                            event.preventDefault();
+                            $(inputNumero).addClass("is-invalid");
+                            $(inputNumero).removeClass("is-valid");
+                            $(errorSpan).removeAttr('hidden').text("Solo se aceptan numeros");
+
+                        }
+                    }
+                    if (event.type == "blur") {
+                        if (($(inputNumero).val()).length >= 0) {
+                            $(inputNumero).addClass("is-valid");
+                            $(inputNumero).removeClass("is-invalid");
+                        }
+                        else {
+                            event.preventDefault();
+                            $(inputNumero).addClass("is-invalid");
+                            $(inputNumero).removeClass("is-valid");
+                            $(errorSpan).removeAttr('hidden').text("Tiene que ser un numero valido");
+                        }
+                    }
+
+                }
+
+
+                function validarEmail(input, event) {
+                    console.log($(input).val());
+
+                    if (event.type == "blur") {
+                        const regex = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                        if (regex.test($(input).val())) {
+                            $(input).addClass("is-valid");
+                            $(input).removeClass("is-invalid");
+                        }
+                        else {
+                            event.preventDefault();
+                            $(input).addClass("is-invalid");
+                            $(input).removeClass("is-valid");
+                        }
+
+                        var email = document.getElementById('Email').value;
+                        var confirmEmail = document.getElementById('Email2').value;
+                        var message = document.getElementById('message');
+
+                        if (email && confirmEmail) {
+                            if (email === confirmEmail) {
+                                $("#Email2").addClass("is-valid");
+                                $("#Email2").removeClass("is-invalid");
+                                message.textContent = 'Los correos coinciden ✔️';
+
+                            } else {
+                                message.textContent = 'Los correos no coinciden ❌';
+
+                                event.preventDefault();
+                                $("#Email2").addClass("is-invalid");
+                                $("#Email2").removeClass("is-valid");
+                            }
+
+                        }
+                    }
+
+                }
+
+                function validarCurp(input, event) {
+                    $(input).val().toUpperCase();
+                    console.log($(input).val());
+                    if (event.type == "blur") {
+                        const regex = /^[A-Z]{4}\d{6}[HM][A-Z]{5}[A-Z0-9]{2}$/;
+
+                        console.log($(input).val());
+                        if (regex.test($(input).val())) {
+                            $(input).addClass("is-valid");
+                            $(input).removeClass("is-invalid");
+                        }
+                        else {
+                            event.preventDefault();
+                            $(input).addClass("is-invalid");
+                            $(input).removeClass("is-valid");
+                        }
+                    }
+                }
+
+                function validarPassword(input, event) {
+
+                    if (event.type == "blur") {
+                        const regex = /^\S+$/;
+                        if (regex.test($(input).val()) && $(input).val().length > 5) {
+                            $(input).addClass("is-valid");
+                            $(input).removeClass("is-invalid");
+                        }
+                        else {
+                            event.preventDefault();
+                            $(input).addClass("is-invalid");
+                            $(input).removeClass("is-valid");
+
+                        }
+                    }
+                    var pass = document.getElementById('Contra').value;
+                    var confirmPass = document.getElementById('Contra2').value;
+                    var message = document.getElementById('message2');
+
+                    if (pass && confirmPass) {
+                        if (pass === confirmPass) {
+                            $("#Contra2").addClass("is-valid");
+                            $("#Contra2").removeClass("is-invalid");
+                            message.textContent = 'Los password coinciden ✔️';
+
+                        } else {
+                            message.textContent = 'Los password no coinciden ❌';
+
+                            event.preventDefault();
+                            $("#Contra2").addClass("is-invalid");
+                            $("#Contra2").removeClass("is-valid");
+                        }
+
+                    }
+
+                }
+                function validar() {
+                    var pass = document.getElementById('Contra').value;
+                    var confirmPass = document.getElementById('Contra2').value;
+                    var message = document.getElementById('message2');
+
+                    if (pass && confirmPass) {
+                        if (pass === confirmPass) {
+                            $("#Contra2").addClass("is-valid");
+                            $("#Contra2").removeClass("is-invalid");
+                            message.textContent = 'Los password coinciden ✔️';
+
+                        } else {
+                            message.textContent = 'Los password no coinciden ❌';
+
+                            event.preventDefault();
+                            $("#Contra2").addClass("is-invalid");
+                            $("#Contra2").removeClass("is-valid");
+                        }
+
+                    }
+                    var email = document.getElementById('Email').value;
+                    var confirmEmail = document.getElementById('Email2').value;
+                    var message = document.getElementById('message');
+
+                    if (email && confirmEmail) {
+                        if (email === confirmEmail) {
+                            $("#Email2").addClass("is-valid");
+                            $("#Email2").removeClass("is-invalid");
+                            message.textContent = 'Los correos coinciden ✔️';
+
+                        } else {
+                            message.textContent = 'Los correos no coinciden ❌';
+
+                            event.preventDefault();
+                            $("#Email2").addClass("is-invalid");
+                            $("#Email2").removeClass("is-valid");
+                        }
+
+                    }
+                }
+
+                function validarUser(input, event) {
+                    const regex = /^\S+$/;
+                    var letra = event.key;
+
+                    if (event.type == "keypress") {
+
+                        if (regex.test(letra) && letra.length > 0) {
+                            $(input).addClass("is-valid");
+                            $(input).removeClass("is-invalid");
+                        }
+                        else {
+                            event.preventDefault();
+                            $(input).addClass("is-invalid");
+                            $(input).removeClass("is-valid");
+
+                        }
+                    }
+                    console.log($(input).val());
+                    if (event.type == "blur") {
+                        const regex = /^\S+$/;
+                        if (regex.test($(input).val()) && $(input).val().length > 5) {
+                            $(input).addClass("is-valid");
+                            $(input).removeClass("is-invalid");
+                        }
+                        else {
+                            event.preventDefault();
+                            $(input).addClass("is-invalid");
+                            $(input).removeClass("is-valid");
+
+                        }
+                    }
+                }
+
+                function validarFecha(input, event) {
+                    const regex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(19[0-9]{2}|20[0-2][0-9])$/;
+                    var letra = event.key;
+                    if (event.type == "keypress") {
+                        console.log(errorSpan)
+                        if (regex.test(letra)) {
+                            $(input).addClass("is-valid");
+                            $(input).removeClass("is-invalid");
+                        }
+                        else {
+                            event.preventDefault();
+                            $(input).addClass("is-invalid");
+                            $(input).removeClass("is-valid");
+
+                        }
+                    }
+                    if (event.type == "blur") {
+                        const regex = /^\S+$/;
+                        if (regex.test($(input).val())) {
+                            $(input).addClass("is-valid");
+                            $(input).removeClass("is-invalid");
+                        }
+                        else {
+                            event.preventDefault();
+                            $(input).addClass("is-invalid");
+                            $(input).removeClass("is-valid");
+
+                        }
+                    }
+                }
+
+                document.getElementById('togglePassword').addEventListener('click', function () {
+                    const passwordInput = document.getElementById('Contra');
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+
+                    this.querySelector('i').classList.toggle('bi-eye-fill');
+                    this.querySelector('i').classList.toggle('bi-eye-slash-fill');
+                });
+
+
+                    //////Validar el formulario
+                    (function () {
+                        'use strict';
+
+                        const form = document.getElementById('myForm');
+
+                        form.addEventListener('submit', function (event) {
+                            if (!form.checkValidity()) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    })();
+
+            </script>
+            @section scripts {
+
+
+                <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js"></script>
+
+                <script>
+                    $(function () {
+                        $("#FechaNacimiento").datepicker({
+                            //dateFormat: "mm-dd-yy",
+                            //showAnim:"bounce",
+                            showAnim: "slide",
+                            dateFormat: "dd-mm-yy",
+                            autoclose: true,
+                            todayHighlight: true,
+                            changeMonth: true,
+                            changeYear: true,
+                            maxDate: 0
+                        });
+                    });
+
+
+                </script>
+        }
+            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+            <script>
+                function CargarArchivo(input) {
+                    var img = input.target.files[0];
+                    if (!img) {
+                        return;
+                    }
+
+                    if (!validar(img.name)) {
+                        return;
+                    }
+                    var reader = new FileReader();
+
+                    reader.onload = function () {
+                        var output = $('#imgInput')[0];
+                        output.src = reader.result;
+                    };
+
+                    reader.readAsDataURL(img);
+                }
+
+                function validar(imgName) {
+                    let extensions = ["png", "jpg", "jpeg"];
+                    let imgExtension = imgName.split('.').pop().toLowerCase();
+                    if (!extensions.includes(imgExtension)) {
+                        alert("Solo se permiten archivos PNG, JPG y JPEG.");
+                        return false;
+                    }
+                    return true;
+                }
+            </script>
+
+            <script>
+                    function FillMunicipios() {
+                    var IdEstado = $('#ddlEstado').val();
+                    console.log(IdEstado);
+
+                    $.ajax({
+                url: `/Usuario/GetMunicipioByIdEstado`,
+
+                        method: 'GET',
+                        dataType: 'json',
+                        data: { IdEstado },
+
+                success: function (resultMunicipios) {
+                    if (resultMunicipios.correct) {
+                                            console.log("Estas en correct de estados");
+                                            console.log(resultMunicipios);
+
+                                $("#ddlMunicipio").empty().append('<option value="">Seleccione un municipio</option>');
+                                $("#ddlColonia").empty().append('<option value="">Seleccione una colonia</option>');
+                                $.each(resultMunicipios.objects, function (i, municipio) {
+                                    $("#ddlMunicipio").append('<option value="' + municipio.idMunicipio + '">' + municipio.nombreMunicipio + '</option>');
+                                });
+                            }
+                        },
+
+                        error: function () {
+                            alert("Ocurrió un error al obtener los municipios.");
+                        }
+                    });
+                }
+
+                function FillColonias() {
+                    var IdMunicipio = $('#ddlMunicipio').val();
+                    console.log(IdMunicipio);
+
+                    $.ajax({
+                        url: '@Url.Action("GetColoniaByIdMunicipio", "Usuario")',
+                        method: 'GET',
+                        dataType: 'json',
+                        data: { IdMunicipio },
+
+                        success: function (resultColonia) {
+                                                                console.log("Estas en correct de resultColonia");
+                                            console.log(resultColonia);
+
+                            if (resultColonia.correct) {
+                                $("#ddlColonia").empty().append('<option value="">Seleccione una colonia</option>');
+                                $.each(resultColonia.objects, function (i, colonia) {
+                                    $("#ddlColonia").append('<option value="' + colonia.idColonia + '">' + colonia.nombre + '</option>');
+                                });
+                            }
+                        },
+
+                        error: function () {
+                            alert("Ocurrió un error al obtener las colonias.");
+                        }
+                    });
+                }
+
+
+            </script>
+@*             <script src="~/Scripts/Jquery/jquery-ui-1.13.3.custom/jquery-ui.min.js"></script>
+ *@        
+</div>
+    </div>
+
+
+
+}

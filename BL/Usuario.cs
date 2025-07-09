@@ -126,7 +126,7 @@ namespace BL
             ML.Result result = new ML.Result();
             try
             {
-                var item = _context.VwUsuarioGetAlls.FromSqlRaw($"UsuarioGetById {IdUsuario}").AsEnumerable()
+                var item = _context.VwUsuarioGetAlls.FromSqlRaw($"UsuarioGetById2 {IdUsuario}").AsEnumerable()
                     .FirstOrDefault();
 
 
@@ -272,8 +272,6 @@ namespace BL
             return result;
         }
 
-
-
         public ML.Result GetAllV(ML.Usuario usuario)
         {
             ML.Result result = new ML.Result();
@@ -345,5 +343,37 @@ namespace BL
             }
             return result;
         }
+
+
+        public  ML.Result CambiarStatus(int IdUsuario, bool Status)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+               
+
+                int filaAfectada = _context.Database.ExecuteSql($"ChangeStatus {IdUsuario}, {Status}");
+
+                if (filaAfectada > 0)
+                    {
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = "Ocurrio un error al cambiar el estado";
+                    }
+                
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+
+            }
+            return result;
+        }
+
     }
 }
