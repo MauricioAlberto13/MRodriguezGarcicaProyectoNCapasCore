@@ -74,6 +74,14 @@ namespace PL_.Controllers
             return View();
 
         }
+        //[HttpPost]
+        //public JsonResult CambiarStatus(int IdUsuario, bool Status)
+        //{
+        //    ML.Result result = BL.Usuario.CambiarStatus(IdUsuario, Status);
+
+        //    //return Json(result, JsonRequestBehavior.AllowGet);
+        //    return Json(new { success = result.Correct });
+        //}
 
 
 
