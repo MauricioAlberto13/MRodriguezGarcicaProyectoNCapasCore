@@ -9,27 +9,147 @@
 
 
 
+
+
 <div class="container">
     <div class="row align-items-start">
         <div class="col-9">
             <h2 class="text-bg-light">Usuarios</h2>
         </div>
-        <div class="col-3 text-end">
-            @*, new {IdUsuario=0}*@
-            <a href="@Url.Action("Form","Usuarios" )" class="btn btn-success">
-                Agregar usuarios <i class="bi bi-person-plus-fill"></i>
-            </a>
+        @*<div class="col-3 text-end">
+                <a href="@Url.Action("Form","Usuarios" )" class="btn btn-success">
+                    Agregar usuarios <i class="bi bi-person-plus-fill"></i>
+                </a>
+            </div>*@
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <button id="btnToggleVista" onclick="MostraV()" type="button" class="btn btn-primary w-100">
+                <i class="bi bi-search"></i> Busqueda Abierta
+            </button>
+        </div>
+        <div class="col-3">
+            <button id="btnToggleCarga" onclick="MostraC()" type="button" class="btn btn-secondary w-100">
+                <i class="bi bi-lightning-charge-fill"></i>Carga Masiva
+            </button>
         </div>
     </div>
 </div>
 
 
+<div id="VistaFiltrar" class="d-none mt-4">
+    <div class="container bg-light">
+       @*  @using (Html.BeginForm("GetAll", "Usuario", FormMethod.Post))
 
+        {
+            <div class="row">
+
+                <div class="col-2">
+                    @Html.LabelFor(Model => Model.Nombre)
+                    @Html.TextBoxFor(Model => Model.Nombre, new { @class = "form-control", placeholder = "Nombre" })
+                </div>
+
+                <div class="col-2">
+                    @Html.LabelFor(Model => Model.ApellidoPaterno)
+                    @Html.TextBoxFor(Model => Model.ApellidoPaterno, new { @class = "form-control", placeholder = "Apellido Paterno" })
+                </div>
+
+                <div class="col-2">
+                    @Html.LabelFor(Model => Model.ApellidoMaterno)
+                    @Html.TextBoxFor(Model => Model.ApellidoMaterno, new { @class = "form-control", placeholder = "Apellido Materno" })
+                </div>
+
+                <div class="col-3">
+                    @Html.LabelFor(Model => Model.Rol.IdRol)
+                    @Html.DropDownListFor(Model => Model.Rol.IdRol,
+                             new SelectList(Model.Rol.Roles, "IdRol", "NombreR"),
+                             "Selecciona un rol",
+                             new { @class = "form-control" })
+                </div>
+
+                <div class="col-3">
+                    <button type="submit" class="btn btn-outline-success w-100">
+                        <i class="bi bi-search"></i> Buscar
+                    </button>
+                </div>
+
+            </div>
+        } *@
+    </div>
+</div>
+
+<div id="VistaCargar" class="d-none mt-4">
+    <div class="container bg-light">
+        @using (Html.BeginForm("GetAll", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+
+        {
+            <div class="row">
+
+                <div class="col-3 form-check">
+                    <input class="form-check-input" type="radio" name="validar" id="optionsRadios1" value="txt" checked="">
+                    <label class="form-check-label" for="optionsRadios1">
+                        txt
+                    </label>
+                </div>
+                <div class="col-3 form-check">
+                    <input class="form-check-input" type="radio" name="validar" id="optionsRadios2" value="excel">
+                    <label class="form-check-label" for="optionsRadios2">
+                        excel
+                    </label>
+
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <label for="Cargar">Subir </label>
+                    <input type="file" id="Archivo" name="Archivo" class="form-control" onchange="validarExtension()" />
+
+
+                    @*<input type="file" id="file"
+            onchange="return fileValidation()" />*@
+                    <br />
+                </div>
+
+                <div class="col-2">
+                    <button type="submit" class="btn btn-outline-info w-100" id="ValidarArchivo" disabled>
+                        <i class="bi bi-check-circle-fill"></i> Validar
+                    </button>
+                </div>
+
+               
+            </div>
+
+        }
+    </div>
+</div>
 
 
 <div id="OcultarVista">
     <div class="container">
         <div class="row">
+            <div class="container">
+                <div class="row align-items-start">
+                    <div class="col-9">
+                        <h2 class="text-bg-light d-none">Usuarios</h2>
+                    </div>
+                    <div class="col-3 text-end">
+                        <a href="@Url.Action("Form","Usuarios" )" class="btn btn-success">
+                            Agregar usuarios <i class="bi bi-person-plus-fill"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            @*@if (Model.Usuarios != null)
+                {*@
             <div class="table-responsive">
                 <table class="table table-hover">
 
@@ -37,6 +157,7 @@
                         <tr>
                             <th scope="col">Eliminar</th>
                             <th scope="col">Actualizar</th>
+                            <th scope="col">Imagen</th>
                             <th scope="col">IdUsuario</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Username</th>
@@ -58,7 +179,7 @@
                             <th scope="col">CP</th>
                             <th scope="col">Municipio</th>
                             <th scope="col">Estado</th>
-                            <th scope="col">Imagen</th>
+
                             <th scope="col">Status</th>
 
 
@@ -66,11 +187,13 @@
                         </tr>
                     </thead>
                     <tbody>
+
+
                         @foreach (ML.Usuario usuario in Model.Usuarios)
                         {
                             <tr class="table-info">
                                 <td>
-                                    <a href="@Url.Action("Delete", "Usuario", new { IdUsuario = usuario.IdUsuario })"
+                                    <a href="@Url.Action("Delete", "Usuarios", new { IdUsuario = usuario.IdUsuario })"
                                        class="btn btn-danger text-white"
                                        onclick="return confirm('Estas seguro de que deseas eliminar este usuario?');">
                                         <i class="bi bi-trash"></i>
@@ -88,6 +211,26 @@
                                     </a>
 
                                 </td>
+
+                                @if (usuario.Imagen != null)
+                                {
+
+                                    <td>
+                                        <img src="data:image/*;base64,@Convert.ToBase64String(usuario.Imagen)"
+                                             class="img-fluid rounded img-thumbnail"
+                                             style="max-width: 80px; height: auto;" alt="Img" />
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <img src="~/Content/Images/defaultUser.png"
+                                             class="img-fluid rounded img-thumbnail"
+                                             style="max-width: 80px; height: auto;" alt="Img" />
+                                    </td>
+
+                                }
+
                                 <td>@usuario.IdUsuario</td>
                                 <td>@usuario.Nombre</td>
                                 <td>@usuario.UserName</td>
@@ -111,21 +254,11 @@
                                 <td>@usuario.Direccion.Colonia.Municipio.Estado.NombreEstado</td>
 
 
-                                @if (usuario.Imagen != null)
-                                {
-
-                                    <td>
-                                        <img src="data:image/*;base64,@Convert.ToBase64String(usuario.Imagen)"
-                                             class="img-fluid rounded img-thumbnail"
-                                             style="max-width: 120px; height: auto;" alt="Img" />
-                                    </td>
-                                }
 
 
                                 <td>
                                     <div class="form-check form-switch">
                                         <input class="form-check-input status-switch" type="checkbox"
-                                        @*role="switch"*@
                                                data-idusuario="@usuario.IdUsuario"
                                         @(usuario.Status ? "checked" : "") />
                                     </div>
@@ -133,16 +266,31 @@
 
                             </tr>
                         }
+
                     </tbody>
                 </table>
 
             </div>
+
+            @*}
+                else
+                {
+                    <div class="col-9">
+                        <h2 class="text-bg-light">No se encontraron usuarios</h2>
+                    </div>*@
+
+
+            @*}*@
         </div>
     </div>
 
 
     @section Scripts {
         <script>
+
+
+
+
             $(document).ready(function () {
                 $('.status-switch').on('change', function () {
                     var IdUsuario = $(this).data('idusuario');
@@ -168,6 +316,77 @@
                     })
                 })
             })
+        </script>
+
+        <script>
+            function MostraV() {
+                var vistaFiltrar = document.getElementById("VistaFiltrar");
+                //    var ocultarVista = document.getElementById("OcultarVista");
+                var vistaCargar = document.getElementById("VistaCargar");
+                var boton = document.getElementById("btnToggleVista");
+
+                if (vistaFiltrar.classList.contains("d-none")) {
+
+                    vistaFiltrar.classList.remove("d-none");
+                    vistaCargar.classList.add("d-none");
+                    //     ocultarVista.classList.add("d-none");
+
+                } else {
+
+                    vistaFiltrar.classList.add("d-none");
+                    vistaCargar.classList.add("d-none");
+                    //    ocultarVista.classList.remove("d-none");
+
+                }
+            }
+
+
+
+            function MostraC() {
+                var vistaFiltrar = document.getElementById("VistaFiltrar");
+                //   var ocultarVista = document.getElementById("OcultarVista");
+                var vistaCargar = document.getElementById("VistaCargar");
+                var boton = document.getElementById("btnToggleCarga");
+
+                if (vistaCargar.classList.contains("d-none")) {
+
+                    vistaCargar.classList.remove("d-none");
+                    vistaFiltrar.classList.add("d-none");
+                    //   ocultarVista.classList.add("d-none");
+
+                } else {
+
+                    vistaCargar.classList.add("d-none");
+                    vistaFiltrar.classList.add("d-none");
+                    //    ocultarVista.classList.remove("d-none");
+
+                }
+            }
+
+        </script>
+
+        <script>
+            function validarExtension() {
+                var archivoInput = document.getElementById("Archivo");
+                var archivoRuta = archivoInput.value;
+                var archivo = archivoRuta.split('.').pop().toLowerCase();
+
+                var Extension = document.querySelector('input[name="validar"]:checked').value;
+
+                var extensionesValidas = {
+                    "txt": ["txt"],
+                    "excel": ["xls", "xlsx"]
+                };
+
+                var botonValidar = document.getElementById("ValidarArchivo");
+
+                if (extensionesValidas[Extension].includes(archivo)) {
+                    botonValidar.disabled = false;
+                } else {
+                    botonValidar.disabled = true;
+
+                }
+            }
         </script>
 
 
