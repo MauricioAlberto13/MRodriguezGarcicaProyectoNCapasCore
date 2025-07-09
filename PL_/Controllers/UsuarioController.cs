@@ -60,5 +60,22 @@ namespace PL_.Controllers
         //    return View(usuario);
         //}
 
+
+        [HttpGet]
+        public IActionResult Delete(ML.Usuario usuario)
+        {
+
+
+            ML.Result result = _usuario.Delete(usuario.IdUsuario);
+            if (result.Correct.HasValue)
+            {
+                return RedirectToAction("GetAll");
+            }
+            return View();
+
+        }
+
+
+
     }
 }
