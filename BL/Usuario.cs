@@ -280,8 +280,10 @@ namespace BL
             try
             {
                 //Se quita el bloque using ya que la conexion ya se encuentra y solo vive en el BL
+               // var query = _context.VwUsuarioGetAlls.FromSqlRaw("select * from vwUsuarioGetAll ").ToList();
 
-                var query = _context.VwUsuarioGetAlls.FromSqlRaw($"UsuarioGetsAllView '{usuario.Nombre}','{usuario.ApellidoPaterno}','{usuario.ApellidoMaterno}','{usuario.Rol.IdRol}' ").ToList();
+              //  var query = _context.VwUsuarioGetAlls.FromSqlRaw("exec UsuarioGetsAllView  '', '', '',0 ").ToList();
+                var query = _context.VwUsuarioGetAlls.FromSqlRaw($"exec UsuarioGetsAllView  '{usuario.Nombre}', '{usuario.ApellidoPaterno}', '{usuario.ApellidoMaterno}',{usuario.IdRol} ").ToList();
                 //var query = _context.VwUsuarioGetAlls.FromSqlRaw($"UsuarioGetsAllView ").ToList();
                 //Recuerdad que entity core no mapea los store procedures y se tienen que mandar a llamar con From SQl Raw en caso de que sea una consulta SELECT
                 //var listUsers = context.UsuarioGetsAllView(usuario.Nombre, usuario.ApellidoPaterno, usuario.ApellidoMaterno, usuario.Rol.IdRol).ToList();
@@ -323,6 +325,7 @@ namespace BL
                         usuarioItem.Direccion.NumeroExterior = item.NumeroExterior;
                         usuarioItem.Direccion.NumeroInterior = item.NumeroInterior;
                         usuarioItem.Direccion.Colonia.Nombre = item.Colonia;
+                        usuarioItem.Direccion.Colonia.IdColonia = item.IdColonia;
                         usuarioItem.Direccion.Colonia.CodigoPostal = item.CodigoPostal;
                         usuarioItem.Direccion.Colonia.Municipio.NombreMunicipio = item.Municipio;
                         usuarioItem.Direccion.Colonia.Municipio.Estado.NombreEstado = item.Estado;

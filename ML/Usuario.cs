@@ -69,7 +69,8 @@ namespace ML
 
         public ML.Rol? Rol { get; set; }
 
-        public int IdDireccion { get; set; }
+        public int? IdDireccion { get; set; }
+        public int IdRol { get; set; }
         public ML.Direccion? Direccion { get; set; }
         public List<object>? Usuarios { get; set; }
         public Byte[]? Imagen { get; set; }

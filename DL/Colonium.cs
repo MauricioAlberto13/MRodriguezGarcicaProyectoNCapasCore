@@ -5,7 +5,7 @@ namespace DL;
 
 public partial class Colonium
 {
-    public int IdColonia { get; set; }
+    public int? IdColonia { get; set; }
 
     public string Nombre { get; set; } = null!;
 

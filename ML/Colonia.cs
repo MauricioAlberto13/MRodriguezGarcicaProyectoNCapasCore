@@ -9,7 +9,7 @@ namespace ML
 {
     public class Colonia
     {
-        [Key]
+      
         public int? IdColonia { get; set; }
         public string? Nombre { get; set; }
         public string? CodigoPostal { get; set; }
