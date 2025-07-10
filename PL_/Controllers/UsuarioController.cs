@@ -163,24 +163,18 @@ namespace PL_.Controllers
         }
 
         [HttpPost]
-        public IActionResult Form(ML.Usuario usuario, IFormFile imagenUser)
+        public IActionResult Form(ML.Usuario usuario, IFormFile? imagenUser)
         {
             if (ModelState.IsValid)
             {
                 if (imagenUser != null && imagenUser.Length > 0)
                 {
-                    using (Stream inputStream = imagenUser.OpenReadStream())
+                    using (var memoryStream = new MemoryStream())
                     {
-                           MemoryStream memoryStream = inputStream as MemoryStream;
-                           if (memoryStream == null)
-                        {
-                            memoryStream = new MemoryStream();
-                            inputStream.CopyTo(memoryStream);
-                          }
-                          usuario.Imagen = memoryStream.ToArray();
+                        imagenUser.CopyTo(memoryStream);
+                        usuario.Imagen = memoryStream.ToArray();
                     }
                 }
-
                 if (usuario.IdUsuario > 0)
                 {
         
