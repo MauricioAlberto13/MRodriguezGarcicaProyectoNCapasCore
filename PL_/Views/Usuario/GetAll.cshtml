@@ -43,7 +43,7 @@
 
 <div id="VistaFiltrar" class="d-none mt-4">
     <div class="container bg-light">
-       @*  @using (Html.BeginForm("GetAll", "Usuario", FormMethod.Post))
+        @using (Html.BeginForm("GetAll", "Usuario", FormMethod.Post))
 
         {
             <div class="row">
@@ -78,7 +78,7 @@
                 </div>
 
             </div>
-        } *@
+        }
     </div>
 </div>
 
@@ -148,8 +148,8 @@
             </div>
 
 
-            @*@if (Model.Usuarios != null)
-                {*@
+            @if (Model.Usuarios != null)
+                {
             <div class="table-responsive">
                 <table class="table table-hover">
 
@@ -272,15 +272,15 @@
 
             </div>
 
-            @*}
+            }
                 else
                 {
                     <div class="col-9">
                         <h2 class="text-bg-light">No se encontraron usuarios</h2>
-                    </div>*@
+                    </div>
 
 
-            @*}*@
+            }
         </div>
     </div>
 

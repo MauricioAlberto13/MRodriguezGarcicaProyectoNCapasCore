@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BL;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace PL_.Controllers
 {
@@ -57,8 +60,51 @@ namespace PL_.Controllers
             return View(usuario);
         }
 
+
+
+        [HttpPost]
+        public IActionResult GetAll(ML.Usuario usuario, IFormFile archivo, string validar)
+        {
+            //if (usuario.Rol == null)
+            //{
+            //    usuario.Rol = new ML.Rol();
+
+            //}
+            ////else
+            ////{
+            ////    usuario.Rol.IdRol = 0;
+            ////}
+            usuario.Rol = new ML.Rol();
+            if (usuario.Rol.IdRol.HasValue)
+            {
+                usuario.Rol.IdRol = usuario.Rol.IdRol.Value;
+            }
+            else
+            {
+                usuario.Rol.IdRol = 0;
+            }
+            usuario.Nombre ??= "";
+            usuario.ApellidoPaterno ??= "";
+            usuario.ApellidoMaterno ??= "";
+
     
 
+            ML.Result result =_usuario.GetAllV(usuario);
+            if (result.Correct.HasValue)
+            {
+                usuario.Usuarios = result.Objects;
+            }
+
+            usuario.Rol = new ML.Rol();
+            ML.Result resultRol = _rol.GetAll();
+            if (resultRol.Correct.HasValue)
+            {
+                usuario.Rol.Roles = resultRol.Objects;
+            }
+
+ 
+            return View(usuario);
+        }
 
         [HttpGet]
         public IActionResult Delete(ML.Usuario usuario)

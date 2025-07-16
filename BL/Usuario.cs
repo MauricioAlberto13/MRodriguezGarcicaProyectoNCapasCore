@@ -278,10 +278,14 @@ namespace BL
             try
             {
                 //Se quita el bloque using ya que la conexion ya se encuentra y solo vive en el BL
-               // var query = _context.VwUsuarioGetAlls.FromSqlRaw("select * from vwUsuarioGetAll ").ToList();
+                // var query = _context.VwUsuarioGetAlls.FromSqlRaw("select * from vwUsuarioGetAll ").ToList();
 
-              //  var query = _context.VwUsuarioGetAlls.FromSqlRaw("exec UsuarioGetsAllView  '', '', '',0 ").ToList();
-                var query = _context.VwUsuarioGetAlls.FromSqlRaw($"exec UsuarioGetsAllView  '{usuario.Nombre}', '{usuario.ApellidoPaterno}', '{usuario.ApellidoMaterno}',{usuario.IdRol} ").ToList();
+                //  var query = _context.VwUsuarioGetAlls.FromSqlRaw("exec UsuarioGetsAllView  '', '', '',0 ").ToList();
+                int idRol = (int)((usuario.Rol != null) ? usuario.Rol.IdRol : 0);
+
+                var query = _context.VwUsuarioGetAlls
+                    .FromSqlRaw($"EXEC UsuarioGetsAllView '{usuario.Nombre}', '{usuario.ApellidoPaterno}', '{usuario.ApellidoMaterno}', {idRol}")
+                    .ToList();
                 //var query = _context.VwUsuarioGetAlls.FromSqlRaw($"UsuarioGetsAllView ").ToList();
                 //Recuerdad que entity core no mapea los store procedures y se tienen que mandar a llamar con From SQl Raw en caso de que sea una consulta SELECT
                 //var listUsers = context.UsuarioGetsAllView(usuario.Nombre, usuario.ApellidoPaterno, usuario.ApellidoMaterno, usuario.Rol.IdRol).ToList();
