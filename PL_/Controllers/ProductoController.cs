@@ -2,7 +2,7 @@
 
 namespace PL_.Controllers
 {
-    public class Producto : Controller
+    public class ProductoController : Controller
     {
         public IActionResult Index()
         {
