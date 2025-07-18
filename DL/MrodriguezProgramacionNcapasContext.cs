@@ -33,6 +33,8 @@ public partial class MrodriguezProgramacionNcapasContext : DbContext
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
+    public virtual DbSet<VwProductosGetAll> VwProductosGetAlls { get; set; }
+
     public virtual DbSet<VwUsuarioGetAll> VwUsuarioGetAlls { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -209,6 +211,27 @@ public partial class MrodriguezProgramacionNcapasContext : DbContext
             entity.HasOne(d => d.IdRolNavigation).WithMany(p => p.Usuarios)
                 .HasForeignKey(d => d.IdRol)
                 .HasConstraintName("FK_IdRol");
+        });
+
+        modelBuilder.Entity<VwProductosGetAll>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vwProductosGetAlls");
+
+            entity.Property(e => e.Categoria)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.Descripcion)
+                .HasMaxLength(500)
+                .IsUnicode(false);
+            entity.Property(e => e.Nombre)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.Precio).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.SubCategoria)
+                .HasMaxLength(100)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<VwUsuarioGetAll>(entity =>
