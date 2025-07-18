@@ -3,3 +3,260 @@
 *@
 @{
 }
+
+@model ML.Producto
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+
+
+
+
+<div class="container">
+    <div class="row align-items-start">
+        <div class="col-9">
+            <h2 class="text-bg-light">Productos</h2>
+        </div>
+        @*<div class="col-3 text-end">
+                <a href="@Url.Action("Form","Usuarios" )" class="btn btn-success">
+                    Agregar usuarios <i class="bi bi-person-plus-fill"></i>
+                </a>
+            </div>*@
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <button id="btnToggleVista" onclick="MostraV()" type="button" class="btn btn-primary w-100">
+                <i class="bi bi-search"></i> Busqueda Abierta
+            </button>
+        </div>
+        <div class="col-3">
+            <button id="btnToggleCarga" onclick="MostraC()" type="button" class="btn btn-secondary w-100">
+                <i class="bi bi-lightning-charge-fill"></i>Carga Masiva
+            </button>
+        </div>
+    </div>
+</div>
+
+@* 
+<div id="VistaFiltrar" class="d-none mt-4">
+    <div class="container bg-light">
+        @using (Html.BeginForm("GetAllProductos", "Producto", FormMethod.Post))
+
+        {
+            <div class="row">
+
+                
+
+                <div class="col-3">
+                    @Html.LabelFor(Model => Model.SubCategoria.IdSubCategoria)
+                    @Html.DropDownListFor(Model => Model.SubCategoria.IdSubCategoria,
+                             new SelectList(Model.SubCategoria.SubCategorias, "IdSubCategoria", "Nombre"),
+                             "Selecciona una categoria",
+                             new { @class = "form-control" })
+                </div>
+
+                <div class="col-3">
+                    <button type="submit" class="btn btn-outline-success w-100">
+                        <i class="bi bi-search"></i> Buscar
+                    </button>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
+
+ *@
+
+<div id="OcultarVista">
+    <div class="container">
+        <div class="row">
+            <div class="container">
+                <div class="row align-items-start">
+                    <div class="col-9">
+                        <h2 class="text-bg-light d-none">Usuarios</h2>
+                    </div>
+                    <div class="col-3 text-end">
+                        <a href="@Url.Action("Form","Producto" )" class="btn btn-success">
+                            Agregar Productos <i class="bi bi-person-plus-fill"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            @if (Model.Productos != null)
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover">
+
+                        <thead>
+                            <tr>
+                                <th scope="col">Eliminar</th>
+                                <th scope="col">Actualizar</th>
+                                <th scope="col">Imagen</th>
+                                <th scope="col">IdProducto</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Subcategoria</th>
+                                <th scope="col">Categoria</th>
+            
+
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            @foreach (ML.Producto producto in Model.Productos)
+                            {
+                                <tr class="table-info">
+                                    <td>
+                                        <a href="@Url.Action("Delete", "Producto", new { IdProducto = producto.IdProducto })"
+                                           class="btn btn-danger text-white"
+                                           onclick="return confirm('Estas seguro de que deseas eliminar este producto?');">
+                                            <i class="bi bi-trash"></i>
+                                            Delete
+                                        </a>
+
+                                    </td>
+
+
+                                    <td>
+                                        <a href="@Url.Action("Form", "Producto", new { IdProducto = producto.IdProducto })"
+                                           type="button" class="btn btn-primary" ;">
+                                            <i class="bi bi-pencil-square"></i>
+                                            Update
+                                        </a>
+
+                                    </td>
+
+                                    @if (producto.Imagen != null)
+                                    {
+
+                                        <td>
+                                            <img src="data:image/*;base64,@Convert.ToBase64String(producto.Imagen)"
+                                                 class="img-fluid rounded img-thumbnail"
+                                                 style="max-width: 80px; height: auto;" alt="Img" />
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <img src="~/DProduct.jpg"
+                                                 class="img-fluid rounded img-thumbnail"
+                                                 style="max-width: 80px; height: auto;" alt="Img" />
+                                        </td>
+
+                                    }
+
+                                    <td>@producto.IdProducto</td>
+                                    <td>@producto.Nombre</td>
+                                    <td>@producto.Descripcion</td>
+                                    <td>@producto.Precio</td>
+                                    <td>@producto.SubCategoria.Nombre</td>
+                                    <td>@producto.SubCategoria.Categoria.Nombre</td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+            }
+            else
+            {
+                <div class="col-9">
+                    <h2 class="text-bg-light">No se encontraron productos</h2>
+                </div>
+
+
+            }
+        </div>
+    </div>
+
+
+    @section Scripts {
+
+        <script>
+            function MostraV() {
+                var vistaFiltrar = document.getElementById("VistaFiltrar");
+                //    var ocultarVista = document.getElementById("OcultarVista");
+                var vistaCargar = document.getElementById("VistaCargar");
+                var boton = document.getElementById("btnToggleVista");
+
+                if (vistaFiltrar.classList.contains("d-none")) {
+
+                    vistaFiltrar.classList.remove("d-none");
+                    vistaCargar.classList.add("d-none");
+                    //     ocultarVista.classList.add("d-none");
+
+                } else {
+
+                    vistaFiltrar.classList.add("d-none");
+                    vistaCargar.classList.add("d-none");
+                    //    ocultarVista.classList.remove("d-none");
+
+                }
+            }
+
+
+
+            function MostraC() {
+                var vistaFiltrar = document.getElementById("VistaFiltrar");
+                //   var ocultarVista = document.getElementById("OcultarVista");
+                var vistaCargar = document.getElementById("VistaCargar");
+                var boton = document.getElementById("btnToggleCarga");
+
+                if (vistaCargar.classList.contains("d-none")) {
+
+                    vistaCargar.classList.remove("d-none");
+                    vistaFiltrar.classList.add("d-none");
+                    //   ocultarVista.classList.add("d-none");
+
+                } else {
+
+                    vistaCargar.classList.add("d-none");
+                    vistaFiltrar.classList.add("d-none");
+                    //    ocultarVista.classList.remove("d-none");
+
+                }
+            }
+
+        </script>
+
+        <script>
+            function validarExtension() {
+                var archivoInput = document.getElementById("Archivo");
+                var archivoRuta = archivoInput.value;
+                var archivo = archivoRuta.split('.').pop().toLowerCase();
+
+                var Extension = document.querySelector('input[name="validar"]:checked').value;
+
+                var extensionesValidas = {
+                    "txt": ["txt"],
+                    "excel": ["xls", "xlsx"]
+                };
+
+                var botonValidar = document.getElementById("ValidarArchivo");
+
+                if (extensionesValidas[Extension].includes(archivo)) {
+                    botonValidar.disabled = false;
+                } else {
+                    botonValidar.disabled = true;
+
+                }
+            }
+        </script>
+
+
+    }
+</div>

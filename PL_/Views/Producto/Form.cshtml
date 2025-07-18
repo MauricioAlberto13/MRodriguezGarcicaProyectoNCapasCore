@@ -1,0 +1,364 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model ML.Producto
+
+@*<link rel="stylesheet" href="~/Scripts/Jquery/jquery-ui-1.13.3.custom/jquery-ui.css">*@
+
+
+<h2 class="text-bg-primary text-center"> Productos</h2>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+@* @section styles {
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+}
+ *@
+
+<style>
+    .sombra:active {
+        box-shadow: 2px 2px 15px #076eff inset;
+    }
+</style>
+
+@using (Html.BeginForm("Form", "Producto", FormMethod.Post, new { enctype = "multipart/form-data", id = "myForm", @class = "needs-validation", @novalidate = "novalidate" }))
+
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <div>
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+                    @*@Html.LabelFor(Model => Model.IdUsuario, new { @class = "form-label" })
+                        @Html.TextBoxFor(Model => Model.IdUsuario, new { @class = "form-control" })*@
+                    @Html.HiddenFor(Model => Model.IdProducto)
+
+                    @Html.LabelFor(Model => Model.Nombre, new { @class = "form-label" })
+                    @Html.TextBoxFor(Model => Model.Nombre, new { @class = "form-control sombra ", id = "txtNombre", placeholder = "Ingresa el nombre", /* onkeypress = "validarLetra(this, event)", onblur = "validarLetra(this, event)",  */required = "required" })
+       @*              <p class="invalid-feedback" hidden="hidden"></p>
+                    @Html.ValidationMessageFor(Model => Model.Nombre, "", new { @class = "badge bg-danger" }) *@
+                </div>
+
+
+            
+                <br />
+
+                <div>
+                    @Html.LabelFor(Model => Model.Descripcion, new { @class = "form-label" })
+                    @Html.TextBoxFor(Model => Model.Descripcion, new { @class = "form-control sombra", placeholder = "Ingresa la descripcion", id = "txtApellidoM"/* , onkeypress = "validarLetra(this, event)", onblur = "validarLetra(this, event)" */ })
+                   @*  <p class="invalid-feedback" hidden="hidden"></p>
+                    @Html.ValidationMessageFor(Model => Model.Descripcion, "", new { @class = "badge bg-danger" })
+ *@
+                </div>
+
+                <br />
+   
+
+            </div>
+
+            <div class="col-4">
+                
+                <div>
+                    @Html.LabelFor(Model => Model.Precio, new { @class = "form-label" })
+                    <i class="bi bi-telephone-fill text-primary"></i>
+                    @Html.TextBoxFor(Model => Model.Precio, new { @maxlength = "10", @class = "form-control sombra", placeholder = "Ingresa el precio",/*  onkeypress = "validarNumero(this, event)", onblur = "validarNumero(this, event)" */ required = "required", id = "Precio" })
+                    <p class="invalid-feedback" hidden="hidden"></p>
+
+                </div>
+@*                 @Html.ValidationMessageFor(Model => Model.Precio, "", new { @class = "text-danger" })
+ *@
+                <br />
+                
+          
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div>
+                    @Html.LabelFor(Model => Model.SubCategoria.Categoria.Nombre, new { @class = "form-label" })
+                    <i class="bi bi-map-fill text-primary"></i>
+                    @Html.DropDownListFor(Model => Model.SubCategoria.Categoria.IdCategoria, new SelectList(Model.SubCategoria.Categoria.Categorias, "IdCategoria", "Nombre"),
+                             "Seleccione una categoria", new { @class = "form-control bg-primary text-white", @id = "ddlCategoria", @onchange = "FillSub()", required = "required" })
+                    <div class="invalid-feedback">Selecciona una categoria</div>
+
+
+                    <br />
+                @if (Model.SubCategoria?.SubCategorias != null && Model.SubCategoria.SubCategorias.Any())
+                {
+                    @Html.LabelFor(Model => Model.SubCategoria.Nombre, new { @class = "form-label" })
+                    <i class="bi bi-geo-alt-fill text-primary"></i>
+                    @Html.DropDownListFor(
+                             Model => Model.SubCategoria.IdSubCategoria,
+                             new SelectList(Model.SubCategoria.SubCategorias, "IdSubCategoria", "NombreSubCategoria"),
+                             "Seleccione una subcategoría",
+                             new { @class = "form-control bg-secondary text-white", @id = "ddlSub", required = "required" }
+                             )
+                    <div class="invalid-feedback">Selecciona una subcategoría</div>
+                }
+                else
+                {
+                    @Html.LabelFor(Model => Model.SubCategoria.Nombre, new { @class = "form-label" })
+                    <i class="bi bi-geo-alt-fill text-primary"></i>
+                    @Html.DropDownListFor(
+                             Model => Model.SubCategoria.IdSubCategoria,
+                             new SelectList(Enumerable.Empty<object>(), "Value", "Text"), 
+                             "Seleccione una subcategoría",
+                             new { @class = "form-control bg-secondary text-white", @id = "ddlSub" }
+                             )
+                    <div class="invalid-feedback">Selecciona una subcategoría</div>
+                }
+
+
+               
+                </div>
+
+
+            </div>
+            <div class="row">
+                <label for="imagen">Imagen </label>
+                <input type="file" id="imagen" name="imagenUser" accept="image/*" onchange="CargarArchivo(event)" class="form-control" />
+                <br />
+
+                @Html.HiddenFor(Model => Model.Imagen)
+                @if (Model.Imagen != null)
+                {
+                    <img id="imgInput" class="img-thumbnail" src="data:image/*;base64,@Convert.ToBase64String(Model.Imagen)" style="max-width: 200px; height: auto;" />
+                }
+                else
+                {
+                    <img id="imgInput" class="img-thumbnail" src="~/default1.jpg" style="max-width: 200px; height: auto;" />
+                }
+            </div>
+            <div class="row">
+
+
+                <button type="submit" class="btn btn-success" onclick="validar()">
+                    <i class="bi bi-floppy2"></i>
+                    Guardar informacion
+                </button>
+
+            </div>
+
+            <script>
+
+                // function validarLetra(input, event) {
+                //     const regex = /^[A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙñÑ.-\s]+$/;
+                //     var letra = event.key;
+                //     console.log($(input).closest('div'))
+                //     let errorSpan = $(input).closest('div').find('p')
+                //     if (event.type == "keypress") {
+                //         console.log(errorSpan)
+                //         if (regex.test(letra) && letra.length > 0) {
+                //             /*   console.log("correcto")*/
+                //             $(input).addClass("is-valid");
+                //             $(input).removeClass("is-invalid");
+                //             /*          errorSpan.hide();*/
+                //             $(errorSpan).attr("hidden", "hidden")
+                //         }
+                //         else {
+
+                //             event.preventDefault();
+                //             $(input).addClass("is-invalid");
+                //             $(input).removeClass("is-valid");
+                //             /*errorSpan.text('Solo se permiten letras').show();*/
+                //             $(errorSpan).removeAttr('hidden').text("Solo se aceptan letras");
+                //         }
+                //     }
+                //     console.log($(input).val());
+                //     if (event.type == "blur") {
+                //         const regex = /^[A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙñÑ.-\s]+$/;
+                //         console.log("Hola");
+                //         console.log($(input).val());
+                //         if (regex.test($(input).val())) {
+                //             $(input).addClass("is-valid");
+                //             $(input).removeClass("is-invalid");
+                //             $(errorSpan).attr("hidden", "hidden")
+                //         }
+                //         else {
+                //             event.preventDefault();
+                //             $(input).addClass("is-invalid");
+                //             $(input).removeClass("is-valid");
+                //             $(errorSpan).removeAttr('hidden').text("Solo se aceptan letras");
+                //         }
+                //     }
+                // }
+
+                // function validarNumero(inputNumero, event) {
+
+                //     const regex = /^[0-9]$/;
+                //     const key = String.fromCharCode(event.which);
+
+                //     let errorSpan = $(inputNumero).closest('div').find('p')
+                //     console.log(key)
+                //     if (event.type == "keypress") {
+                //         if (regex.test(key) && key.length > 0) {
+                //             console.log("correcto")
+                //             console.log($(inputNumero).val());
+                //             $(inputNumero).addClass("is-valid");
+                //             $(inputNumero).removeClass("is-invalid");
+                //             $(errorSpan).attr("hidden", "hidden")
+
+                //         }
+                //         else {
+                //             console.log("error")
+                //             event.preventDefault();
+                //             $(inputNumero).addClass("is-invalid");
+                //             $(inputNumero).removeClass("is-valid");
+                //             $(errorSpan).removeAttr('hidden').text("Solo se aceptan numeros");
+
+                //         }
+                //     }
+                //     if (event.type == "blur") {
+                //         if (($(inputNumero).val()).length>=10) {
+                //             $(inputNumero).addClass("is-valid");
+                //             $(inputNumero).removeClass("is-invalid");
+                //         }
+                //         else {
+                //             event.preventDefault();
+                //             $(inputNumero).addClass("is-invalid");
+                //             $(inputNumero).removeClass("is-valid");
+                //             $(errorSpan).removeAttr('hidden').text("Tienen que ser 10 numeros");
+                //         }
+                //     }
+
+                // }
+
+
+
+                function validarUser(input, event) {
+                    const regex = /^\S+$/;
+                    var letra = event.key;
+
+                    if (event.type == "keypress") {
+
+                        if (regex.test(letra) && letra.length > 0) {
+                            $(input).addClass("is-valid");
+                            $(input).removeClass("is-invalid");
+                        }
+                        else {
+                            event.preventDefault();
+                            $(input).addClass("is-invalid");
+                            $(input).removeClass("is-valid");
+
+                        }
+                    }
+                    console.log($(input).val());
+                    if (event.type == "blur") {
+                        const regex = /^\S+$/;
+                        if (regex.test($(input).val()) && $(input).val().length > 5) {
+                            $(input).addClass("is-valid");
+                            $(input).removeClass("is-invalid");
+                        }
+                        else {
+                            event.preventDefault();
+                            $(input).addClass("is-invalid");
+                            $(input).removeClass("is-valid");
+
+                        }
+                    }
+                }
+
+             
+
+
+                    //////Validar el formulario
+                    (function () {
+                        'use strict';
+
+                        const form = document.getElementById('myForm');
+
+                        form.addEventListener('submit', function (event) {
+                            if (!form.checkValidity()) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    })();
+
+            </script>
+            @section scripts {
+
+
+                <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js"></script>
+
+                
+        }
+            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+            <script>
+                function CargarArchivo(input) {
+                    var img = input.target.files[0];
+                    if (!img) {
+                        return;
+                    }
+
+                    if (!validar(img.name)) {
+                        return;
+                    }
+                    var reader = new FileReader();
+
+                    reader.onload = function () {
+                        var output = $('#imgInput')[0];
+                        output.src = reader.result;
+                    };
+
+                    reader.readAsDataURL(img);
+                }
+
+                function validar(imgName) {
+                    let extensions = ["png", "jpg", "jpeg"];
+                    let imgExtension = imgName.split('.').pop().toLowerCase();
+                    if (!extensions.includes(imgExtension)) {
+                        alert("Solo se permiten archivos PNG, JPG y JPEG.");
+                        return false;
+                    }
+                    return true;
+                }
+            </script>
+
+            <script>
+                    function FillSub() {
+                    var IdCategoria = $('#ddlCategoria').val();
+                    console.log(IdCategoria);
+
+                    $.ajax({
+            url: `/Producto/GetCategoriaByIdSub`,
+
+                        method: 'GET',
+                        dataType: 'json',
+                        data: { IdCategoria },
+
+                success: function (resultCategoria) {
+                    if (resultCategoria.correct) {
+                                            console.log("Estas en correct de estados");
+                                            console.log(resultCategoria);
+
+                                $("#ddlSub").empty().append('<option value="">Seleccione un municipio</option>');
+                                $.each(resultCategoria.objects, function (i, subCategoria) {
+                                    $("#ddlSub").append('<option value="' + subCategoria.idSubCategoria + '">' + subCategoria.nombreSubCategoria + '</option>');
+                                });
+                            }
+                        },
+
+                        error: function () {
+                            alert("Ocurrió un error al obtener los municipios.");
+                        }
+                    });
+                }
+
+       
+
+
+            </script>
+            @*             <script src="~/Scripts/Jquery/jquery-ui-1.13.3.custom/jquery-ui.min.js"></script>
+ *@        
+    </div>
+
+
+
+
+}

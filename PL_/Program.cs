@@ -16,6 +16,9 @@ builder.Services.AddScoped<BL.Rol>();
 builder.Services.AddScoped<BL.Colonia>();
 builder.Services.AddScoped<BL.Municipio>();
 builder.Services.AddScoped<BL.Estado>();
+builder.Services.AddScoped<BL.Producto>();
+builder.Services.AddScoped<BL.SubCategoria>();
+builder.Services.AddScoped<BL.Categoria>();
 
 
 var app = builder.Build();
