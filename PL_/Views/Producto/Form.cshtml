@@ -63,7 +63,7 @@
                 
                 <div>
                     @Html.LabelFor(Model => Model.Precio, new { @class = "form-label" })
-                    <i class="bi bi-telephone-fill text-primary"></i>
+       
                     @Html.TextBoxFor(Model => Model.Precio, new { @maxlength = "10", @class = "form-control sombra", placeholder = "Ingresa el precio",/*  onkeypress = "validarNumero(this, event)", onblur = "validarNumero(this, event)" */ required = "required", id = "Precio" })
                     <p class="invalid-feedback" hidden="hidden"></p>
 
@@ -79,36 +79,33 @@
             <div class="col-4">
                 <div>
                     @Html.LabelFor(Model => Model.SubCategoria.Categoria.Nombre, new { @class = "form-label" })
-                    <i class="bi bi-map-fill text-primary"></i>
+               
+
                     @Html.DropDownListFor(Model => Model.SubCategoria.Categoria.IdCategoria, new SelectList(Model.SubCategoria.Categoria.Categorias, "IdCategoria", "Nombre"),
                              "Seleccione una categoria", new { @class = "form-control bg-primary text-white", @id = "ddlCategoria", @onchange = "FillSub()", required = "required" })
                     <div class="invalid-feedback">Selecciona una categoria</div>
 
 
                     <br />
-                @if (Model.SubCategoria?.SubCategorias != null && Model.SubCategoria.SubCategorias.Any())
+                @if (Model.SubCategoria.SubCategorias != null)
                 {
+
                     @Html.LabelFor(Model => Model.SubCategoria.Nombre, new { @class = "form-label" })
-                    <i class="bi bi-geo-alt-fill text-primary"></i>
-                    @Html.DropDownListFor(
-                             Model => Model.SubCategoria.IdSubCategoria,
-                             new SelectList(Model.SubCategoria.SubCategorias, "IdSubCategoria", "NombreSubCategoria"),
-                             "Seleccione una subcategoría",
-                             new { @class = "form-control bg-secondary text-white", @id = "ddlSub", required = "required" }
-                             )
-                    <div class="invalid-feedback">Selecciona una subcategoría</div>
+                    @Html.DropDownListFor(Model => Model.SubCategoria.IdSubCategoria, new SelectList(Model.SubCategoria.SubCategorias, "IdSubCategoria", "Nombre"),
+                             "Seleccione una subcategoria", new { @class = "form-control bg-secondary text-white", @id = "ddlSub", required = "required" })
+                    <div class="invalid-feedback">Selecciona un municipio</div>
+
+                    @Html.ValidationMessageFor(Model => Model.SubCategoria.IdSubCategoria, "", new { @class = "badge bg-danger" })
+
                 }
                 else
                 {
                     @Html.LabelFor(Model => Model.SubCategoria.Nombre, new { @class = "form-label" })
                     <i class="bi bi-geo-alt-fill text-primary"></i>
-                    @Html.DropDownListFor(
-                             Model => Model.SubCategoria.IdSubCategoria,
-                             new SelectList(Enumerable.Empty<object>(), "Value", "Text"), 
-                             "Seleccione una subcategoría",
-                             new { @class = "form-control bg-secondary text-white", @id = "ddlSub" }
-                             )
-                    <div class="invalid-feedback">Selecciona una subcategoría</div>
+                    @Html.DropDownListFor(Model => Model.SubCategoria.IdSubCategoria, new SelectList(string.Empty, "IdSubCategoria", "Nombre"),
+                             "Seleccione una subcategoria", new { @class = "form-control bg-secondary text-white", @id = "ddlSub" })
+
+                    <br />
                 }
 
 
@@ -334,18 +331,20 @@
 
                 success: function (resultCategoria) {
                     if (resultCategoria.correct) {
-                                            console.log("Estas en correct de estados");
+                                            console.log("Estas en correct de sub");
                                             console.log(resultCategoria);
 
-                                $("#ddlSub").empty().append('<option value="">Seleccione un municipio</option>');
+                                $("#ddlSub").empty().append('<option value="">Seleccione una </option>');
                                 $.each(resultCategoria.objects, function (i, subCategoria) {
-                                    $("#ddlSub").append('<option value="' + subCategoria.idSubCategoria + '">' + subCategoria.nombreSubCategoria + '</option>');
+                                
+
+                                    $("#ddlSub").append('<option value="' + subCategoria.idSubCategoria + '">' + subCategoria.nombre + '</option>');
                                 });
                             }
                         },
 
                         error: function () {
-                            alert("Ocurrió un error al obtener los municipios.");
+                            alert("Ocurrió un error al obtener las subcategorias.");
                         }
                     });
                 }

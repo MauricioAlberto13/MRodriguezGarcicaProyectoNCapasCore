@@ -18,12 +18,12 @@ namespace BL
         }
 
 
-        public ML.Result GetSubCategoriaByIdCategoria(int IdEstado)
+        public ML.Result GetSubCategoriaByIdCategoria(int IdCategoria)
         {
             ML.Result result = new ML.Result();
             try
             {
-                var query = _context.SubCategoria.FromSqlRaw($"Exec GetSubCategoriaByIdCategoria {IdEstado}").AsEnumerable()
+                var query = _context.SubCategoria.FromSqlRaw($"Exec GetSubCategoriaByIdCategoria2 {IdCategoria}").AsEnumerable()
                     .ToList();
 
 
@@ -35,9 +35,11 @@ namespace BL
                         ML.SubCategoria subCategoria = new ML.SubCategoria();
                         // municipio.Estado = new ML.Estado();
 
+                        var ola = item.IdCategoria;
                         subCategoria.IdSubCategoria = item.IdSubCategoria;
+                        //subCategoria.IdSubCategoria= item .IdCategoria;
                         //subCategoria.Nombre= item.Nombre;
-                        subCategoria.Categoria.Nombre= item.Nombre;
+                        subCategoria.Nombre= item.Nombre;
                         // municipio.Estado.NombreEstado = item.n;
 
                         result.Objects.Add(subCategoria);

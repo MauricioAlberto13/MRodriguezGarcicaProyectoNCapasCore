@@ -52,11 +52,11 @@ namespace PL_.Controllers
 
 
         [HttpGet]
-        public IActionResult Form(int? IdProduto)
+        public IActionResult Form(ML.Producto producto)
         {
 
 
-            ML.Producto producto= new ML.Producto();
+          // ML.Producto producto= new ML.Producto();
             producto.SubCategoria= new ML.SubCategoria();
             producto.SubCategoria.Categoria= new ML.Categoria();
 
@@ -71,7 +71,7 @@ namespace PL_.Controllers
             }
 
 
-            if (IdProduto > 0)
+            if (producto.IdProducto > 0)
             {
                 //Esto es haciendo uso del web service con SOAP
 
@@ -83,35 +83,35 @@ namespace PL_.Controllers
 
 
                 // ML.Result result = GetByIdWebAPI(IdUsuario.Value);
-                ML.Result result = _producto.GetById(IdProduto.Value);
+                ML.Result result = _producto.GetById(producto.IdProducto);
 
                 if (result.Correct.HasValue)
                 {
                     producto = (ML.Producto)result.Object;
 
 
-                    //
+           
                     if (resultCategoria.Correct.HasValue)
                     {
                         producto.SubCategoria.Categoria.Categorias= resultCategoria.Objects;
                     }
-                    ML.Result subCategoria = _subCategoria.GetSubCategoriaByIdCategoria((int)producto.SubCategoria.IdSubCategoria);
-                    producto.SubCategoria.Categoria.Categorias = subCategoria.Objects;
-                    if (subCategoria.Correct.HasValue)
+                    ML.Result subCategoriaResult = _subCategoria.GetSubCategoriaByIdCategoria(producto.SubCategoria.Categoria.IdCategoria);
+                    if (subCategoriaResult.Correct.HasValue)
                     {
-                        producto.SubCategoria.SubCategorias = subCategoria.Objects;
+                        producto.SubCategoria.SubCategorias = subCategoriaResult.Objects;
                     }
 
-                 
+
 
                 }
 
             }
 
-            //if (resultCategoria.Correct.HasValue)
-            //{
-            //    producto.SubCategoria.Categoria.Categorias= resultCategoria.Objects;
-            //}
+
+            if (resultCategoria.Correct.HasValue)
+            {
+                producto.SubCategoria.Categoria.Categorias = resultCategoria.Objects;
+            }
 
             return View(producto);
         }
@@ -197,9 +197,9 @@ namespace PL_.Controllers
 
         [HttpGet]
 
-        public JsonResult GetCategoriaByIdSub(int IdSubcategoria)
+        public JsonResult GetCategoriaByIdSub(int IdCategoria)
         {
-            var resultCategoria = _subCategoria.GetSubCategoriaByIdCategoria(IdSubcategoria);
+            var resultCategoria = _subCategoria.GetSubCategoriaByIdCategoria(IdCategoria);
             return new JsonResult(resultCategoria);
         }
 

@@ -52,9 +52,9 @@
                 
 
                 <div class="col-3">
-                    @Html.LabelFor(Model => Model.SubCategoria.IdSubCategoria)
-                    @Html.DropDownListFor(Model => Model.SubCategoria.IdSubCategoria,
-                             new SelectList(Model.SubCategoria.SubCategorias, "IdSubCategoria", "Nombre"),
+                    @Html.LabelFor(Model => Model.SubCategoria.Categoria.IdCategoria)
+                    @Html.DropDownListFor(Model => Model.SubCategoria.Categoria.IdCategoria,
+                             new SelectList(Model.SubCategoria.Categoria.Categorias, "IdCategoria", "Nombre"),
                              "Selecciona una categoria",
                              new { @class = "form-control" })
                 </div>
@@ -68,9 +68,9 @@
             </div>
         }
     </div>
-</div>
+</div> *@
 
- *@
+
 
 <div id="OcultarVista">
     <div class="container">
