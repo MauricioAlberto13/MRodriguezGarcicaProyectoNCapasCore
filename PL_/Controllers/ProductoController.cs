@@ -40,13 +40,24 @@ namespace PL_.Controllers
         [HttpPost]
         public IActionResult GetAllProductos(ML.Producto producto, IFormFile archivo)
         {
-           // ML.Producto producto = new ML.Producto();
+            // ML.Producto producto = new ML.Producto();
             //ML.Result result = _restaurante.GetAll();
+            producto.SubCategoria = new ML.SubCategoria();
+            producto.SubCategoria.Categoria = new ML.Categoria();
+  
+            ML.Result resultCategoria = _categoria.GetAll();
+            if (resultCategoria.Correct.HasValue)
+            {
+                producto.SubCategoria.Categoria.Categorias = resultCategoria.Objects;
+            }
+
+
             ML.Result result = _producto.GetAll();
             if (result.Correct.HasValue)
             {
                 producto.Productos = result.Objects;
             }
+
             return View(producto);
         }
 

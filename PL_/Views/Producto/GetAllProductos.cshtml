@@ -33,15 +33,11 @@
                 <i class="bi bi-search"></i> Busqueda Abierta
             </button>
         </div>
-        <div class="col-3">
-            <button id="btnToggleCarga" onclick="MostraC()" type="button" class="btn btn-secondary w-100">
-                <i class="bi bi-lightning-charge-fill"></i>Carga Masiva
-            </button>
-        </div>
+        
     </div>
 </div>
 
-@* 
+
 <div id="VistaFiltrar" class="d-none mt-4">
     <div class="container bg-light">
         @using (Html.BeginForm("GetAllProductos", "Producto", FormMethod.Post))
@@ -52,11 +48,11 @@
                 
 
                 <div class="col-3">
-                    @Html.LabelFor(Model => Model.SubCategoria.Categoria.IdCategoria)
-                    @Html.DropDownListFor(Model => Model.SubCategoria.Categoria.IdCategoria,
-                             new SelectList(Model.SubCategoria.Categoria.Categorias, "IdCategoria", "Nombre"),
-                             "Selecciona una categoria",
-                             new { @class = "form-control" })
+    @*                     @Html.LabelFor(Model => Model.SubCategoria.Categoria.Nombre, new { @class = "form-label" })
+               
+
+                    @Html.DropDownListFor(Model => Model.SubCategoria.Categoria.IdCategoria, new SelectList(Model.SubCategoria.Categoria.Categorias, "IdCategoria", "Nombre"),
+                             "Seleccione una categoria", new { @class = "form-control bg-primary text-white", @id = "ddlCategoria"/* , @onchange = "FillSub()" */, required = "required" }) *@
                 </div>
 
                 <div class="col-3">
@@ -68,7 +64,7 @@
             </div>
         }
     </div>
-</div> *@
+</div>
 
 
 
