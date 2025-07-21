@@ -227,15 +227,12 @@ namespace BL
                         producto.SubCategoria.Categoria.Nombre = item.Categoria;
 
                         ///aqui esta el error
-                        ///
+                    producto.SubCategoria.IdSubCategoria = item.IdSubCategoria ?? 0;
 
-                        // producto.Direccion.Colonia.IdColonia = (int)item.IdColonia;
+                    //   producto.Direccion.Colonia.Municipio.IdMunicipio = (int)item.IdMunicipio;
 
-                        producto.SubCategoria.IdSubCategoria = item.IdSubCategoria ?? 0;
+                    producto.SubCategoria.Categoria.IdCategoria = item.IdCategoria ?? 0;
 
-                        //   producto.Direccion.Colonia.Municipio.IdMunicipio = (int)item.IdMunicipio;
-
-                        producto.SubCategoria.Categoria.IdCategoria = item.IdCategoria ?? 0;
 
                         result.Objects.Add(producto);
                     }
@@ -261,9 +258,10 @@ namespace BL
 
                 //  var query = _context.VwUsuarioGetAlls.FromSqlRaw("exec UsuarioGetsAllView  '', '', '',0 ").ToList();
                 int idSub = (int)((producto.SubCategoria!= null) ? producto.SubCategoria.IdSubCategoria: 0);
+                int idCat = (int)((producto.SubCategoria!= null) ? producto.SubCategoria.Categoria.IdCategoria : 0);
 
                 var query = _context.VwProductosGetAlls
-                    .FromSqlRaw($"EXEC ProductoGetAll '{idSub}', '{producto.SubCategoria.Categoria.IdCategoria}'")
+                    .FromSqlRaw($"EXEC ProductoGetAll '{idSub}', '{idCat}'")
                     .ToList();
                 //var query = _context.VwUsuarioGetAlls.FromSqlRaw($"UsuarioGetsAllView ").ToList();
                 //Recuerdad que entity core no mapea los store procedures y se tienen que mandar a llamar con From SQl Raw en caso de que sea una consulta SELECT
@@ -276,21 +274,28 @@ namespace BL
                 {
                     foreach (var item in query)
                     {
-                        
+                        ML.Producto p = new ML.Producto();
+
                         //producto.Rol = new ML.Rol();
 
-                        producto.IdProducto = item.IdProducto;
-                        producto.Nombre = item.Nombre;
-                        producto.Descripcion = item.Descripcion;
-                        producto.Precio = item.Precio;
+                        p.IdProducto = item.IdProducto;
+                        p.Nombre = item.Nombre;
+                        p.Descripcion = item.Descripcion;
+                        p.Precio = item.Precio;
 
-                        producto.Imagen = item.Imagen;
+                        p.Imagen = item.Imagen;
                         //producto.Rol.IdRol = item.Rol;
-                        producto.SubCategoria = new ML.SubCategoria();
-                        producto.SubCategoria.Categoria = new ML.Categoria();
+                        p.SubCategoria = new ML.SubCategoria();
+                        p.SubCategoria.Categoria = new ML.Categoria();
 
-                        producto.SubCategoria.Nombre = item.SubCategoria;
-                        producto.SubCategoria.Categoria.Nombre = item.Categoria;
+                        p.SubCategoria.Nombre = item.SubCategoria;
+                        p.SubCategoria.Categoria.Nombre = item.Categoria;
+                        p.SubCategoria.IdSubCategoria = item.IdSubCategoria ?? 0;
+
+                        //   producto.Direccion.Colonia.Municipio.IdMunicipio = (int)item.IdMunicipio;
+
+                        p.SubCategoria.Categoria.IdCategoria = item.IdCategoria ?? 0;
+
 
                         ///aqui esta el error
                         ///
@@ -303,7 +308,7 @@ namespace BL
 
                         //producto.SubCategoria.Categoria.IdCategoria = item.IdCategoria ?? 0;
 
-                        result.Objects.Add(producto);
+                        result.Objects.Add(p);
                     }
                     result.Correct = true;
                 }

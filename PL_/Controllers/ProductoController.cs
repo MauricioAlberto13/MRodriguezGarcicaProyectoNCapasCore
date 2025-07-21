@@ -28,11 +28,19 @@ namespace PL_.Controllers
         {
             ML.Producto producto = new ML.Producto();
             //ML.Result result = _restaurante.GetAll();
+
+            ML.Result resultCate = _categoria.GetAll();
+
+         //  ML.Result result = _producto.GetAllV(producto);
             ML.Result result = _producto.GetAll();
             if (result.Correct.HasValue)
             {
-                producto.Productos = result.Objects;
+                producto.Productos= result.Objects;
+                producto.SubCategoria = new ML.SubCategoria();
+                producto.SubCategoria.Categoria = new ML.Categoria();
+                producto.SubCategoria.Categoria.Categorias = resultCate.Objects;
             }
+
             return View(producto);
         }
 
@@ -42,22 +50,22 @@ namespace PL_.Controllers
         {
             // ML.Producto producto = new ML.Producto();
             //ML.Result result = _restaurante.GetAll();
-            producto.SubCategoria = new ML.SubCategoria();
-            producto.SubCategoria.Categoria = new ML.Categoria();
-  
+            //producto.SubCategoria = new ML.SubCategoria();
+            //producto.SubCategoria.Categoria = new ML.Categoria();
+
+    
+
+           // ML.Result result = _producto.GetAllV(producto);
+           ML.Result result = _producto.GetAll();
+            if (result.Correct.HasValue)
+            {
+                producto.Productos = result.Objects;
+            }
             ML.Result resultCategoria = _categoria.GetAll();
             if (resultCategoria.Correct.HasValue)
             {
                 producto.SubCategoria.Categoria.Categorias = resultCategoria.Objects;
             }
-
-
-            ML.Result result = _producto.GetAll();
-            if (result.Correct.HasValue)
-            {
-                producto.Productos = result.Objects;
-            }
-
             return View(producto);
         }
 

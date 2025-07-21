@@ -47,13 +47,41 @@
 
                 
 
-                <div class="col-3">
-    @*                     @Html.LabelFor(Model => Model.SubCategoria.Categoria.Nombre, new { @class = "form-label" })
-               
+            
+                    <div class="col-3">
+                        @Html.LabelFor(Model => Model.SubCategoria.Categoria.Nombre)
+                        @Html.DropDownListFor(Model => Model.SubCategoria.Categoria.IdCategoria,
+                             new SelectList(Model.SubCategoria.Categoria.Categorias, "IdCategoria", "Nombre"),
+                                 "Selecciona una categoria",
+                             new { @class = "form-control", @id = "ddlCategoria", @onchange = "FillSub()", required = "required" })
+                    </div>
 
-                    @Html.DropDownListFor(Model => Model.SubCategoria.Categoria.IdCategoria, new SelectList(Model.SubCategoria.Categoria.Categorias, "IdCategoria", "Nombre"),
-                             "Seleccione una categoria", new { @class = "form-control bg-primary text-white", @id = "ddlCategoria"/* , @onchange = "FillSub()" */, required = "required" }) *@
+
+                <div class="col-3">
+
+                    @if (Model.SubCategoria.SubCategorias != null)
+                    {
+
+                        @Html.LabelFor(Model => Model.SubCategoria.Nombre, new { @class = "form-label" })
+                        @Html.DropDownListFor(Model => Model.SubCategoria.IdSubCategoria, new SelectList(Model.SubCategoria.SubCategorias, "IdSubCategoria", "Nombre"),
+                                 "Seleccione una subcategoria", new { @class = "form-control bg-secondary text-white", @id = "ddlSub", required = "required" })
+                        <div class="invalid-feedback">Selecciona un municipio</div>
+
+                        @Html.ValidationMessageFor(Model => Model.SubCategoria.IdSubCategoria, "", new { @class = "badge bg-danger" })
+
+                    }
+                    else
+                    {
+                        @Html.LabelFor(Model => Model.SubCategoria.Nombre, new { @class = "form-label" })
+     
+                        @Html.DropDownListFor(Model => Model.SubCategoria.IdSubCategoria, new SelectList(string.Empty, "IdSubCategoria", "Nombre"),
+                                 "Seleccione una subcategoria", new { @class = "form-control bg-secondary text-white", @id = "ddlSub" })
+
+                        <br />
+                    }
                 </div>
+
+
 
                 <div class="col-3">
                     <button type="submit" class="btn btn-outline-success w-100">
@@ -171,7 +199,7 @@
             else
             {
                 <div class="col-9">
-                    <h2 class="text-bg-light">No se encontraron productos</h2>
+                    <h2 class="text-bg-light">Selecciona una categoria y una subcategoria para ver los productos</h2>
                 </div>
 
 
@@ -256,3 +284,40 @@
 
     }
 </div>
+
+<script>
+            function FillSub() {
+            var IdCategoria = $('#ddlCategoria').val();
+            console.log(IdCategoria);
+
+            $.ajax({
+    url: `/Producto/GetCategoriaByIdSub`,
+
+                method: 'GET',
+                dataType: 'json',
+                data: { IdCategoria },
+
+        success: function (resultCategoria) {
+            if (resultCategoria.correct) {
+                                    console.log("Estas en correct de sub");
+                                    console.log(resultCategoria);
+
+                        $("#ddlSub").empty().append('<option value="">Seleccione una </option>');
+                        $.each(resultCategoria.objects, function (i, subCategoria) {
+
+
+                            $("#ddlSub").append('<option value="' + subCategoria.idSubCategoria + '">' + subCategoria.nombre + '</option>');
+                        });
+                    }
+                },
+
+                error: function () {
+                    alert("Ocurrió un error al obtener las subcategorias.");
+                }
+            });
+        }
+
+
+
+
+</script>
