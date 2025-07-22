@@ -1,0 +1,554 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model ML.Producto
+
+<style>
+    /* From Uiverse.io by andrew-demchenk0 */
+    /* before adding the img to the div with the
+    "card-img" class, remove css styles
+    .card-img .img::before and .card-img .img::after,
+    then set the desired styles for .card-img. */
+    .card {
+        --font-color: #323232;
+        --font-color-sub: #666;
+        --bg-color: #fff;
+        --main-color: #323232;
+        --main-focus: #2d8cf0;
+        width: 300px;
+        height: 400px;
+        background: var(--bg-color);
+        border: 2px solid var(--main-color);
+        box-shadow: 4px 4px var(--main-color);
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 20px;
+        gap: 10px;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        position: relative;
+    }
+
+        .card:last-child {
+            justify-content: flex-end;
+        }
+
+    .card-img {
+        /* clear and add new css */
+        transition: all 0.5s;
+        display: flex;
+        justify-content: center;
+    }
+
+        .card-img .img {
+            /* delete */
+            transform: scale(0.68);
+            position: relative;
+            box-sizing: border-box;
+            width: 100px;
+            height: 100px;
+            border-top-left-radius: 80px 50px;
+            border-top-right-radius: 80px 50px;
+            border: 2px solid black;
+            background-color: #228b22;
+            background-image: linear-gradient(to top,transparent 10px,rgba(0,0,0,0.3) 10px,rgba(0,0,0,0.3) 13px,transparent 13px);
+        }
+
+            .card-img .img::before {
+                /* delete */
+                content: '';
+                position: absolute;
+                width: 65px;
+                height: 110px;
+                margin-left: -32.5px;
+                left: 50%;
+                bottom: -4px;
+                background-repeat: no-repeat;
+                background-image: radial-gradient(ellipse at center,rgba(0,0,0,0.7) 30%,transparent 30%),linear-gradient(to top,transparent 17px,rgba(0,0,0,0.3) 17px,rgba(0,0,0,0.3) 20px,transparent 20px),linear-gradient(to right,black 2px,transparent 2px),linear-gradient(to left,black 2px,transparent 2px),linear-gradient(to top,black 2px,#228b22 2px);
+                background-size: 60% 10%,100% 100%,100% 65%,100% 65%,100% 50%;
+                background-position: center 3px,center bottom,center bottom,center bottom,center bottom;
+                border-radius: 0 0 4px 4px;
+                z-index: 2;
+            }
+
+            .card-img .img::after {
+                /* delete */
+                content: '';
+                position: absolute;
+                box-sizing: border-box;
+                width: 28px;
+                height: 28px;
+                margin-left: -14px;
+                left: 50%;
+                top: -13px;
+                background-repeat: no-repeat;
+                background-image: linear-gradient(80deg,#ffc0cb 45%,transparent 45%),linear-gradient(-175deg,#ffc0cb 45%,transparent 45%),linear-gradient(80deg,rgba(0,0,0,0.2) 51%,rgba(0,0,0,0) 51%),linear-gradient(-175deg,rgba(0,0,0,0.2) 51%,rgba(0,0,0,0) 51%),radial-gradient(circle at center,#ffa6b6 45%,rgba(0,0,0,0.2) 45%,rgba(0,0,0,0.2) 52%,rgba(0,0,0,0) 52%),linear-gradient(45deg,rgba(0,0,0,0) 48%,rgba(0,0,0,0.2) 48%,rgba(0,0,0,0.2) 52%,rgba(0,0,0,0) 52%),linear-gradient(65deg,rgba(0,0,0,0) 48%,rgba(0,0,0,0.2) 48%,rgba(0,0,0,0.2) 52%,rgba(0,0,0,0) 52%),linear-gradient(22deg,rgba(0,0,0,0) 48%,rgba(0,0,0,0.2) 48%,rgba(0,0,0,0.2) 54%,rgba(0,0,0,0) 54%);
+                background-size: 100% 100%,100% 100%,100% 100%,100% 100%,100% 100%,100% 75%,100% 95%,100% 60%;
+                background-position: center center;
+                border-top-left-radius: 120px;
+                border-top-right-radius: 10px;
+                border-bottom-left-radius: 10px;
+                border-bottom-right-radius: 70px;
+                border-top: 2px solid black;
+                border-left: 2px solid black;
+                transform: rotate(45deg);
+                z-index: 1;
+            }
+
+    .card-title {
+        font-size: 20px;
+        font-weight: 500;
+        text-align: center;
+        color: var(--font-color);
+    }
+
+    .card-subtitle {
+        font-size: 14px;
+        font-weight: 400;
+        color: var(--font-color-sub);
+    }
+
+    .card-divider {
+        width: 100%;
+        border: 1px solid var(--main-color);
+        border-radius: 50px;
+    }
+
+    .card-footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+  
+        padding: 10px;
+    }
+
+    .card-price {
+        font-size: 20px;
+        font-weight: 500;
+        color: var(--font-color);
+    }
+
+        .card-price span {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--font-color-sub);
+        }
+
+    .card-btn {
+        height: 45px;
+        background: var(--bg-color);
+        border: 2px solid var(--main-color);
+        border-radius: 5px;
+        padding: 0 15px;
+        transition: all 0.3s;
+    }
+
+        .card-btn svg {
+            width: 100%;
+            height: 100%;
+            fill: var(--main-color);
+            transition: all 0.3s;
+        }
+
+    .card-img:hover {
+        transform: translateY(-3px);
+    }
+
+    .card-btn:hover {
+        border: 2px solid var(--main-focus);
+    }
+
+        .card-btn:hover svg {
+            fill: var(--main-focus);
+        }
+
+    .card-btn:active {
+        transform: translateY(3px);
+    }
+
+
+
+    .ola {
+        font-size: 14px;
+        font-weight: 400;
+        height: 45px;
+        background: var(--bg-color);
+        border: 2px solid var(--main-color);
+        border-radius: 5px;
+        padding: 0 15px;
+        transition: all 0.3s;
+        text-align: center;
+    }
+
+        .ola svg {
+            width: 100%;
+            height: 100%;
+            fill: var(--main-color);
+            transition: all 0.3s;
+        }
+
+</style>
+
+<!-- From Uiverse.io by andrew-demchenk0 -->
+
+<div class="col-3">
+
+
+    <button class="card-btn m-1 btn-outline-success" onclick="showModal()" data-bs-target="#exampleModal">
+        Agregar Productos <i class="bi bi-plus-circle"></i>
+
+    </button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalshow" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Productos</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form id="formr">
+                    <input type="hidden" id="IdProducto">
+                    <div class="form-group">
+                        <label for="Nombre">Nombre</label>
+                        <input type="text" class="form-control" id="Nombre" placeholder="Nombre">
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label for="Slogan">Descripcion</label>
+                        <input type="text" class="form-control" id="Descripcion" placeholder="Descripcion">
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <label for="Precio">Precio</label>
+                        <input type="number" class="form-control" id="Precio" placeholder="Precio">
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <div>
+                            <label for="Categoria">Categoria</label>
+
+
+                            @Html.DropDownListFor(Model => Model.SubCategoria.Categoria.IdCategoria, new SelectList(Model.SubCategoria.Categoria.Categorias, "IdCategoria", "Nombre"),
+                                     "Seleccione una categoria", new { @class = "form-control bg-primary text-white", @id = "ddlCategoria", @onchange = "FillSub()", required = "required" })
+                            <div class="invalid-feedback">Selecciona una categoria</div>
+
+
+                            <br />
+                            @if (Model.SubCategoria.SubCategorias != null)
+                            {
+
+                                <label for="SubCategoria">SubCategoria</label>
+                                @Html.DropDownListFor(Model => Model.SubCategoria.IdSubCategoria, new SelectList(Model.SubCategoria.SubCategorias, "IdSubCategoria", "Nombre"),
+                                         "Seleccione una subcategoria", new { @class = "form-control bg-secondary text-white", @id = "ddlSub", required = "required" })
+                                <div class="invalid-feedback">Selecciona un municipio</div>
+
+                                @Html.ValidationMessageFor(Model => Model.SubCategoria.IdSubCategoria, "", new { @class = "badge bg-danger" })
+
+                            }
+                            else
+                            {
+                                <label for="SubCategoria">SubCategoria</label>
+               
+                                @Html.DropDownListFor(Model => Model.SubCategoria.IdSubCategoria, new SelectList(string.Empty, "IdSubCategoria", "Nombre"),
+                                         "Seleccione una subcategoria", new { @class = "form-control bg-secondary text-white", @id = "ddlSub" })
+
+                            }
+
+                            <br />
+                            <div class="row">
+                                <label for="imagen">Imagen </label>
+                                <input type="file" id="Imagen" name="imagenRestaurante" accept="image/*" onchange="CargarArchivo(event)" class="form-control" />
+                                <br />
+
+                                <div id="imageContainer">
+                                    <img id="imgInput" class="img-thumbnail" src="~/DProduct.jpg" style="max-width: 200px; height: auto;" />
+                                </div>
+
+                                <input type="hidden" id="hiddenImagen" name="Imagen" />
+                            </div>
+                        </div>
+                    </div> <br />
+
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" >
+    <div class="row d-flex justify-content-around " id="EFE">
+
+
+
+        </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<script>
+
+
+        function CargarArchivo(input) {
+        var img = input.target.files[0];
+        if (!img) {
+            return;
+        }
+
+        if (!validar(img.name)) {
+            return;
+        }
+        var reader = new FileReader();
+
+        reader.onload = function () {
+            var output = $('#imgInput')[0];
+            output.src = reader.result;
+        };
+
+        reader.readAsDataURL(img);
+    }
+
+    function validar(imgName) {
+        let extensions = ["png", "jpg", "jpeg"];
+        let imgExtension = imgName.split('.').pop().toLowerCase();
+        if (!extensions.includes(imgExtension)) {
+            alert("Solo se permiten archivos PNG, JPG y JPEG.");
+            return false;
+        }
+        return true;
+    }
+        function showModal() {
+
+        $('#modalshow').modal('show');
+
+        limpiar();
+
+    }
+
+
+    function limpiar() {
+
+
+        document.getElementById("formr").reset();
+
+    }
+
+                       
+      $(document).ready(function () {
+        $.ajax({
+              url: '/Producto/GProductos',
+            dataType: 'json',
+            method: 'GET',
+            success: function (resultPro) {
+                console.log(resultPro);
+                for (let i = 0; i < resultPro.objects.length; i++) {
+
+                    var producto = resultPro.objects[i];
+                              var fila = `
+
+                                    <div class="card m-3" >
+                                        
+
+                <div class="card-img">
+                
+                    <td>  <img src="data:image/*;base64,${producto.imagen}"  class="img-fluid rounded img-thumbnail"
+                                             style="max-width: 120px; height: auto;" alt="Img" id="img1" /></td>
+                
+                </div>
+                <div class="card-title">${producto.nombre}      <br /> <span>Precio: $</span>${producto.precio}</div>
+                <div class="card-subtitle">${producto.descripcion}</div>
+
+                <div class="card-footer">
+
+
+
+        <div class="row">
+        <div class="col-2">     
+        
+        <button class="card-btn m-1" onclick="editar(${producto.idProducto})">
+         <i class="bi bi-pencil"></i>
+           </button>
+           </div>
+               
+     
+
+            <div class="col-2">         
+            <button class="card-btn m-1" onclick="editar(${producto.idProducto})">
+                    <i class="bi bi-trash"></i>
+                     
+               </button>
+               </div>
+
+                           <div class="col-8">         
+            <p class="ola m-1">
+ 
+          Subcategoria:   <br />${producto.subCategoria.nombre}
+                 
+                     
+               </p>
+               </div>
+
+
+               </div>
+                </div>
+            </div>
+            `;
+                    $('#EFE').append(fila);
+
+                }
+            }
+        });
+    });
+
+
+
+        function editar(id) {
+
+            $.ajax({
+                url: `/Usuario/GetById`,
+                dataType: 'json',
+                method: 'GET',
+                data: {IdUsuario : id},
+                success: function (data) {
+                    var usuario = data.Object;
+                    $('#Nombre').val(usuario.Nombre);
+                    $('#Apellido').val(usuario.ApellidoPaterno);
+                    $('#Fecha').val(usuario.Fecha);
+                    $('#IdUsuario').val(usuario.IdUsuario);
+                    $('#modalshow').modal('show');
+                }
+            });
+        }
+
+
+        $('#formr').on('submit', function (e) {
+        e.preventDefault();
+
+        var id = $('#IdUsuario').val();
+        var nombre = $('#Nombre').val();
+            var apellido = $('#Apellido').val();
+        var fecha = $('#Fecha').val();
+
+
+            if (id === "" || id === "0") {
+                $.ajax({
+                    url: `/Usuario/AddUsuario`,
+                    dataType: 'json',
+                    method: 'POST',
+                    contentType: "application/json;charset=utf-8",
+                    data: JSON.stringify({
+                        Nombre: nombre,
+                        ApellidoPaterno: apellido,
+                        Fecha: fecha
+                    }),
+                    success: function (response) {
+                        console.log("Agregado:", response);
+
+                        location.reload();
+                    }
+                });
+            }
+            else {
+                            $.ajax({
+                                url: `/Usuario/UpdateUsuario`,
+                    dataType: 'json',
+                    method: 'POST',
+                    contentType: "application/json;charset=utf-8",
+                    data: JSON.stringify({
+                        Nombre: nombre,
+                        ApellidoPaterno: apellido,
+                        Fecha: fecha,
+                        IdUsuario:id
+                    }),
+                    success: function (response) {
+                        console.log("Agregado:", response);
+
+                        location.reload();
+                    }
+                });
+
+            }
+
+
+
+        });
+
+
+    function eliminar(id) {
+
+        Swal.fire({
+            title: "Estas seguro?",
+            text: "Esta opción no se puede revertir!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Si, eliminalo!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: `/Usuario/DeleteUsuario`,
+                    dataType: 'json',
+                    method: 'POST',
+                    contentType: "application/json;charset=utf-8",
+                    data: JSON.stringify({ IdUsuario: id }),
+                    success: function () {
+                        console.log("Eliminado :)");
+                        location.reload();
+                    }
+                });
+                Swal.fire({
+                    title: "Eliminado!",
+                    text: "El registro ha sido eliminado.",
+                    icon: "success"
+                });
+            }
+        });
+    }
+
+</script>
+<script>
+            function FillSub() {
+            var IdCategoria = $('#ddlCategoria').val();
+            console.log(IdCategoria);
+
+            $.ajax({
+    url: `/Producto/GetCategoriaByIdSub`,
+
+                method: 'GET',
+                dataType: 'json',
+                data: { IdCategoria },
+
+        success: function (resultCategoria) {
+            if (resultCategoria.correct) {
+                                    console.log("Estas en correct de sub");
+                                    console.log(resultCategoria);
+
+                        $("#ddlSub").empty().append('<option value="">Seleccione una </option>');
+                        $.each(resultCategoria.objects, function (i, subCategoria) {
+
+
+                            $("#ddlSub").append('<option value="' + subCategoria.idSubCategoria + '">' + subCategoria.nombre + '</option>');
+                        });
+                    }
+                },
+
+                error: function () {
+                    alert("Ocurrió un error al obtener las subcategorias.");
+                }
+            });
+        }
+</script>

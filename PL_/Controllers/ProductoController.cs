@@ -32,7 +32,7 @@ namespace PL_.Controllers
             ML.Result resultCate = _categoria.GetAll();
 
            ML.Result result = _producto.GetAllV(producto);
-         //   ML.Result result = _producto.GetAll();
+         //0   ML.Result result = _producto.GetAll();
             if (result.Correct.HasValue)
             {
                 producto.Productos= result.Objects;
@@ -223,7 +223,72 @@ namespace PL_.Controllers
         }
 
 
+        public IActionResult GetAllJS()
+        {
+            ML.Producto producto = new ML.Producto();
+            //ML.Result result = _restaurante.GetAll();
+
+            ML.Result resultCate = _categoria.GetAll();
 
 
+            //0   ML.Result result = _producto.GetAll();
+            if (resultCate.Correct.HasValue)
+            {
+                producto.SubCategoria = new ML.SubCategoria();
+                producto.SubCategoria.Categoria = new ML.Categoria();
+                producto.SubCategoria.Categoria.Categorias = resultCate.Objects;
+            }
+
+            return View(producto);
+        }
+
+
+
+        [HttpGet]
+        public JsonResult GProductos()
+        {
+            var resultPro = _producto.GetAll();
+            return new JsonResult(resultPro);
+        }
+        [HttpGet]
+        public JsonResult GByIdProductos(int IdProducto)
+        {
+            ML.Result result = new ML.Result();
+
+            result = _producto.GetById(IdProducto);
+
+            return Json(result, System.Web.Mvc.JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult AProducto(ML.Producto producto)
+        {
+            ML.Result result = new ML.Result();
+
+            result = _producto.Add(producto);
+
+
+            return Json(result, System.Web.Mvc.JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult UProducto(ML.Producto producto)
+        {
+            ML.Result result = new ML.Result();
+
+            result = _producto.Update(producto);
+
+            return Json(result, System.Web.Mvc.JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult DProducto(int IdProducto)
+        {
+            ML.Result result = new ML.Result();
+
+            result = _producto.Delete(IdProducto);
+
+            return Json(result, System.Web.Mvc.JsonRequestBehavior.AllowGet);
+        }
     }
 }
