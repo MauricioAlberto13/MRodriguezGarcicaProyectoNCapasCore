@@ -49,11 +49,15 @@
 
             
                     <div class="col-3">
-                        @Html.LabelFor(Model => Model.SubCategoria.Categoria.Nombre)
+                    @Html.LabelFor(Model => Model.SubCategoria.Categoria.Nombre, new { @class = "form-label" })
                         @Html.DropDownListFor(Model => Model.SubCategoria.Categoria.IdCategoria,
                              new SelectList(Model.SubCategoria.Categoria.Categorias, "IdCategoria", "Nombre"),
                                  "Selecciona una categoria",
                              new { @class = "form-control", @id = "ddlCategoria", @onchange = "FillSub()", required = "required" })
+
+                    <div class="invalid-feedback">Selecciona una categoria</div>
+
+                    @Html.ValidationMessageFor(Model => Model.SubCategoria.Categoria.IdCategoria, "", new { @class = "badge bg-danger" })
                     </div>
 
 
@@ -64,8 +68,8 @@
 
                         @Html.LabelFor(Model => Model.SubCategoria.Nombre, new { @class = "form-label" })
                         @Html.DropDownListFor(Model => Model.SubCategoria.IdSubCategoria, new SelectList(Model.SubCategoria.SubCategorias, "IdSubCategoria", "Nombre"),
-                                 "Seleccione una subcategoria", new { @class = "form-control bg-secondary text-white", @id = "ddlSub", required = "required" })
-                        <div class="invalid-feedback">Selecciona un municipio</div>
+                                 "Seleccione una subcategoria", new { @class = "form-control", @id = "ddlSub", required = "required" })
+                        <div class="invalid-feedback">Selecciona una subcategoria</div>
 
                         @Html.ValidationMessageFor(Model => Model.SubCategoria.IdSubCategoria, "", new { @class = "badge bg-danger" })
 
@@ -75,16 +79,17 @@
                         @Html.LabelFor(Model => Model.SubCategoria.Nombre, new { @class = "form-label" })
      
                         @Html.DropDownListFor(Model => Model.SubCategoria.IdSubCategoria, new SelectList(string.Empty, "IdSubCategoria", "Nombre"),
-                                 "Seleccione una subcategoria", new { @class = "form-control bg-secondary text-white", @id = "ddlSub" })
+                                 "Seleccione una subcategoria", new { @class = "form-control", @id = "ddlSub" })
 
-                        <br />
+    
                     }
                 </div>
 
 
 
                 <div class="col-3">
-                    <button type="submit" class="btn btn-outline-success w-100">
+                    <br />
+                    <button type="submit" class="btn btn-outline-success w-100 form-label">
                         <i class="bi bi-search"></i> Buscar
                     </button>
                 </div>

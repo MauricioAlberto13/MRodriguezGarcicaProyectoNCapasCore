@@ -31,8 +31,8 @@ namespace PL_.Controllers
 
             ML.Result resultCate = _categoria.GetAll();
 
-         //  ML.Result result = _producto.GetAllV(producto);
-            ML.Result result = _producto.GetAll();
+           ML.Result result = _producto.GetAllV(producto);
+         //   ML.Result result = _producto.GetAll();
             if (result.Correct.HasValue)
             {
                 producto.Productos= result.Objects;
@@ -55,8 +55,8 @@ namespace PL_.Controllers
 
     
 
-           // ML.Result result = _producto.GetAllV(producto);
-           ML.Result result = _producto.GetAll();
+            ML.Result result = _producto.GetAllV(producto);
+          // ML.Result result = _producto.GetAll();
             if (result.Correct.HasValue)
             {
                 producto.Productos = result.Objects;

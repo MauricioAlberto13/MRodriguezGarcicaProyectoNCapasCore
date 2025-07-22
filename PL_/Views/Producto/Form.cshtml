@@ -35,22 +35,18 @@
                     @Html.HiddenFor(Model => Model.IdProducto)
 
                     @Html.LabelFor(Model => Model.Nombre, new { @class = "form-label" })
-                    @Html.TextBoxFor(Model => Model.Nombre, new { @class = "form-control sombra ", id = "txtNombre", placeholder = "Ingresa el nombre", /* onkeypress = "validarLetra(this, event)", onblur = "validarLetra(this, event)",  */required = "required" })
-
+                @Html.TextBoxFor(Model => Model.Nombre, new { @maxlength = "100", @class = "form-control sombra ", id = "txtNombre", placeholder = "Ingresa el nombre", onkeypress = "validarLetra(this, event)", onblur = "validarLetra(this, event)", required = "required" })
+                @Html.ValidationMessageFor(Model => Model.Nombre, "", new { @class = "badge bg-danger" })
+                <p class="invalid-feedback" hidden="hidden"></p>
                     <br />
 
     
                         @Html.LabelFor(Model => Model.Descripcion, new { @class = "form-label" })
-                        @Html.TextAreaFor(Model => Model.Descripcion, new { @class = "form-control sombra", placeholder = "Ingresa la descripcion", id = "txtApellidoM"/* , onkeypress = "validarLetra(this, event)", onblur = "validarLetra(this, event)" */ })
+                @Html.TextAreaFor(Model => Model.Descripcion, new { @maxlength = "250", @class = "form-control sombra", placeholder = "Ingresa la descripcion"/* , onkeypress = "validarLetra(this, event)", onblur = "validarLetra(this, event)" */ })
                         @*  <p class="invalid-feedback" hidden="hidden"></p>
                     @Html.ValidationMessageFor(Model => Model.Descripcion, "", new { @class = "badge bg-danger" })
  *@
-                   
 
-
-
-
-            
 
            
             </div>
@@ -135,51 +131,51 @@
 
             <script>
 
-                // function validarLetra(input, event) {
-                //     const regex = /^[A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙñÑ.-\s]+$/;
-                //     var letra = event.key;
-                //     console.log($(input).closest('div'))
-                //     let errorSpan = $(input).closest('div').find('p')
-                //     if (event.type == "keypress") {
-                //         console.log(errorSpan)
-                //         if (regex.test(letra) && letra.length > 0) {
-                //             /*   console.log("correcto")
-                //             $(input).addClass("is-valid");
-                //             $(input).removeClass("is-invalid");
-                //             /*          errorSpan.hide();*/
-                //             $(errorSpan).attr("hidden", "hidden")
-                //         }
-                //         else {
+                function validarLetra(input, event) {
+                    const regex = /^[A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙñÑ.-\s]+$/;
+                    var letra = event.key;
+                    console.log($(input).closest('div'))
+                    let errorSpan = $(input).closest('div').find('p')
+                    if (event.type == "keypress") {
+                        console.log(errorSpan)
+                        if (regex.test(letra) && letra.length > 0) {
+                            /*   console.log("correcto")
+                            $(input).addClass("is-valid");
+                            $(input).removeClass("is-invalid");
+                            /*          errorSpan.hide();*/
+                            $(errorSpan).attr("hidden", "hidden")
+                        }
+                        else {
 
-                //             event.preventDefault();
-                //             $(input).addClass("is-invalid");
-                //             $(input).removeClass("is-valid");
-                //             /*errorSpan.text('Solo se permiten letras').show();*/
-                //             $(errorSpan).removeAttr('hidden').text("Solo se aceptan letras");
-                //         }
-                //     }
-                //     console.log($(input).val());
-                //     if (event.type == "blur") {
-                //         const regex = /^[A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙñÑ.-\s]+$/;
-                //         console.log("Hola");
-                //         console.log($(input).val());
-                //         if (regex.test($(input).val())) {
-                //             $(input).addClass("is-valid");
-                //             $(input).removeClass("is-invalid");
-                //             $(errorSpan).attr("hidden", "hidden")
-                //         }
-                //         else {
-                //             event.preventDefault();
-                //             $(input).addClass("is-invalid");
-                //             $(input).removeClass("is-valid");
-                //             $(errorSpan).removeAttr('hidden').text("Solo se aceptan letras");
-                //         }
-                //     }
-                // }
+                            event.preventDefault();
+                            $(input).addClass("is-invalid");
+                            $(input).removeClass("is-valid");
+                            /*errorSpan.text('Solo se permiten letras').show();*/
+                            $(errorSpan).removeAttr('hidden').text("Solo se aceptan letras");
+                        }
+                    }
+                    console.log($(input).val());
+                    if (event.type == "blur") {
+                        const regex = /^[A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙñÑ.-\s]+$/;
+                        console.log("Hola");
+                        console.log($(input).val());
+                        if (regex.test($(input).val())) {
+                            $(input).addClass("is-valid");
+                            $(input).removeClass("is-invalid");
+                            $(errorSpan).attr("hidden", "hidden")
+                        }
+                        else {
+                            event.preventDefault();
+                            $(input).addClass("is-invalid");
+                            $(input).removeClass("is-valid");
+                            $(errorSpan).removeAttr('hidden').text("Solo se aceptan letras");
+                        }
+                    }
+                }
 
                 function validarNumero(inputNumero, event) {
 
-                const regex = /^[0-9]([.,][0-9]{1,3})?$/;
+                    const regex = /^[0-9]$/;
                     const key = String.fromCharCode(event.which);
 
                     let errorSpan = $(inputNumero).closest('div').find('p')
@@ -203,7 +199,7 @@
                         }
                     }
                     if (event.type == "blur") {
-                        if (($(inputNumero).val()).length>=10) {
+                        if (($(inputNumero).val()).length>0) {
                             $(inputNumero).addClass("is-valid");
                             $(inputNumero).removeClass("is-invalid");
                         }
