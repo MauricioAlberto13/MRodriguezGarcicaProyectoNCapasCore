@@ -290,6 +290,27 @@ namespace PL_.Controllers
             ML.Result result = _producto.Delete(producto.IdProducto);
             return new JsonResult(result);
         }
+        [HttpGet]
+        public JsonResult BusquedaAbierta(int? IdCategoria, int? IdSubCategoria)
+        {
+            ML.Producto producto = new ML.Producto();
+            producto.SubCategoria = new ML.SubCategoria();
+            producto.SubCategoria.Categoria = new ML.Categoria();
+
+            if (IdCategoria.HasValue)
+            {
+                producto.SubCategoria.Categoria.IdCategoria = IdCategoria.Value;
+            }
+
+            if (IdSubCategoria.HasValue)
+            {
+                producto.SubCategoria.IdSubCategoria = IdSubCategoria.Value;
+            }
+
+            ML.Result result = _producto.GetAllV(producto);
+
+            return new JsonResult(result);
+        }
 
 
     }

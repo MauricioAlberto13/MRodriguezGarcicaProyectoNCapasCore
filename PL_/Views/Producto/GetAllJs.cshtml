@@ -1,8 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿
 @model ML.Producto
 
 <style>
@@ -195,14 +191,45 @@
 
 <!-- From Uiverse.io by andrew-demchenk0 -->
 
-<div class="col-3">
+<div class="container bg-light py-3">
+   
+        <div class="row align-items-end">
+            <div class="col-12 col-md-3 mb-3">
+                @Html.LabelFor(Model => Model.SubCategoria.Categoria.Nombre, new { @class = "form-label" })
+            @Html.DropDownListFor(Model => Model.SubCategoria.Categoria.IdCategoria,
+                     new SelectList(Model.SubCategoria.Categoria.Categorias, "IdCategoria", "Nombre"),
+                     "Selecciona una categoria",
+                     new { @class = "form-control", @id = "ddlCategoriaBusqueda", @onchange = "FillSubBusqueda()", required = "required" })
+
+                @Html.ValidationMessageFor(Model => Model.SubCategoria.Categoria.IdCategoria, "", new { @class = "badge bg-danger" })
+            </div>
+            <div class="col-12 col-md-3 mb-3">
+            @Html.LabelFor(Model => Model.SubCategoria.Nombre, new { @class = "form-label" })
+            @Html.DropDownListFor(Model => Model.SubCategoria.IdSubCategoria,
+                     new SelectList(Enumerable.Empty<SelectListItem>(), "Value", "Text"),
+                     "Seleccione una subcategoría", new { @class = "form-control", @id = "ddlSubBusqueda", required = "required" })
+            <div class="invalid-feedback">Selecciona una subcategoría</div>
+            @Html.ValidationMessageFor(Model => Model.SubCategoria.IdSubCategoria, "", new { @class = "badge bg-danger" })
+
+            </div>
 
 
-    <button class="card-btn m-1 btn-outline-success" onclick="showModal()" data-bs-target="#exampleModal">
-        Agregar Productos <i class="bi bi-plus-circle"></i>
+            <div class="col-12 col-md-3 mb-3 d-flex align-items-end">
+                <button type="submit" onclick="buscar()" class="btn btn-outline-primary w-100">
+                    <i class="bi bi-search"></i> Buscar
+                </button>
+            </div>
 
-    </button>
+            <div class="col-12 col-md-3 mb-3 d-flex align-items-end">
+            <button type="button" class="btn btn-outline-success w-100" onclick="showModal()" data-bs-target="#exampleModal">
+                Agregar Productos <i class="bi bi-plus-circle"></i>
+            </button>
+            </div>
+
+        </div>
+
 </div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="modalshow" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -213,6 +240,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+
+
 
                 <form id="formr">
                     <input type="hidden" id="IdProducto">
@@ -237,30 +266,18 @@
 
 
                             @Html.DropDownListFor(Model => Model.SubCategoria.Categoria.IdCategoria, new SelectList(Model.SubCategoria.Categoria.Categorias, "IdCategoria", "Nombre"),
-                                     "Seleccione una categoria", new { @class = "form-control bg-primary text-white", @id = "ddlCategoria", @onchange = "FillSub()", required = "required" })
-                            <div class="invalid-feedback">Selecciona una categoria</div>
+                                     "Seleccione una categoria", new { @class = "form-control bg-primary text-white", @id = "ddlCategoriaModal", @onchange = "FillSub()", required = "required" })
+
 
 
                             <br />
-                            @if (Model.SubCategoria.SubCategorias != null)
-                            {
+                            @Html.LabelFor(Model => Model.SubCategoria.Nombre, new { @class = "form-label" })
+                            @Html.DropDownListFor(Model => Model.SubCategoria.IdSubCategoria,
+                                     new SelectList(Enumerable.Empty<SelectListItem>(), "Value", "Text"),
+                                     "Seleccione una subcategoría", new { @class = "form-control", @id = "ddlSubModal", required = "required" })
+                            <div class="invalid-feedback">Selecciona una subcategoría</div>
+                            @Html.ValidationMessageFor(Model => Model.SubCategoria.IdSubCategoria, "", new { @class = "badge bg-danger" })
 
-                                <label for="SubCategoria">SubCategoria</label>
-                                @Html.DropDownListFor(Model => Model.SubCategoria.IdSubCategoria, new SelectList(Model.SubCategoria.SubCategorias, "IdSubCategoria", "Nombre"),
-                                         "Seleccione una subcategoria", new { @class = "form-control bg-secondary text-white", required = "required", @id = "ddlSub" })
-                                <div class="invalid-feedback">Selecciona un municipio</div>
-
-                                @Html.ValidationMessageFor(Model => Model.SubCategoria.IdSubCategoria, "", new { @class = "badge bg-danger" })
-
-                            }
-                            else
-                            {
-                                <label for="SubCategoria">SubCategoria</label>
-                                <i class="bi bi-geo-alt-fill text-primary"></i>
-                                @Html.DropDownListFor(Model => Model.SubCategoria.IdSubCategoria, new SelectList(string.Empty, "IdSubCategoria", "Nombre"),
-                                         "Seleccione una subcategoria", new { @class = "form-control bg-secondary text-white", @id = "ddlSub" })
-
-                            }
 
                             <br />
                             <div class="row">
@@ -331,11 +348,9 @@
         return true;
     }
         function showModal() {
-
         $('#modalshow').modal('show');
-
         limpiar();
-
+         $('#ddlSubModal').empty().append('<option value="">Seleccione una</option>');
     }
 
 
@@ -343,75 +358,14 @@
         document.getElementById("formr").reset();
         $('#imgInput').attr('src', '/DProduct.jpg');
         $('#IdProducto').val("0");
-        $('#ddlCategoria').val("");
-        $('#ddlSub').empty().append('<option value="">Seleccione una</option>');
+    $('#ddlCategoriaModal').val("");
+    $('#ddlSubModal').empty().append('<option value="">Seleccione una</option>');
+
     }
 
 
                        
-      $(document).ready(function () {
-        $.ajax({
-              url: '/Producto/GProductos',
-            dataType: 'json',
-            method: 'GET',
-            success: function (resultPro) {
-                console.log(resultPro);
-                for (let i = 0; i < resultPro.objects.length; i++) {
 
-                    var producto = resultPro.objects[i];
-                              var fila = `
-
-                                    <div class="card m-3" >
-                                        
-
-                <div class="card-img">
-                
-                    <td>  <img src="data:image/*;base64,${producto.imagen}"  class="img-fluid rounded img-thumbnail"
-                                             style="max-width: 120px; height: auto;" alt="Img" id="img1" /></td>
-                
-                </div>
-                <div class="card-title">${producto.nombre}      <br /> <span>Precio: $</span>${producto.precio}</div>
-                <div class="card-subtitle">${producto.descripcion}</div>
-
-                <div class="card-footer">
-
-
-
-        <div class="row">
-        <div class="col-2">     
-        
-            <button class="card-btn m-1" onclick="editar(${producto.idProducto})">
-         <i class="bi bi-pencil"></i>
-           </button>
-           </div>
-
-            <div class="col-2">         
-            <button class="card-btn m-1" onclick="eliminar(${producto.idProducto})">
-                    <i class="bi bi-trash"></i>
-                     
-               </button>
-               </div>
-
-                           <div class="col-8">         
-            <p class="ola m-1">
- 
-          Subcategoria:   <br />${producto.subCategoria.nombre}
-                 
-                     
-               </p>
-               </div>
-
-
-               </div>
-                </div>
-            </div>
-            `;
-                    $('#EFE').append(fila);
-
-                }
-            }
-        });
-    });
 
 
 
@@ -422,8 +376,9 @@
         var precio = $('#Precio').val();
         var descripcion = $('#Descripcion').val();
         var imag = $('#imgInput').attr('src').split(',')[1];
-        var cat = $('#ddlCategoria').val();
-        var sub = $('#ddlSub').val();
+        var cat = $('#ddlCategoriaModal').val();
+    var sub = $('#ddlSubModal').val();
+
         var producto = {
             IdProducto: id,
             Nombre: nombre,
@@ -437,7 +392,8 @@
                 }
             }
         };
-        if (id === "" || id === "0") {        $.ajax({
+        if (id === "" || id === "0") {       
+            $.ajax({
                 url: `/Producto/AProducto`,
                 type: 'POST',
                 dataType: 'json',
@@ -448,7 +404,7 @@
                         Swal.fire("Éxito", "Producto agregado correctamente", "success")
                             .then(() => location.reload());
                     } else {
-                        Swal.fire("Error", "No se pudo agregar", "error");
+                        Swal.fire("Error", "No se pudo agregar :c", "error");
                     }
                 }
             });
@@ -464,7 +420,7 @@
                         Swal.fire("Éxito", "Producto actualizado correctamente", "success")
                             .then(() => location.reload());
                     } else {
-                        Swal.fire("Error", "No se pudo actualizar", "error");
+                        Swal.fire("Error", "No se pudo actualizar :C", "error");
                     }
                 }
             });
@@ -518,7 +474,7 @@
 
 </script>
 <script>
-     function editar(id) {
+        function editar(id) {
         $.ajax({
             url: `/Producto/GByIdProductos`,
             dataType: 'json',
@@ -531,7 +487,8 @@
                 $('#Precio').val(producto.precio);
                 $('#IdProducto').val(producto.idProducto);
                 $('#imgInput').attr("src", "data:image/*;base64," + producto.imagen);
-                $('#ddlCategoria').val(producto.subCategoria.categoria.idCategoria);
+                $('#ddlCategoriaModal').val(producto.subCategoria.categoria.idCategoria);
+
                 $.ajax({
                     url: `/Producto/GetCategoriaByIdSub`,
                     method: 'GET',
@@ -539,51 +496,127 @@
                     data: { IdCategoria: producto.subCategoria.categoria.idCategoria },
                     success: function (resultCategoria) {
                         if (resultCategoria.correct) {
-                            $("#ddlSub").empty().append('<option value="">Seleccione una </option>');
+                            $("#ddlSubModal").empty().append('<option value="">Seleccione una </option>');
                             $.each(resultCategoria.objects, function (i, subCategoria) {
-                                $("#ddlSub").append('<option value="' + subCategoria.idSubCategoria + '">' + subCategoria.nombre + '</option>');
+                                const selected = subCategoria.idSubCategoria == producto.subCategoria.idSubCategoria ? "selected" : "";
+                                $("#ddlSubModal").append(`<option value="${subCategoria.idSubCategoria}" ${selected}>${subCategoria.nombre}</option>`);
                             });
-
-                            $('#ddlSub').val(producto.subCategoria.idSubCategoria);
                         }
                     },
                     error: function () {
                         alert("Error al cargar subcategorías.");
                     }
-                });            $('#modalshow').modal('show');
+                });
+
+                $('#modalshow').modal('show');
             }
         });
     }
 
 
-            function FillSub() {
-            var IdCategoria = $('#ddlCategoria').val();
-            console.log(IdCategoria);
-
-            $.ajax({
-    url: `/Producto/GetCategoriaByIdSub`,
-
-                method: 'GET',
-                dataType: 'json',
-                data: { IdCategoria },
-
-        success: function (resultCategoria) {
-            if (resultCategoria.correct) {
-                                    console.log("Estas en correct de sub");
-                                    console.log(resultCategoria);
-
-                        $("#ddlSub").empty().append('<option value="">Seleccione una </option>');
-                        $.each(resultCategoria.objects, function (i, subCategoria) {
+           function FillSub() {
+        var IdCategoria = $('#ddlCategoriaModal').val();
 
 
-                            $("#ddlSub").append('<option value="' + subCategoria.idSubCategoria + '">' + subCategoria.nombre + '</option>');
-                        });
-                    }
-                },
+        $.ajax({
+            url: `/Producto/GetCategoriaByIdSub`,
+            method: 'GET',
+            dataType: 'json',
+            data: { IdCategoria: IdCategoria },
+            success: function (resultCategoria) {
+                if (resultCategoria.correct) {
 
-                error: function () {
-                    alert("Ocurrió un error al obtener las subcategorias.");
+                    $("#ddlSubModal").empty().append('<option value="">Seleccione una </option>');
+                    $.each(resultCategoria.objects, function (i, subCategoria) {
+                        $("#ddlSubModal").append('<option value="' + subCategoria.idSubCategoria + '">' + subCategoria.nombre + '</option>');
+                    });
                 }
-            });
-        }
+            },
+            error: function () {
+                alert("Ocurrió un error al obtener las subcategorías.");
+            }
+        });
+    }
+
+        function FillSubBusqueda() {
+        var IdCategoria = $('#ddlCategoriaBusqueda').val();
+    
+
+        $.ajax({
+            url: `/Producto/GetCategoriaByIdSub`,
+            method: 'GET',
+            dataType: 'json',
+            data: { IdCategoria },
+            success: function (resultCategoria) {
+                if (resultCategoria.correct) {
+
+                    $("#ddlSubBusqueda").empty().append('<option value="">Seleccione una</option>');
+                    $.each(resultCategoria.objects, function (i, subCategoria) {
+                        $("#ddlSubBusqueda").append('<option value="' + subCategoria.idSubCategoria + '">' + subCategoria.nombre + '</option>');
+                    });
+                }
+            },
+            error: function () {
+                alert("Error al cargar subcategorías para búsqueda.");
+            }
+        });
+    }
+
+
+       function buscar(event) {
+   
+
+        var idCategoria = $('#ddlCategoriaBusqueda').val();
+        var idSubCategoria = $('#ddlSubBusqueda').val();
+
+        $.ajax({
+            url: '/Producto/BusquedaAbierta',
+            type: 'GET',
+            data: {
+                IdCategoria: idCategoria,
+                IdSubCategoria: idSubCategoria
+            },
+            success: function (result) {
+                if (result.correct) {
+                    $('#EFE').empty();
+                    $.each(result.objects, function (i, producto)
+                            {
+                        var fila = `
+                            <div class="card m-3">
+                                <div class="card-img">
+                                    <img src="data:image/*;base64,${producto.imagen}" class="img-fluid rounded img-thumbnail" style="max-width: 120px; height: auto;" />
+                                </div>
+                                <div class="card-title">${producto.nombre}<br /><span>Precio: $</span>${producto.precio}</div>
+                                <div class="card-subtitle">${producto.descripcion}</div>
+                                <div class="card-footer">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <button class="card-btn m-1" onclick="editar(${producto.idProducto})">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                        </div>
+                                        <div class="col-2">
+                                            <button class="card-btn m-1" onclick="eliminar(${producto.idProducto})">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                        <div class="col-8">
+                                            <p class="ola m-1">Subcategoría: <br />${producto.subCategoria.nombre}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        $('#EFE').append(fila);
+                    });
+                } else {
+                    Swal.fire("Sin resultados", "No se encontraron productos", "info");
+                }
+            },
+            error: function () {
+                Swal.fire("Error", "Selecciona una subcategoria", "error");
+            }
+        });
+    }
+
 </script>
