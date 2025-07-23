@@ -261,34 +261,36 @@ namespace PL_.Controllers
             return new JsonResult(result);
         }
 
+
+
         [HttpPost]
-        public JsonResult AProducto(ML.Producto producto)
+        public JsonResult AProducto([FromBody] ML.Producto producto)
         {
-            ML.Result result = new ML.Result();
+            producto.Imagen = Convert.FromBase64String(producto.ImagenBase64);
+            producto.ImagenBase64 = "";
 
-            result = _producto.Add(producto);
 
+            ML.Result result = _producto.Add(producto);
             return new JsonResult(result);
         }
 
         [HttpPost]
-        public JsonResult UProducto(ML.Producto producto)
+        public JsonResult UProducto([FromBody] ML.Producto producto)
         {
-            ML.Result result = new ML.Result();
+            producto.Imagen = Convert.FromBase64String(producto.ImagenBase64);
+            producto.ImagenBase64 = "";
 
-            result = _producto.Update(producto);
-
+            ML.Result result = _producto.Update(producto);
             return new JsonResult(result);
         }
 
         [HttpPost]
-        public JsonResult DProducto(int idProducto)
+        public JsonResult DProducto([FromBody] ML.Producto producto)
         {
-            ML.Result result = new ML.Result();
-
-            result = _producto.Delete(idProducto);
-
+            ML.Result result = _producto.Delete(producto.IdProducto);
             return new JsonResult(result);
         }
+
+
     }
 }
