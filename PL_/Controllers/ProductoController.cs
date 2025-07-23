@@ -257,7 +257,8 @@ namespace PL_.Controllers
 
             result = _producto.GetById(IdProducto);
 
-            return Json(result, System.Web.Mvc.JsonRequestBehavior.AllowGet);
+
+            return new JsonResult(result);
         }
 
         [HttpPost]
@@ -267,8 +268,7 @@ namespace PL_.Controllers
 
             result = _producto.Add(producto);
 
-
-            return Json(result, System.Web.Mvc.JsonRequestBehavior.AllowGet);
+            return new JsonResult(result);
         }
 
         [HttpPost]
@@ -278,17 +278,17 @@ namespace PL_.Controllers
 
             result = _producto.Update(producto);
 
-            return Json(result, System.Web.Mvc.JsonRequestBehavior.AllowGet);
+            return new JsonResult(result);
         }
 
         [HttpPost]
-        public JsonResult DProducto(int IdProducto)
+        public JsonResult DProducto(int idProducto)
         {
             ML.Result result = new ML.Result();
 
-            result = _producto.Delete(IdProducto);
+            result = _producto.Delete(idProducto);
 
-            return Json(result, System.Web.Mvc.JsonRequestBehavior.AllowGet);
+            return new JsonResult(result);
         }
     }
 }
