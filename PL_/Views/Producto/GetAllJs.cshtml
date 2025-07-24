@@ -392,7 +392,7 @@
 
                 function validarLetra(input, event) {
                     const regex = /^[A-Za-zäÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙñÑ.-\s]+$/;
-                    var letra = event.key;
+                    var letra = event.key; 
                     console.log($(input).closest('div'))
                     let errorSpan = $(input).closest('div').find('p')
                     if (event.type == "keypress") {
