@@ -208,7 +208,7 @@
                 data: JSON.stringify(producto),
                 success: function (result) {
                     if (result.correct) {
-                        Swal.fire("Éxito", "Producto agregado correctamente", "success")
+                        Swal.fire("Correcto", "Producto agregado correctamente", "success")
                             .then(() => location.reload());
                     } else {
                         Swal.fire("Error", "No se pudo agregar :c", "error");
@@ -224,7 +224,7 @@
                 data: JSON.stringify(producto),
                 success: function (result) {
                     if (result.correct) {
-                        Swal.fire("Éxito", "Producto actualizado correctamente", "success")
+                        Swal.fire("Correcto", "Producto actualizado correctamente", "success")
                             .then(() => location.reload());
                     } else {
                         Swal.fire("Error", "No se pudo actualizar :C", "error");
