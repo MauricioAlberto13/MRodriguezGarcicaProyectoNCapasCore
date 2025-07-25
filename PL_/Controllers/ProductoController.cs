@@ -285,7 +285,11 @@ namespace PL_.Controllers
         [HttpPost]
         public JsonResult UProducto([FromBody] ML.Producto producto)
         {
-            producto.Imagen = Convert.FromBase64String(producto.ImagenBase64);
+            if (!string.IsNullOrEmpty(producto.ImagenBase64) && producto.ImagenBase64 != "null")
+            {
+                producto.Imagen = Convert.FromBase64String(producto.ImagenBase64);
+            }
+
             producto.ImagenBase64 = "";
 
             ML.Result result = _producto.Update(producto);

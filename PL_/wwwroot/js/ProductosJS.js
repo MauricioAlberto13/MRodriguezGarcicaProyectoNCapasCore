@@ -285,7 +285,10 @@
                 $('#Descripcion').val(producto.descripcion);
                 $('#Precio').val(producto.precio);
                 $('#IdProducto').val(producto.idProducto);
-                $('#imgInput').attr("src", "data:image/*;base64," + producto.imagen);
+                var imagenSrc = (producto.imagen && producto.imagen !== "null")
+                    ? `data:image/*;base64,${producto.imagen}`
+                    : '/DProduct.jpg';
+                $('#imgInput').attr("src", imagenSrc);
                 $('#ddlCategoriaModal').val(producto.subCategoria.categoria.idCategoria);
 
                 $.ajax({
