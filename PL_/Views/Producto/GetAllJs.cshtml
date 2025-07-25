@@ -253,6 +253,10 @@
     }
 
     }
+
+    .sombra:active {
+        box-shadow: 2px 2px 15px #076eff inset;
+    }
 </style>
 <div class="container bg-light py-3">
    
@@ -372,7 +376,7 @@
                     <div class="form-group">
                         <div class="row">
                             <label for="Nombre">Nombre</label>
-                            <input type="text" class="input" id="Nombre" required maxlength="100" placeholder="Nombre" onkeypress="validarLetra(this, event)" onblur="validarLetra(this, event)">
+                            <input type="text" class="input sombra" id="Nombre" required maxlength="100" placeholder="Nombre" onkeypress="validarLetra(this, event)" onblur="validarLetra(this, event)">
                         </div>
                     
                     </div>
@@ -380,14 +384,14 @@
                     <div class="form-group">
                         <div class="row">
                             <label for="Slogan">Descripcion</label>
-                            <textarea name="textarea" cols="30" maxlength="250" class="input" id="Descripcion" placeholder="Descripcion"></textarea>
+                            <textarea name="textarea" cols="30" maxlength="250" class="input sombra" id="Descripcion" placeholder="Descripcion"></textarea>
                         </div>
                     </div>
             
                     <div class="form-group">
                         <div class="row">
                             <label for="Precio">Precio</label>
-                            <input type="text" class="input" id="Precio" required maxlength="10" placeholder="Precio" onkeypress="validarNumero(this, event)" onblur="validarNumero(this, event)">
+                            <input type="text" class="input sombra" id="Precio" required maxlength="10" placeholder="Precio" onkeypress="validarNumero(this, event)" onblur="validarNumero(this, event)">
                         </div> 
                     </div>
           
@@ -396,14 +400,14 @@
                             <div class="row">
                                 <label for="Categoria">Categoria</label>
                                 @Html.DropDownListFor(Model => Model.SubCategoria.Categoria.IdCategoria, new SelectList(Model.SubCategoria.Categoria.Categorias, "IdCategoria", "Nombre"),
-                                         "Seleccione una categoria", new { @class = "form-control ", @id = "ddlCategoriaModal", @onchange = "FillSub()", required = "required" })
+                                         "Seleccione una categoria", new { @class = "form-control sombra", @id = "ddlCategoriaModal", @onchange = "FillSub()", required = "required" })
 
                             </div>
                               <div class="row">
                                 <label for="SubCategoria">SubCategoria</label>
                                 @Html.DropDownListFor(Model => Model.SubCategoria.IdSubCategoria,
                                          new SelectList(Enumerable.Empty<SelectListItem>(), "Value", "Text"),
-                                         "Seleccione una subcategoría", new { @class = "form-control", @id = "ddlSubModal", required = "required" })
+                                         "Seleccione una subcategoría", new { @class = "form-control sombra", @id = "ddlSubModal", required = "required" })
                                 <div class="invalid-feedback">Selecciona una subcategoría</div>
                                 @Html.ValidationMessageFor(Model => Model.SubCategoria.IdSubCategoria, "", new { @class = "badge bg-danger" })
                                 <label for="imagen">Imagen </label>

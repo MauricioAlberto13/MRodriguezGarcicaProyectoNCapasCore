@@ -94,12 +94,16 @@
                 if (result.correct) {
                     $('#EFE').empty();
                     $.each(result.objects, function (i, producto)
-                            {
+                    {
+                        var imagenSrc = (producto.imagen && producto.imagen !== "null")
+                            ? `data:image/*;base64,${producto.imagen}`
+                            : '/DProduct.jpg';
+
                         var fila = `
                             <div class="card m-3">
-                                <div class="card-img">
-                                    <img src="data:image/*;base64,${producto.imagen}" class="img-fluid rounded img-thumbnail" style="max-width: 200px; height: auto;" />
-                                </div>
+         <div class="card-img">
+                        <img src="${imagenSrc}" class="img-fluid rounded img-thumbnail" style="max-width: 200px; height: auto;" />
+                    </div>
                                 <div class="card-title">${producto.nombre}<br /><span>Precio: $</span>${producto.precio}</div>
                                 <div class="card-subtitle">${producto.descripcion}</div>
                                 <div class="card-footer">
