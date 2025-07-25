@@ -59,7 +59,7 @@
                     @Html.DropDownListFor(Model => Model.SubCategoria.Categoria.IdCategoria, new SelectList(Model.SubCategoria.Categoria.Categorias, "IdCategoria", "Nombre"),
                              "Seleccione una categoria", new { @class = "form-control bg-primary text-white", @id = "ddlCategoria", @onchange = "FillSub()", required = "required" })
                     <div class="invalid-feedback">Selecciona una categoria</div>
-
+                    @Html.ValidationMessageFor(Model => Model.SubCategoria.Categoria.IdCategoria, "", new { @class = "badge bg-danger" })
 
                     <br />
                 @if (Model.SubCategoria.SubCategorias != null)
@@ -97,8 +97,8 @@
                     <p class="invalid-feedback" hidden="hidden"></p>
 
                 </div>
-                @*                 @Html.ValidationMessageFor(Model => Model.Precio, "", new { @class = "text-danger" })
- *@
+                                @Html.ValidationMessageFor(Model => Model.Precio, "", new { @class = "text-danger" })
+
              <br />
 
 

@@ -2,6 +2,258 @@
 <link rel="stylesheet" href="~/css/ProductosJS.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
+
+<style>
+    /* From Uiverse.io by Pradeepsaranbishnoi */
+    .voltage-button {
+        position: relative;
+    }
+
+/*         .voltage-button button {
+            color: white;
+            background: #0D1127;
+            padding: 1rem 3rem 1rem 3rem;
+            border-radius: 5rem;
+            border: 5px solid #5978F3;
+            font-size: 1.2rem;
+            line-height: 1em;
+            letter-spacing: 0.075em;
+            transition: background 0.3s;
+        } */
+
+            #agr button:hover {
+                cursor: pointer;
+            background: #198754;
+            }
+
+                        #bus button:hover {
+                cursor: pointer;
+            background: #blue;
+            }
+                .voltage-button button:hover + svg, .voltage-button button:hover + svg + .dots {
+                    opacity: 1;
+                }
+
+        .voltage-button svg {
+            display: block;
+            position: absolute;
+            top: -0.75em;
+            left: -0.25em;
+            width: calc(100% + 0.5em);
+            height: calc(100% + 1.5em);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s;
+            transition-delay: 0.1s;
+        }
+
+            .voltage-button svg path {
+                stroke-dasharray: 100;
+                filter: url("#glow");
+            }
+
+                .voltage-button svg path.line-1 {
+                    stroke: #f6de8d;
+                    stroke-dashoffset: 0;
+                    animation: spark-1 3s linear infinite;
+                }
+
+                .voltage-button svg path.line-2 {
+                    stroke: #6bfeff;
+                    stroke-dashoffset: 500;
+                    animation: spark-2 3s linear infinite;
+                }
+
+        .voltage-button .dots {
+            opacity: 0;
+            transition: opacity 0.3s;
+            transition-delay: 0.4s;
+        }
+
+            .voltage-button .dots .dot {
+                width: 1rem;
+                height: 1rem;
+                background: white;
+                border-radius: 100%;
+                position: absolute;
+                opacity: 0;
+            }
+
+            .voltage-button .dots .dot-1 {
+                top: 0;
+                left: 20%;
+                animation: fly-up 3s linear infinite;
+            }
+
+            .voltage-button .dots .dot-2 {
+                top: 0;
+                left: 55%;
+                animation: fly-up 3s linear infinite;
+                animation-delay: 0.5s;
+            }
+
+            .voltage-button .dots .dot-3 {
+                top: 0;
+                left: 80%;
+                animation: fly-up 3s linear infinite;
+                animation-delay: 1s;
+            }
+
+            .voltage-button .dots .dot-4 {
+                bottom: 0;
+                left: 30%;
+                animation: fly-down 3s linear infinite;
+                animation-delay: 2.5s;
+            }
+
+            .voltage-button .dots .dot-5 {
+                bottom: 0;
+                left: 65%;
+                animation: fly-down 3s linear infinite;
+                animation-delay: 1.5s;
+            }
+
+    @@keyframes spark-1 {
+        to
+
+    {
+        stroke-dashoffset: -1000;
+    }
+
+    }
+
+    @@keyframes spark-2 {
+        to
+
+    {
+        stroke-dashoffset: -500;
+    }
+
+    }
+
+    @@keyframes fly-up {
+        0%
+
+    {
+        opacity: 0;
+        transform: translateY(0) scale(0.2);
+    }
+
+    5% {
+        opacity: 1;
+        transform: translateY(-1.5rem) scale(0.4);
+    }
+
+    10%, 100% {
+        opacity: 0;
+        transform: translateY(-3rem) scale(0.2);
+    }
+
+    }
+
+     @@keyframes fly-down {
+        0%
+
+    {
+        opacity: 0;
+        transform: translateY(0) scale(0.2);
+    }
+
+    5% {
+        opacity: 1;
+        transform: translateY(1.5rem) scale(0.4);
+    }
+
+    10%, 100% {
+        opacity: 0;
+        transform: translateY(3rem) scale(0.2);
+    }
+
+    }
+/*     .voltage-button svg {
+    width: 100%;
+    height: 100%;
+    fill: var(--main-color);
+    transition: all 0.3s;
+} */
+
+.voltage-button:hover {
+    transform: translateY(-3px);
+}
+
+.voltage-button:hover {
+    border: 2px solid var(--main-focus);
+}
+
+    .voltage-buttonhover svg {
+        fill: var(--main-focus);
+    }
+
+.voltage-button:active {
+    transform: translateY(3px);
+}
+
+
+
+
+    /* From Uiverse.io by adamgiebl */
+    button {
+        font-family: inherit;
+        font-size: 20px;
+        background: green;
+        color: white;
+        padding: 0.7em 1em;
+        padding-left: 0.9em;
+        display: flex;
+        align-items: center;
+        border: none;
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+
+        #olaa span {
+            display: block;
+            margin-left: 0.3em;
+            transition: all 0.3s ease-in-out;
+        }
+
+    #olaa svg {
+            display: block;
+            transform-origin: center center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+    #olaa:hover .svg-wrapper {
+            animation: fly-1 0.6s ease-in-out infinite alternate;
+        }
+
+    #olaa:hover svg {
+            transform: translateX(1.2em) rotate(45deg) scale(1.1);
+        }
+
+    #olaa:hover span {
+            transform: translateX(5em);
+        }
+
+    #olaa:active {
+            transform: scale(0.95);
+        }
+
+    @@keyframes fly-1 {
+        from
+
+    {
+        transform: translateY(0.1em);
+    }
+
+    to {
+        transform: translateY(-0.1em);
+    }
+
+    }
+</style>
 <div class="container bg-light py-3">
    
         <div class="row align-items-end">
@@ -26,19 +278,82 @@
             </div>
 
             <div class="col-12 col-md-3 mb-3 d-flex align-items-end">
-                <button type="submit" onclick="buscar()" class="btn btn-primary w-100">
-                  @*   <i class="bi bi-search"></i> Buscar *@
-                <i class="animation bi bi-search"> Buscar</i><i class="animation"></i>
+       @*          <button type="submit" onclick="buscar()" class="btn btn-outline-primary w-100">
+                    <i class="bi bi-search"></i> Buscar *@
+               @*  <i class="animation bi bi-search"> Buscar</i><i class="animation"></i> *@
+       @*          </button> *@
+
+
+            <div class="voltage-button w-100" id="bus">
+                <button type="submit" onclick="buscar()" class="btn btn-outline-primary w-100">
+                    <i class="bi bi-search"></i> Buscar
                 </button>
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 234.6 61.3" preserveAspectRatio="none" xml:space="preserve">
+
+                <filter id="glow">
+                <feGaussianBlur class="blur" result="coloredBlur" stdDeviation="2"></feGaussianBlur>
+                <feTurbulence type="fractalNoise" baseFrequency="0.075" numOctaves="0.3" result="turbulence"></feTurbulence>
+                <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="30" xChannelSelector="R" yChannelSelector="G" result="displace"></feDisplacementMap>
+                <feMerge>
+                <feMergeNode in="coloredBlur"></feMergeNode>
+                <feMergeNode in="coloredBlur"></feMergeNode>
+                <feMergeNode in="coloredBlur"></feMergeNode>
+                <feMergeNode in="displace"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+      </feMerge>
+    </filter>
+                <path class="voltage line-1" d="m216.3 51.2c-3.7 0-3.7-1.1-7.3-1.1-3.7 0-3.7 6.8-7.3 6.8-3.7 0-3.7-4.6-7.3-4.6-3.7 0-3.7 3.6-7.3 3.6-3.7 0-3.7-0.9-7.3-0.9-3.7 0-3.7-2.7-7.3-2.7-3.7 0-3.7 7.8-7.3 7.8-3.7 0-3.7-4.9-7.3-4.9-3.7 0-3.7-7.8-7.3-7.8-3.7 0-3.7-1.1-7.3-1.1-3.7 0-3.7 3.1-7.3 3.1-3.7 0-3.7 10.9-7.3 10.9-3.7 0-3.7-12.5-7.3-12.5-3.7 0-3.7 4.6-7.3 4.6-3.7 0-3.7 4.5-7.3 4.5-3.7 0-3.7 3.6-7.3 3.6-3.7 0-3.7-10-7.3-10-3.7 0-3.7-0.4-7.3-0.4-3.7 0-3.7 2.3-7.3 2.3-3.7 0-3.7 7.1-7.3 7.1-3.7 0-3.7-11.2-7.3-11.2-3.7 0-3.7 3.5-7.3 3.5-3.7 0-3.7 3.6-7.3 3.6-3.7 0-3.7-2.9-7.3-2.9-3.7 0-3.7 8.4-7.3 8.4-3.7 0-3.7-14.6-7.3-14.6-3.7 0-3.7 5.8-7.3 5.8-2.2 0-3.8-0.4-5.5-1.5-1.8-1.1-1.8-2.9-2.9-4.8-1-1.8 1.9-2.7 1.9-4.8 0-3.4-2.1-3.4-2.1-6.8s-9.9-3.4-9.9-6.8 8-3.4 8-6.8c0-2.2 2.1-2.4 3.1-4.2 1.1-1.8 0.2-3.9 2-5 1.8-1 3.1-7.9 5.3-7.9 3.7 0 3.7 0.9 7.3 0.9 3.7 0 3.7 6.7 7.3 6.7 3.7 0 3.7-1.8 7.3-1.8 3.7 0 3.7-0.6 7.3-0.6 3.7 0 3.7-7.8 7.3-7.8h7.3c3.7 0 3.7 4.7 7.3 4.7 3.7 0 3.7-1.1 7.3-1.1 3.7 0 3.7 11.6 7.3 11.6 3.7 0 3.7-2.6 7.3-2.6 3.7 0 3.7-12.9 7.3-12.9 3.7 0 3.7 10.9 7.3 10.9 3.7 0 3.7 1.3 7.3 1.3 3.7 0 3.7-8.7 7.3-8.7 3.7 0 3.7 11.5 7.3 11.5 3.7 0 3.7-1.4 7.3-1.4 3.7 0 3.7-2.6 7.3-2.6 3.7 0 3.7-5.8 7.3-5.8 3.7 0 3.7-1.3 7.3-1.3 3.7 0 3.7 6.6 7.3 6.6s3.7-9.3 7.3-9.3c3.7 0 3.7 0.2 7.3 0.2 3.7 0 3.7 8.5 7.3 8.5 3.7 0 3.7 0.2 7.3 0.2 3.7 0 3.7-1.5 7.3-1.5 3.7 0 3.7 1.6 7.3 1.6s3.7-5.1 7.3-5.1c2.2 0 0.6 9.6 2.4 10.7s4.1-2 5.1-0.1c1 1.8 10.3 2.2 10.3 4.3 0 3.4-10.7 3.4-10.7 6.8s1.2 3.4 1.2 6.8 1.9 3.4 1.9 6.8c0 2.2 7.2 7.7 6.2 9.5-1.1 1.8-12.3-6.5-14.1-5.5-1.7 0.9-0.1 6.2-2.2 6.2z" fill="transparent" stroke="#fff"></path>
+                <path class="voltage line-2" d="m216.3 52.1c-3 0-3-0.5-6-0.5s-3 3-6 3-3-2-6-2-3 1.6-6 1.6-3-0.4-6-0.4-3-1.2-6-1.2-3 3.4-6 3.4-3-2.2-6-2.2-3-3.4-6-3.4-3-0.5-6-0.5-3 1.4-6 1.4-3 4.8-6 4.8-3-5.5-6-5.5-3 2-6 2-3 2-6 2-3 1.6-6 1.6-3-4.4-6-4.4-3-0.2-6-0.2-3 1-6 1-3 3.1-6 3.1-3-4.9-6-4.9-3 1.5-6 1.5-3 1.6-6 1.6-3-1.3-6-1.3-3 3.7-6 3.7-3-6.4-6-6.4-3 2.5-6 2.5h-6c-3 0-3-0.6-6-0.6s-3-1.4-6-1.4-3 0.9-6 0.9-3 4.3-6 4.3-3-3.5-6-3.5c-2.2 0-3.4-1.3-5.2-2.3-1.8-1.1-3.6-1.5-4.6-3.3s-4.4-3.5-4.4-5.7c0-3.4 0.4-3.4 0.4-6.8s2.9-3.4 2.9-6.8-0.8-3.4-0.8-6.8c0-2.2 0.3-4.2 1.3-5.9 1.1-1.8 0.8-6.2 2.6-7.3 1.8-1 5.5-2 7.7-2 3 0 3 2 6 2s3-0.5 6-0.5 3 5.1 6 5.1 3-1.1 6-1.1 3-5.6 6-5.6 3 4.8 6 4.8 3 0.6 6 0.6 3-3.8 6-3.8 3 5.1 6 5.1 3-0.6 6-0.6 3-1.2 6-1.2 3-2.6 6-2.6 3-0.6 6-0.6 3 2.9 6 2.9 3-4.1 6-4.1 3 0.1 6 0.1 3 3.7 6 3.7 3 0.1 6 0.1 3-0.6 6-0.6 3 0.7 6 0.7 3-2.2 6-2.2 3 4.4 6 4.4 3-1.7 6-1.7 3-4 6-4 3 4.7 6 4.7 3-0.5 6-0.5 3-0.8 6-0.8 3-3.8 6-3.8 3 6.3 6 6.3 3-4.8 6-4.8 3 1.9 6 1.9 3-1.9 6-1.9 3 1.3 6 1.3c2.2 0 5-0.5 6.7 0.5 1.8 1.1 2.4 4 3.5 5.8 1 1.8 0.3 3.7 0.3 5.9 0 3.4 3.4 3.4 3.4 6.8s-3.3 3.4-3.3 6.8 4 3.4 4 6.8c0 2.2-6 2.7-7 4.4-1.1 1.8 1.1 6.7-0.7 7.7-1.6 0.8-4.7-1.1-6.8-1.1z" fill="transparent" stroke="#fff"></path>
+  </svg>
+                <div class="dots">
+                    <div class="dot dot-1"></div>
+                    <div class="dot dot-2"></div>
+                    <div class="dot dot-3"></div>
+                    <div class="dot dot-4"></div>
+                    <div class="dot dot-5"></div>
+                </div>
+            </div>
             </div>
 
             <div class="col-12 col-md-3 mb-3 d-flex align-items-end">
-            <button type="button" class="btn btn-success w-100" onclick="showModal()" data-bs-target="#exampleModal">
-           @*      Agregar Productos <i class="bi bi-plus-circle"></i> *@
+     @*        <button type="button" class="btn btn-outline-success w-100" onclick="showModal()" data-bs-target="#exampleModal">
+                Agregar Productos <i class="bi bi-plus-circle"></i> *@
 
-                <i class="animation bi-plus-circle"> Agregar Productos</i><i class="animation"></i>
-            </button>
+@*                 <i class="animation bi-plus-circle"> Agregar Productos</i><i class="animation"></i> *@
+       @*      </button> *@
+
+            <div class="voltage-button w-100" id="agr">
+
+                <button type="button" class="btn btn-outline-success w-100" onclick="showModal()" data-bs-target="#exampleModal">
+                    Agregar Productos <i class="bi bi-plus-circle"></i>
+                </button>
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 234.6 61.3" preserveAspectRatio="none" xml:space="preserve">
+
+                <filter id="glow">
+                <feGaussianBlur class="blur" result="coloredBlur" stdDeviation="2"></feGaussianBlur>
+                <feTurbulence type="fractalNoise" baseFrequency="0.075" numOctaves="0.3" result="turbulence"></feTurbulence>
+                <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="30" xChannelSelector="R" yChannelSelector="G" result="displace"></feDisplacementMap>
+                <feMerge>
+                <feMergeNode in="coloredBlur"></feMergeNode>
+                <feMergeNode in="coloredBlur"></feMergeNode>
+                <feMergeNode in="coloredBlur"></feMergeNode>
+                <feMergeNode in="displace"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+      </feMerge>
+    </filter>
+                <path class="voltage line-1" d="m216.3 51.2c-3.7 0-3.7-1.1-7.3-1.1-3.7 0-3.7 6.8-7.3 6.8-3.7 0-3.7-4.6-7.3-4.6-3.7 0-3.7 3.6-7.3 3.6-3.7 0-3.7-0.9-7.3-0.9-3.7 0-3.7-2.7-7.3-2.7-3.7 0-3.7 7.8-7.3 7.8-3.7 0-3.7-4.9-7.3-4.9-3.7 0-3.7-7.8-7.3-7.8-3.7 0-3.7-1.1-7.3-1.1-3.7 0-3.7 3.1-7.3 3.1-3.7 0-3.7 10.9-7.3 10.9-3.7 0-3.7-12.5-7.3-12.5-3.7 0-3.7 4.6-7.3 4.6-3.7 0-3.7 4.5-7.3 4.5-3.7 0-3.7 3.6-7.3 3.6-3.7 0-3.7-10-7.3-10-3.7 0-3.7-0.4-7.3-0.4-3.7 0-3.7 2.3-7.3 2.3-3.7 0-3.7 7.1-7.3 7.1-3.7 0-3.7-11.2-7.3-11.2-3.7 0-3.7 3.5-7.3 3.5-3.7 0-3.7 3.6-7.3 3.6-3.7 0-3.7-2.9-7.3-2.9-3.7 0-3.7 8.4-7.3 8.4-3.7 0-3.7-14.6-7.3-14.6-3.7 0-3.7 5.8-7.3 5.8-2.2 0-3.8-0.4-5.5-1.5-1.8-1.1-1.8-2.9-2.9-4.8-1-1.8 1.9-2.7 1.9-4.8 0-3.4-2.1-3.4-2.1-6.8s-9.9-3.4-9.9-6.8 8-3.4 8-6.8c0-2.2 2.1-2.4 3.1-4.2 1.1-1.8 0.2-3.9 2-5 1.8-1 3.1-7.9 5.3-7.9 3.7 0 3.7 0.9 7.3 0.9 3.7 0 3.7 6.7 7.3 6.7 3.7 0 3.7-1.8 7.3-1.8 3.7 0 3.7-0.6 7.3-0.6 3.7 0 3.7-7.8 7.3-7.8h7.3c3.7 0 3.7 4.7 7.3 4.7 3.7 0 3.7-1.1 7.3-1.1 3.7 0 3.7 11.6 7.3 11.6 3.7 0 3.7-2.6 7.3-2.6 3.7 0 3.7-12.9 7.3-12.9 3.7 0 3.7 10.9 7.3 10.9 3.7 0 3.7 1.3 7.3 1.3 3.7 0 3.7-8.7 7.3-8.7 3.7 0 3.7 11.5 7.3 11.5 3.7 0 3.7-1.4 7.3-1.4 3.7 0 3.7-2.6 7.3-2.6 3.7 0 3.7-5.8 7.3-5.8 3.7 0 3.7-1.3 7.3-1.3 3.7 0 3.7 6.6 7.3 6.6s3.7-9.3 7.3-9.3c3.7 0 3.7 0.2 7.3 0.2 3.7 0 3.7 8.5 7.3 8.5 3.7 0 3.7 0.2 7.3 0.2 3.7 0 3.7-1.5 7.3-1.5 3.7 0 3.7 1.6 7.3 1.6s3.7-5.1 7.3-5.1c2.2 0 0.6 9.6 2.4 10.7s4.1-2 5.1-0.1c1 1.8 10.3 2.2 10.3 4.3 0 3.4-10.7 3.4-10.7 6.8s1.2 3.4 1.2 6.8 1.9 3.4 1.9 6.8c0 2.2 7.2 7.7 6.2 9.5-1.1 1.8-12.3-6.5-14.1-5.5-1.7 0.9-0.1 6.2-2.2 6.2z" fill="transparent" stroke="#fff"></path>
+                <path class="voltage line-2" d="m216.3 52.1c-3 0-3-0.5-6-0.5s-3 3-6 3-3-2-6-2-3 1.6-6 1.6-3-0.4-6-0.4-3-1.2-6-1.2-3 3.4-6 3.4-3-2.2-6-2.2-3-3.4-6-3.4-3-0.5-6-0.5-3 1.4-6 1.4-3 4.8-6 4.8-3-5.5-6-5.5-3 2-6 2-3 2-6 2-3 1.6-6 1.6-3-4.4-6-4.4-3-0.2-6-0.2-3 1-6 1-3 3.1-6 3.1-3-4.9-6-4.9-3 1.5-6 1.5-3 1.6-6 1.6-3-1.3-6-1.3-3 3.7-6 3.7-3-6.4-6-6.4-3 2.5-6 2.5h-6c-3 0-3-0.6-6-0.6s-3-1.4-6-1.4-3 0.9-6 0.9-3 4.3-6 4.3-3-3.5-6-3.5c-2.2 0-3.4-1.3-5.2-2.3-1.8-1.1-3.6-1.5-4.6-3.3s-4.4-3.5-4.4-5.7c0-3.4 0.4-3.4 0.4-6.8s2.9-3.4 2.9-6.8-0.8-3.4-0.8-6.8c0-2.2 0.3-4.2 1.3-5.9 1.1-1.8 0.8-6.2 2.6-7.3 1.8-1 5.5-2 7.7-2 3 0 3 2 6 2s3-0.5 6-0.5 3 5.1 6 5.1 3-1.1 6-1.1 3-5.6 6-5.6 3 4.8 6 4.8 3 0.6 6 0.6 3-3.8 6-3.8 3 5.1 6 5.1 3-0.6 6-0.6 3-1.2 6-1.2 3-2.6 6-2.6 3-0.6 6-0.6 3 2.9 6 2.9 3-4.1 6-4.1 3 0.1 6 0.1 3 3.7 6 3.7 3 0.1 6 0.1 3-0.6 6-0.6 3 0.7 6 0.7 3-2.2 6-2.2 3 4.4 6 4.4 3-1.7 6-1.7 3-4 6-4 3 4.7 6 4.7 3-0.5 6-0.5 3-0.8 6-0.8 3-3.8 6-3.8 3 6.3 6 6.3 3-4.8 6-4.8 3 1.9 6 1.9 3-1.9 6-1.9 3 1.3 6 1.3c2.2 0 5-0.5 6.7 0.5 1.8 1.1 2.4 4 3.5 5.8 1 1.8 0.3 3.7 0.3 5.9 0 3.4 3.4 3.4 3.4 6.8s-3.3 3.4-3.3 6.8 4 3.4 4 6.8c0 2.2-6 2.7-7 4.4-1.1 1.8 1.1 6.7-0.7 7.7-1.6 0.8-4.7-1.1-6.8-1.1z" fill="transparent" stroke="#fff"></path>
+  </svg>
+                <div class="dots">
+                    <div class="dot dot-1"></div>
+                    <div class="dot dot-2"></div>
+                    <div class="dot dot-3"></div>
+                    <div class="dot dot-4"></div>
+                    <div class="dot dot-5"></div>
+                </div>
             </div>
+            </div>
+
         </div>
 
 </div>
@@ -96,19 +411,41 @@
                                    </div>
                             <br />
                             <div class="row">
+                                <div class="card-img">
                             <div class="text-center">
                                 <img id="imgInput" class="rounded img-thumbnail" src="~/DProduct.jpg" style="max-width: 200px; height: auto;" />
                             </div>
                                 <input type="hidden" id="hiddenImagen" name="Imagen" />
+                                    </div>
                         </div>
                         </div>
-                    </div> <br />
-                    <button type="submit" class="button-confirm">Enviar</button>
+                    </div> 
+
+                    <!-- From Uiverse.io by adamgiebl -->
+                    <button id="olaa" type="submit" class="button-confirm">
+                        <div class="svg-wrapper-1">
+                            <div class="svg-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 24 24"
+                                     width="24"
+                                     height="24">
+                                    <path fill="none" d="M0 0h24v24H0z"></path>
+                                    <path fill="currentColor"
+                                          d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <span>Enviar</span>
+                    </button>
+
+                    
                 </form>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button class="btn close" data-bs-dismiss="modal"> Close
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"></path></svg>
+                </button>
             </div>
         </div>
     </div>
