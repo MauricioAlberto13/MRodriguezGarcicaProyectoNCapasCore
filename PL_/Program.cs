@@ -20,10 +20,22 @@ builder.Services.AddScoped<BL.Producto>();
 builder.Services.AddScoped<BL.SubCategoria>();
 builder.Services.AddScoped<BL.Categoria>();
 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(20);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true; 
+});
+builder.Services.AddControllers();
+
+
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
+app.UseSession();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -31,6 +43,7 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 
 app.UseRouting();
+
 
 app.UseAuthorization();
 

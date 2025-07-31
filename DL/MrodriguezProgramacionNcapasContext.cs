@@ -36,6 +36,7 @@ public partial class MrodriguezProgramacionNcapasContext : DbContext
     public virtual DbSet<VwProductosGetAll> VwProductosGetAlls { get; set; }
 
     public virtual DbSet<VwUsuarioGetAll> VwUsuarioGetAlls { get; set; }
+    public virtual DbSet<LoginDTO> LoginDTOs { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -299,6 +300,12 @@ public partial class MrodriguezProgramacionNcapasContext : DbContext
             entity.Property(e => e.UserName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+        });
+
+
+        modelBuilder.Entity<LoginDTO>(entity =>
+        {
+            entity.HasNoKey();
         });
 
         OnModelCreatingPartial(modelBuilder);
