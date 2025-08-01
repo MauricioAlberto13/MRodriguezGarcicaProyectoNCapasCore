@@ -19,6 +19,7 @@ namespace SL_WebApi.Controllers
             _BLlogin = BLlogin;
         }
 
+
         [HttpPost("LoginUsuario")]
         public IActionResult Login([FromBody] ML.Login login)
         {
@@ -31,12 +32,14 @@ namespace SL_WebApi.Controllers
                 usuario = (ML.Usuario)result.Object;
                 var token = GenerateJwtToken(usuario);
 
+
                 return Ok(new { token });
+
             }
             else
             {
-            
-            
+
+
                 return BadRequest(result);
 
             }
@@ -65,5 +68,7 @@ namespace SL_WebApi.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+
     }
 }

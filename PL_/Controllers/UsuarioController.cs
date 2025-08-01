@@ -12,6 +12,9 @@ using Azure.Core;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using System.Net.Http.Headers;
+using System.Net.Http;
 namespace PL_.Controllers
 {
     public class UsuarioController : Controller
@@ -35,46 +38,12 @@ namespace PL_.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult Login()
-        {
 
-
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Login(ML.Login login)
-        {
-            ML.Result result = LoginUsuario(login);
-
-            if ((bool)result.Correct)
-            {
-          
-                return RedirectToAction("GetAll");
-            }
-            return null;
-        }
 
         [HttpGet]
+        [Authorize]
         public IActionResult GetAll()
         {
-
-            //ML.Usuario usuario = new ML.Usuario();
-            ////ML.Result result = _restaurante.GetAll();
-            //ML.Result result = _usuario.GetAll();
-            //if (result.Correct.HasValue)
-            //{
-            //    usuario.Usuarios = result.Objects;
-            //}
-            //return View(usuario);
-
-
-            //var dato = HttpContext.Session.GetString("MiDato");
-            //if (dato == null)
-            //{
-            //    return NotFound("Dato no encontrado en la sesión");
-            //}
             ML.Usuario usuario = new ML.Usuario();
             usuario.Nombre = "";
             usuario.ApellidoPaterno = "";
@@ -97,10 +66,10 @@ namespace PL_.Controllers
 
 
         [NonAction]
+
         public ML.Result GetAllRest()
         {
             ML.Result result = new ML.Result();
-            var dato = HttpContext.Session.GetString("MiDato");
 
             result.Objects = new List<Object>();
             try
@@ -110,7 +79,12 @@ namespace PL_.Controllers
 
 
                     client.BaseAddress = new Uri(_usuarioEndpoint);
-                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", dato);
+                    var token = Request.Cookies["session"];
+
+                    client.DefaultRequestHeaders.Add("Authorization","Bearer "+ token);
+
+    //                client.DefaultRequestHeaders.Authorization =
+    //new AuthenticationHeaderValue("Bearer", token);
                     var responseTask = client.GetAsync("GetAll");
 
 
@@ -144,6 +118,7 @@ namespace PL_.Controllers
 
 
         [HttpPost]
+ 
         public IActionResult GetAll(ML.Usuario usuario, IFormFile archivo, string validar)
         {
             //if (usuario.Rol == null)
@@ -668,45 +643,83 @@ namespace PL_.Controllers
 
 
 
-        [NonAction]
-        public ML.Result LoginUsuario(ML.Login login)
-        {
-            ML.Result resultToken = new ML.Result();
+        //[NonAction]
+        //public ML.Result LoginUsuario(ML.Login login)
+        //{
+        //    ML.Result resultToken = new ML.Result();
 
-            using (var client = new HttpClient())
-            {
+        //    using (var client = new HttpClient())
+        //    {
 
-                // client.BaseAddress = new Uri(_usuarioEndpoint);
+        //        // client.BaseAddress = new Uri(_usuarioEndpoint);
 
-                //string Endpoint = ("http://localhost:5052/api/Usuario/");
-                string Endpoint = (_usuarioEndpoint);
-                client.BaseAddress = new Uri(Endpoint);
-                //HTTP POST($"GetById/{IdUsuario}");
-                //HTTP POST            
+        //        //string Endpoint = ("http://localhost:5052/api/Usuario/");
+        //        string Endpoint = (_usuarioEndpoint);
+        //        client.BaseAddress = new Uri(Endpoint);
+        //        //HTTP POST($"GetById/{IdUsuario}");
+        //        //HTTP POST            
 
-                //var postTask = client.PostAsJsonAsync();
-                var postTask = client.PostAsJsonAsync<ML.Login>("LoginUsuario", login);
-                //var postTask = client.PostAsJsonAsync<ML.Login>("http://localhost:5052/api/Login/LoginUsuario/", {login.Email});
-                //var postTask = client.PostAsJsonAsync("BusquedaAbierta", login.Email,login.Password);            
-                //var postTask = client.PostAsJsonAsync($"LoginUsuario/{login}");
-                //Serializar
-                postTask.Wait();
+        //        //var postTask = client.PostAsJsonAsync();
+        //        var postTask = client.PostAsJsonAsync<ML.Login>("LoginUsuario", login);
+        //        //var postTask = client.PostAsJsonAsync<ML.Login>("http://localhost:5052/api/Login/LoginUsuario/", {login.Email});
+        //        //var postTask = client.PostAsJsonAsync("BusquedaAbierta", login.Email,login.Password);            
+        //        //var postTask = client.PostAsJsonAsync($"LoginUsuario/{login}");
+        //        //Serializar
+        //        postTask.Wait();
 
 
 
-                var result = postTask.Result;
-                if (result.IsSuccessStatusCode)
-                {
-                    resultToken.Correct = true;
-                }
-                else
-                {
-                    resultToken.Correct = false;
-                }
-            }
+        //        var result = postTask.Result;
+        //        if (result.IsSuccessStatusCode)
+        //        {
+        //            resultToken.Correct = true;
+        //        }
+        //        else
+        //        {
+        //            resultToken.Correct = false;
+        //        }
+        //    }
 
-            return resultToken;
-        }
+        //    return resultToken;
+        //}        //[NonAction]
+        //public ML.Result LoginUsuario(ML.Login login)
+        //{
+        //    ML.Result resultToken = new ML.Result();
+
+        //    using (var client = new HttpClient())
+        //    {
+
+        //        // client.BaseAddress = new Uri(_usuarioEndpoint);
+
+        //        //string Endpoint = ("http://localhost:5052/api/Usuario/");
+        //        string Endpoint = (_usuarioEndpoint);
+        //        client.BaseAddress = new Uri(Endpoint);
+        //        //HTTP POST($"GetById/{IdUsuario}");
+        //        //HTTP POST            
+
+        //        //var postTask = client.PostAsJsonAsync();
+        //        var postTask = client.PostAsJsonAsync<ML.Login>("LoginUsuario", login);
+        //        //var postTask = client.PostAsJsonAsync<ML.Login>("http://localhost:5052/api/Login/LoginUsuario/", {login.Email});
+        //        //var postTask = client.PostAsJsonAsync("BusquedaAbierta", login.Email,login.Password);            
+        //        //var postTask = client.PostAsJsonAsync($"LoginUsuario/{login}");
+        //        //Serializar
+        //        postTask.Wait();
+
+
+
+        //        var result = postTask.Result;
+        //        if (result.IsSuccessStatusCode)
+        //        {
+        //            resultToken.Correct = true;
+        //        }
+        //        else
+        //        {
+        //            resultToken.Correct = false;
+        //        }
+        //    }
+
+        //    return resultToken;
+        //}
 
     }
 }

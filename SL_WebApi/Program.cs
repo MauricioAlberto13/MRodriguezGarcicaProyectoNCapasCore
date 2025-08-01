@@ -7,6 +7,7 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// Add services to the container.
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -19,6 +20,30 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidIssuer = "yourdomain.com",
             ValidAudience = "yourdomain.com",
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("69a0921dee7f1e1fd8e995619945c803"))
+        };
+
+
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                if (context.Request.Cookies.ContainsKey("session"))
+                {
+                    context.Token = context.Request.Cookies["session"];
+                }
+                return Task.CompletedTask;
+            },
+            OnChallenge = context => //401
+            {
+                context.HandleResponse();
+                context.Response.Redirect("/Login/Login");
+                return Task.CompletedTask;
+            },
+            OnForbidden = context => //403
+            {
+                context.Response.Redirect("/Home/AccessDenied"); // Redirige si no tiene permisos (403)
+                return Task.CompletedTask;
+            }
         };
     });
 
@@ -40,16 +65,6 @@ builder.Services.AddScoped<BL.Login>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromMinutes(20);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-});
-builder.Services.AddControllers();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -58,9 +73,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-
-app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
