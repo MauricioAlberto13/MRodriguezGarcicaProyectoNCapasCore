@@ -48,9 +48,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-
 builder.Services.AddControllers();
-
 var conString = builder.Configuration.GetConnectionString("MRodriguezProgramacionNCapas");
 //Aqui es para agregar la conecxion de app seting
 builder.Services.AddDbContext<MrodriguezProgramacionNcapasContext>(options =>

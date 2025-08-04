@@ -26,7 +26,7 @@ namespace SL_WebApi.Controllers
 
             ML.Usuario usuario = new ML.Usuario();
             ML.Result result = _BLlogin.Loggin(login);
-            if (result.Correct.HasValue)
+            if ((bool)result.Correct)
             {
 
                 usuario = (ML.Usuario)result.Object;
@@ -38,7 +38,7 @@ namespace SL_WebApi.Controllers
             }
             else
             {
-
+         
 
                 return BadRequest(result);
 
@@ -47,7 +47,7 @@ namespace SL_WebApi.Controllers
 
         private string GenerateJwtToken(ML.Usuario usuario)
         {
-            //usuario.Rol = new ML.Rol();
+
             var claims = new[]
             {
                 new Claim(ClaimTypes.Role, usuario.Rol.NombreR),
@@ -63,7 +63,7 @@ namespace SL_WebApi.Controllers
                 issuer: "yourdomain.com",
                 audience: "yourdomain.com",
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.Now.AddMinutes(5),
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
