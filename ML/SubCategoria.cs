@@ -8,7 +8,7 @@ namespace ML
 {
     public class SubCategoria
     {
-        public int IdSubCategoria { get; set; }
+        public int? IdSubCategoria { get; set; }
         public string? Nombre { get; set; }
         public ML.Categoria? Categoria { get; set; }
 

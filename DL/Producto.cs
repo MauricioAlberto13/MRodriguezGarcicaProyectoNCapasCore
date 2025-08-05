@@ -18,4 +18,6 @@ public partial class Producto
     public int? IdSubCategoria { get; set; }
 
     public virtual SubCategorium? IdSubCategoriaNavigation { get; set; }
+
+    public virtual ICollection<ProductoSucursal> ProductoSucursals { get; set; } = new List<ProductoSucursal>();
 }

@@ -62,6 +62,8 @@ builder.Services.AddScoped<BL.Estado>();
 builder.Services.AddScoped<BL.Producto>();
 builder.Services.AddScoped<BL.SubCategoria>();
 builder.Services.AddScoped<BL.Categoria>();
+builder.Services.AddScoped<BL.Sucursal>();
+builder.Services.AddScoped<BL.ProductoSucursal>();
 
 
 var app = builder.Build();

@@ -27,20 +27,26 @@ public partial class MrodriguezProgramacionNcapasContext : DbContext
 
     public virtual DbSet<Producto> Productos { get; set; }
 
+    public virtual DbSet<ProductoSucursal> ProductoSucursals { get; set; }
+
     public virtual DbSet<Rol> Rols { get; set; }
 
     public virtual DbSet<SubCategorium> SubCategoria { get; set; }
 
+    public virtual DbSet<Sucursal> Sucursals { get; set; }
+
     public virtual DbSet<Usuario> Usuarios { get; set; }
+    public virtual DbSet<LoginDTO> LoginDTOs{ get; set; }
 
     public virtual DbSet<VwProductosGetAll> VwProductosGetAlls { get; set; }
 
-    public virtual DbSet<VwUsuarioGetAll> VwUsuarioGetAlls { get; set; }
-    public virtual DbSet<LoginDTO> LoginDTOs { get; set; }
+    public virtual DbSet<VwSucursalGetAll> VwSucursalGetAlls { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=.; Database=MRodriguezProgramacionNCapas; TrustServerCertificate=True; User ID=sa; Password=pass@word1;");
+    public virtual DbSet<VwUsuarioGetAll> VwUsuarioGetAlls { get; set; }
+
+//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+//        => optionsBuilder.UseSqlServer("Server=.; Database=MRodriguezProgramacionNCapas; TrustServerCertificate=True; User ID=sa; Password=pass@word1;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -102,6 +108,9 @@ public partial class MrodriguezProgramacionNcapasContext : DbContext
             entity.ToTable("Estado");
 
             entity.Property(e => e.IdEstado).ValueGeneratedNever();
+            entity.Property(e => e.Inicial)
+                .HasMaxLength(10)
+                .IsUnicode(false);
             entity.Property(e => e.Nombre)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -142,6 +151,21 @@ public partial class MrodriguezProgramacionNcapasContext : DbContext
                 .HasConstraintName("FK__Producto__IdSubC__40F9A68C");
         });
 
+        modelBuilder.Entity<ProductoSucursal>(entity =>
+        {
+            entity.HasKey(e => e.IdProductoSucursal).HasName("PK__Producto__2A0978AD61C58EBE");
+
+            entity.ToTable("ProductoSucursal");
+
+            entity.HasOne(d => d.IdProductoNavigation).WithMany(p => p.ProductoSucursals)
+                .HasForeignKey(d => d.IdProducto)
+                .HasConstraintName("FK__ProductoS__IdPro__05A3D694");
+
+            entity.HasOne(d => d.IdSucursalNavigation).WithMany(p => p.ProductoSucursals)
+                .HasForeignKey(d => d.IdSucursal)
+                .HasConstraintName("FK__ProductoS__IdSuc__0697FACD");
+        });
+
         modelBuilder.Entity<Rol>(entity =>
         {
             entity.HasKey(e => e.IdRol).HasName("PK__Rol__2A49584C005C58BE");
@@ -164,6 +188,23 @@ public partial class MrodriguezProgramacionNcapasContext : DbContext
             entity.HasOne(d => d.IdCategoriaNavigation).WithMany(p => p.SubCategoria)
                 .HasForeignKey(d => d.IdCategoria)
                 .HasConstraintName("FK__SubCatego__IdCat__3E1D39E1");
+        });
+
+        modelBuilder.Entity<Sucursal>(entity =>
+        {
+            entity.HasKey(e => e.IdSucursal).HasName("PK__Sucursal__BFB6CD9983B3645D");
+
+            entity.ToTable("Sucursal");
+
+            entity.Property(e => e.Latitud)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Longitud)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Nombre)
+                .HasMaxLength(100)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<Usuario>(entity =>
@@ -231,6 +272,26 @@ public partial class MrodriguezProgramacionNcapasContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Precio).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.SubCategoria)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<VwSucursalGetAll>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("vwSucursalGetAlls");
+
+            entity.Property(e => e.Latitud)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Longitud)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Producto)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.Sucursal)
                 .HasMaxLength(100)
                 .IsUnicode(false);
         });
@@ -303,10 +364,14 @@ public partial class MrodriguezProgramacionNcapasContext : DbContext
         });
 
 
+
         modelBuilder.Entity<LoginDTO>(entity =>
         {
-            entity.HasNoKey();
+            entity
+                .HasNoKey();
+
         });
+
 
         OnModelCreatingPartial(modelBuilder);
     }
