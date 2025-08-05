@@ -1,4 +1,5 @@
-﻿@*
+﻿@using System.Security.Claims
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -66,9 +67,9 @@
                 <div class="col-3">
                     @Html.LabelFor(Model => Model.Rol.IdRol)
                     @Html.DropDownListFor(Model => Model.Rol.IdRol,
-                             new SelectList(Model.Rol.Roles, "IdRol", "NombreR"),
-                             "Selecciona un rol",
-                             new { @class = "form-control" })
+                                               new SelectList(Model.Rol.Roles, "IdRol", "NombreR"),
+                                               "Selecciona un rol",
+                                               new { @class = "form-control" })
                 </div>
 
                 <div class="col-3">
@@ -123,7 +124,7 @@
                     </button>
                 </div>
 
-               
+
             </div>
 
         }
@@ -149,70 +150,95 @@
 
 
             @if (Model.Usuarios != null)
-                {
-            <div class="table-responsive">
-                <table class="table table-hover">
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover">
 
-                    <thead>
-                        <tr>
-                            <th scope="col">Eliminar</th>
-                            <th scope="col">Actualizar</th>
-                            <th scope="col">Imagen</th>
-                            <th scope="col">IdUsuario</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Username</th>
-                            <th scope="col">Apellido paterno</th>
-                            <th scope="col">Apellido materno</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Password</th>
-                            <th scope="col">Sexo</th>
-                            <th scope="col">Telefono</th>
-                            <th scope="col">Celular</th>
-                            <th scope="col">Fecha</th>
-                            <th scope="col">CURP</th>
-                            <th scope="col">Rol</th>
+                        <thead>
+                            <tr>
+                                @if (User.FindFirst(ClaimTypes.Role)?.Value! == "Administrador")
+                                {
+                                    <th scope="col">Eliminar</th>
+                                    <th scope="col">Actualizar</th>
+                                }
+                                else
+                                {
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                
+                                }
+                                <th scope="col">Imagen</th>
+                                <th scope="col">IdUsuario</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Username</th>
+                                <th scope="col">Apellido paterno</th>
+                                <th scope="col">Apellido materno</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Password</th>
+                                <th scope="col">Sexo</th>
+                                <th scope="col">Telefono</th>
+                                <th scope="col">Celular</th>
+                                <th scope="col">Fecha</th>
+                                <th scope="col">CURP</th>
+                                <th scope="col">Rol</th>
 
-                            <th scope="col">Calle</th>
-                            <th scope="col">Num interior</th>
-                            <th scope="col">Num Exterior</th>
-                            <th scope="col">Colonia</th>
-                            <th scope="col">CP</th>
-                            <th scope="col">Municipio</th>
-                            <th scope="col">Estado</th>
+                                <th scope="col">Calle</th>
+                                <th scope="col">Num interior</th>
+                                <th scope="col">Num Exterior</th>
+                                <th scope="col">Colonia</th>
+                                <th scope="col">CP</th>
+                                <th scope="col">Municipio</th>
+                                <th scope="col">Estado</th>
 
-                            <th scope="col">Status</th>
-
-
-
-                        </tr>
-                    </thead>
-                    <tbody>
-
-
-                        @foreach (ML.Usuario usuario in Model.Usuarios)
-                        {
-                            <tr class="table-info">
-                                <td>
-                                    <a href="@Url.Action("Delete", "Usuario", new { IdUsuario = usuario.IdUsuario })"
-                                       class="btn btn-danger text-white"
-                                       onclick="return confirm('Estas seguro de que deseas eliminar este usuario?');">
-                                        <i class="bi bi-trash"></i>
-                                        Delete
-                                    </a>
-
-                                </td>
+                                <th scope="col">Status</th>
 
 
-                                <td>
-                                    <a href="@Url.Action("Form", "Usuario", new { IdUsuario = usuario.IdUsuario })"
-                                       type="button" class="btn btn-primary" ;">
-                                        <i class="bi bi-pencil-square"></i>
-                                        Update
-                                    </a>
 
-                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                                @if (usuario.Imagen != null)
+
+                            @foreach (ML.Usuario usuario in Model.Usuarios)
+                            {
+                                <tr class="table-info">
+
+                                    @if (User.FindFirst(ClaimTypes.Role)?.Value! =="Administrador")
+                                    {
+                                        <td>
+                                            <a href="@Url.Action("Delete", "Usuario", new { IdUsuario = usuario.IdUsuario })"
+                                            class="btn btn-danger text-white"
+                                            onclick="return confirm('Estas seguro de que deseas eliminar este usuario?');">
+                                                <i class="bi bi-trash"></i>
+                                                Delete
+                                            </a>
+
+                                        </td>
+
+
+                                        <td>
+                                            <a href="@Url.Action("Form", "Usuario", new { IdUsuario = usuario.IdUsuario })"
+                                            type="button" class="btn btn-primary" ;">
+                                                <i class="bi bi-pencil-square"></i>
+                                                Update
+                                            </a>
+
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+        
+
+                                        </td>
+
+
+                                        <td>
+         
+
+                                        </td>
+                                    }
+                                    @if (usuario.Imagen != null)
                                 {
 
                                     <td>

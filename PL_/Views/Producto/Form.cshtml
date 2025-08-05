@@ -29,15 +29,15 @@
     <div class="container">
         <div class="row">
             <div class="col-4">
-        
-                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        @* 
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" }) *@
 
                     @Html.HiddenFor(Model => Model.IdProducto)
 
                     @Html.LabelFor(Model => Model.Nombre, new { @class = "form-label" })
                 @Html.TextBoxFor(Model => Model.Nombre, new { @maxlength = "100", @class = "form-control sombra ", id = "txtNombre", placeholder = "Ingresa el nombre", onkeypress = "validarLetra(this, event)", onblur = "validarLetra(this, event)", required = "required" })
-                @Html.ValidationMessageFor(Model => Model.Nombre, "", new { @class = "badge bg-danger" })
-                <p class="invalid-feedback" hidden="hidden"></p>
+@*                 @Html.ValidationMessageFor(Model => Model.Nombre, "", new { @class = "badge bg-danger" })
+ *@                <p class="invalid-feedback" hidden="hidden"></p>
                     <br />
 
     

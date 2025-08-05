@@ -43,8 +43,17 @@ public class HomeController : Controller
     }
 
 
+    public IActionResult Logout()
+    {
 
-    
+        string cookieName = "session";
+
+
+        Response.Cookies.Delete(cookieName);
+
+        return RedirectToAction("Index", "Home");
+    }
+
     public IActionResult Privacy()
     {
         return View();
