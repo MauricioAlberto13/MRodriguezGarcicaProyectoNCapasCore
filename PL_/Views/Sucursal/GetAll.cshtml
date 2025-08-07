@@ -140,15 +140,15 @@
                                             value="@productoSucursal.Stock"       
                                             readonly="true"
                                                disabled="true"
-                                            class="form-control d-inline-block w-75" />
+                                            class="form-control d-inline-block w-75  efee" />
                
                                     </td>
                                     <td>
                                         <button type="button"       
-                                                class="btn btn-success d-none"       
+                                                class="btn btn-success d-none oli "       
                                                 id="btnGuardarStock-@productoSucursal.IdProductoSucursal"       
                                                 onclick="guardarStock(@productoSucursal.IdProductoSucursal)">
-                                            <i class="bi bi-floppy2"></i>
+                                          <i class="bi bi-floppy2"></i>
                                             Guardar
                                         </button>
 
@@ -211,11 +211,11 @@
 
                 }
                 else{
+                    // else if($("#btnGuardarStock-").hasClass("d-none");
 
-                     $("#btnUpdateStock-" + idProductoSucursal).text(" Update").addClass("btn btn-primary")
-                    $("#stock_" + idProductoSucursal).prop("readonly", true);
-                  $("#stock_" + idProductoSucursal).prop("disabled", true);
-                  $("#btnGuardarStock-" + idProductoSucursal).addClass("d-none");
+                    $(".efee").prop("readonly", true);
+                  $(".efee").prop("disabled", true);
+                  $(".oli").addClass("d-none");
 
                 }
            
