@@ -306,7 +306,7 @@ namespace BL
                         p.Sucursal = new ML.Sucursal();
                         p.Producto = new ML.Producto();
 
-
+                        p.IdProductoSucursal = item.IdProductoSucursal;
                         p.Producto.Nombre = item.Producto;
                         p.Producto.IdProducto = (int)item.IdProducto;
                         p.Sucursal.Nombre= item.Sucursal;
