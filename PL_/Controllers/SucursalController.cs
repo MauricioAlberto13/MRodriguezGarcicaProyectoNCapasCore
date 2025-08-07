@@ -81,5 +81,20 @@ namespace PL_.Controllers
         //{
         //    return View();
         //}
+
+
+
+        public IActionResult? UpdateStock(ML.ProductoSucursal productoSucursal)
+
+        {
+
+            ML.Result result = _productoSucursal.Update(productoSucursal);
+            if (result.Correct.HasValue)
+            {
+                return RedirectToAction("GetAll");
+            }
+            return null;
+        }
+
     }
 }

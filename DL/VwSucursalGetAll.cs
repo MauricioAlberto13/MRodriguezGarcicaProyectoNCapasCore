@@ -9,9 +9,9 @@ public partial class VwSucursalGetAll
 
     public string? Producto { get; set; }
 
-    public int? IdProducto { get; set; }
+    public int IdProducto { get; set; }
 
-    public int? IdSucursal { get; set; }
+    public int IdSucursal { get; set; }
 
     public byte[]? Imagen { get; set; }
 
@@ -20,4 +20,6 @@ public partial class VwSucursalGetAll
     public string? Longitud { get; set; }
 
     public int? Stock { get; set; }
+
+    public int IdProductoSucursal { get; set; }
 }

@@ -53,7 +53,7 @@ namespace BL
             try
             {
 
-                int FilasAfectadas = _context.Database.ExecuteSql($"ProductoUpdate {productoSucursal.Producto.IdProducto}, {productoSucursal.Sucursal.IdSucursal}, {productoSucursal.Stock},{productoSucursal.IdProductoSucursal}");
+                int FilasAfectadas = _context.Database.ExecuteSql($"ProductoSucursalUpdate {productoSucursal.IdProductoSucursal},{productoSucursal.Stock}");
                 if (FilasAfectadas > 0)
                 {
                     result.Correct = true;
@@ -251,6 +251,7 @@ namespace BL
 
 
                         p.Producto.Nombre = item.Producto;
+                        p.IdProductoSucursal = item.IdProductoSucursal;
                         p.Producto.IdProducto = (int)item.IdProducto;
                         p.Sucursal.Nombre = item.Sucursal;
                         p.Sucursal.IdSucursal = (int)item.IdSucursal;

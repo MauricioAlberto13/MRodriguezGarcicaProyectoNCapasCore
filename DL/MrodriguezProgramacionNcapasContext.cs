@@ -36,17 +36,14 @@ public partial class MrodriguezProgramacionNcapasContext : DbContext
     public virtual DbSet<Sucursal> Sucursals { get; set; }
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
-    public virtual DbSet<LoginDTO> LoginDTOs{ get; set; }
 
     public virtual DbSet<VwProductosGetAll> VwProductosGetAlls { get; set; }
 
     public virtual DbSet<VwSucursalGetAll> VwSucursalGetAlls { get; set; }
 
     public virtual DbSet<VwUsuarioGetAll> VwUsuarioGetAlls { get; set; }
+    public virtual DbSet<LoginDTO> LoginDTOs { get; set; }
 
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseSqlServer("Server=.; Database=MRodriguezProgramacionNCapas; TrustServerCertificate=True; User ID=sa; Password=pass@word1;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -369,10 +366,8 @@ public partial class MrodriguezProgramacionNcapasContext : DbContext
         {
             entity
                 .HasNoKey();
-
+             
         });
-
-
         OnModelCreatingPartial(modelBuilder);
     }
 

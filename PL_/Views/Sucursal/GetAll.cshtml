@@ -79,12 +79,13 @@
 
                         <thead>
                             <tr>
-                                <th scope="col">Eliminar</th>
+                               
                                 <th scope="col">Actualizar</th>
                                 <th scope="col">Imagen</th>
                                 <th scope="col">Producto</th>
                                 <th scope="col">Sucursal</th>
                                 <th scope="col">Stock</th>
+                                <th scope="col">Eliminar</th>
 
 
 
@@ -96,26 +97,21 @@
 
                             @foreach (ML.ProductoSucursal productoSucursal in Model.ProductoSucursales)
                             {
+
                                 <tr class="table-info">
-                                    <td>
-                                        <a href="@Url.Action("Delete", "Sucursal", new { IdProducto = productoSucursal.Producto.IdProducto})"
-                                           class="btn btn-danger text-white"
-                                           onclick="return confirm('Estas seguro de que deseas eliminar este producto?');">
-                                            <i class="bi bi-trash"></i>
-                                            Delete
-                                        </a>
-
-                                    </td>
 
 
-                                    <td>
-                                        <a href="@Url.Action("Form", "Producto", new { IdProductoSucursal = productoSucursal.IdProductoSucursal})"
-                                           type="button" class="btn btn-primary" ;">
-                                            <i class="bi bi-pencil-square"></i>
-                                            Update
-                                        </a>
 
-                                    </td>
+               <td>
+                                        <button type="button"
+                                                id="btnUpdateStock-@productoSucursal.IdProductoSucursal"    
+                                                class="btn btn-primary"
+                                                onclick="activarEdicion(@productoSucursal.IdProductoSucursal)">
+                                            <i class="bi bi-pencil-square"></i> Update
+                                        </button>
+</td>
+
+
 
                                     @if (productoSucursal.Producto.Imagen != null)
                                     {
@@ -138,10 +134,33 @@
 
                                     <td>@productoSucursal.Producto.Nombre</td>
                                     <td>  @productoSucursal.Sucursal.Nombre</td>
-                                    <td><input type="type" name="name" value="@productoSucursal.Stock" readonly />   </td>
+                                    <td>
+                                        <input type="number" 
+                                            id="stock_@productoSucursal.IdProductoSucursal"
+                                            value="@productoSucursal.Stock"       
+                                            readonly="true"
+                                               disabled="true"
+                                            class="form-control d-inline-block w-75" />
+               
+                                    </td>
+                                    <td>
+                                        <button type="button"       
+                                                class="btn btn-success d-none"       
+                                                id="btnGuardarStock-@productoSucursal.IdProductoSucursal"       
+                                                onclick="guardarStock(@productoSucursal.IdProductoSucursal)">
+                                            <i class="bi bi-floppy2"></i>
+                                            Guardar
+                                        </button>
 
+                                        <a href="@Url.Action("Delete", "Sucursal", new { IdProducto = productoSucursal.Producto.IdProducto})"
+                                           class="btn btn-danger text-white"
+                                           onclick="return confirm('Estas seguro de que deseas actualizatar el stock a 0 de este producto?');">
+                                            <i class="bi bi-trash"></i>
+                                            Delete
+                                        </a>
 
-
+                                    </td>
+                          
                                 </tr>
                             }
 
@@ -161,11 +180,73 @@
             }
         </div>
     </div>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     @section Scripts {
 
-        <script>
+         <script>
+             function activarEdicion(idProductoSucursal)
+             {
+
+
+
+                if ( $("#btnUpdateStock-" + idProductoSucursal).hasClass("btn btn-primary")) {
+
+                  $("#btnUpdateStock-" + idProductoSucursal).removeClass("btn btn-primary")
+                  $("#btnUpdateStock-" + idProductoSucursal).text(" Cancelar").addClass("btn btn-warning");
+
+                   $("#btnUpdateStock-" + idProductoSucursal).prepend('<i class="bi bi-x-circle"></i>');
+                  $("#stock_" + idProductoSucursal).prop("readonly", false);
+                  $("#stock_" + idProductoSucursal).prop("disabled", false);
+                  $("#btnGuardarStock-" + idProductoSucursal).removeClass("d-none");
+
+                } else if($("#btnUpdateStock-" + idProductoSucursal).hasClass("btn btn-warning")) {
+                                    $("#btnUpdateStock-" + idProductoSucursal).removeClass("btn btn-warning")
+
+                  $("#btnUpdateStock-" + idProductoSucursal).text(" Update").addClass("btn btn-primary");
+                  $("#btnUpdateStock-" + idProductoSucursal).prepend('<i class="bi bi-pencil-square"></i>');
+                  $("#stock_" + idProductoSucursal).prop("readonly", true);
+                  $("#stock_" + idProductoSucursal).prop("disabled", true);
+                  $("#btnGuardarStock-" + idProductoSucursal).addClass("d-none");
+
+                }
+                else{
+
+                     $("#btnUpdateStock-" + idProductoSucursal).text(" Update").addClass("btn btn-primary")
+                    $("#stock_" + idProductoSucursal).prop("readonly", true);
+                  $("#stock_" + idProductoSucursal).prop("disabled", true);
+                  $("#btnGuardarStock-" + idProductoSucursal).addClass("d-none");
+
+                }
+           
+
+            }
+
+            function guardarStock(idProductoSucursal) {      
+                var nuevoStock = $("#stock_" + idProductoSucursal).val();
+                 $.ajax({ 
+                     type: "POST",
+                     url: '@Url.Action("UpdateStock", "Sucursal")',
+                     data: { 
+                         IdProductoSucursal: idProductoSucursal,                    
+                         Stock: nuevoStock                
+                     },
+                    success: function () {
+                        $("#stock_" + idProductoSucursal).prop("readonly", true);
+                        $("#stock_" + idProductoSucursal).prop("disabled", true);
+
+
+                        $("#btnGuardarStock-" + idProductoSucursal).addClass("d-none");
+
+                        alert("El Stock ha sido actualizazdo correctamente ✅ ");
+                    },
+                    error: function () {
+                                       $(".stock").prop("readonly", true);
+                        alert("Error al actualizar el stock ❌");
+                    }
+                });
+            }
+
             function MostraV() {
                 var vistaFiltrar = document.getElementById("VistaFiltrar");
                 //    var ocultarVista = document.getElementById("OcultarVista");
@@ -210,41 +291,11 @@
                 }
             }
 
+
+
+
+
         </script>
 
     }
 </div>
-@* 
- <script>
-            function FillSub() {
-            var IdCategoria = $('#ddlCategoria').val();
-            console.log(IdCategoria);
-
-            $.ajax({
-    url: `/Producto/GetCategoriaByIdSub`,
-
-                method: 'GET',
-                dataType: 'json',
-                data: { IdCategoria },
-
-        success: function (resultCategoria) {
-            if (resultCategoria.correct) {
-                                    console.log("Estas en correct de sub");
-                                    console.log(resultCategoria);
-
-                        $("#ddlSub").empty().append('<option value="">Seleccione una </option>');
-                        $.each(resultCategoria.objects, function (i, subCategoria) {
-
-
-                            $("#ddlSub").append('<option value="' + subCategoria.idSubCategoria + '">' + subCategoria.nombre + '</option>');
-                        });
-                    }
-                },
-
-                error: function () {
-                    alert("Ocurrió un error al obtener las subcategorias.");
-                }
-            });
-        }
-</script>
- *@
