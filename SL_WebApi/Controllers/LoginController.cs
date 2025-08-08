@@ -51,7 +51,8 @@ namespace SL_WebApi.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.Role, usuario.Rol.NombreR),
-                new Claim(ClaimTypes.Name, usuario.Nombre)
+                new Claim(ClaimTypes.Name, usuario.Nombre),
+                new Claim(ClaimTypes.Email, usuario.Email)
             //new Claim(JwtRegisteredClaimNames.Sub, username),
             //new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };

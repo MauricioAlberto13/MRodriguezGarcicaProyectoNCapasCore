@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage.Json;
+using System.Net;
+using System.Net.Mail;
+using System.Security.Claims;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace PL_.Controllers
 {
@@ -10,15 +16,16 @@ namespace PL_.Controllers
 
         private readonly BL.ProductoSucursal _productoSucursal;
         private readonly BL.Sucursal _sucursal;
-        
 
 
+        private readonly IHostingEnvironment _env;
 
-        public SucursalController(BL.ProductoSucursal productoSucursal, BL.Sucursal sucursal)
+
+        public SucursalController(BL.ProductoSucursal productoSucursal, BL.Sucursal sucursal,IHostingEnvironment env)
         {
             _productoSucursal= productoSucursal;
             _sucursal= sucursal;
-            
+            _env = env;
 
         }
 
@@ -77,12 +84,68 @@ namespace PL_.Controllers
             }
             return null;
         }
+
+
+
         //public IActionResult GetAll()
         //{
         //    return View();
         //}
 
+        [NonAction]
+        public ML.Result EnviarCorreo()
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
 
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+                
+                if (identity != null)
+                {
+                var nombre= identity.Name;
+                var email = User.FindFirst(ClaimTypes.Email)?.Value;
+
+                string correo="alber13boy@gmail.com";
+                string password= "phqg wmnc wtsr vorz";
+
+                string body = "";
+                //string path = ("~/Content/ArchivosTxt/Errores/");
+
+                //StreamReader reader = new StreamReader(path);
+                //body = reader.ReadToEnd();
+                body = body.Replace("{{NombreUsuario}}", nombre);
+                body = body.Replace("{{LINK}}", Url.Action("Index","Home"));
+
+                var smptClient = new SmtpClient("smtp.gmail.com")
+                {
+                    Port = 587,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(correo, password),
+                    EnableSsl = true
+                };
+
+                var message = new MailMessage
+                {
+                    From = new MailAddress(correo,"Mauricio Alb"),
+                    Subject ="Actualización de Stock",
+                    Body = body,
+                    IsBodyHtml=false
+                };
+                message.To.Add(email);
+                smptClient.Send(message);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+
+            }
+
+            return result;
+        }
 
         public IActionResult? UpdateStock(ML.ProductoSucursal productoSucursal)
 
@@ -91,6 +154,7 @@ namespace PL_.Controllers
             ML.Result result = _productoSucursal.Update(productoSucursal);
             if (result.Correct.HasValue)
             {
+                EnviarCorreo();
                 return RedirectToAction("GetAll");
             }
             return null;

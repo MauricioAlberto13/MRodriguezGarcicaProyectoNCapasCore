@@ -1,78 +1,29 @@
 ﻿
+//function activarEdicion(idProductoSucursal) {
+//    var boton = $("#btnUpdateStock-" + idProductoSucursal);
+//    var stock = $("#stock_" + idProductoSucursal);
+//    var guardar = $("#btnGuardarStock-" + idProductoSucursal);
+//    var bool = boton.hasClass("btn-warning");
+//    $(".btn-update-stock").each(function () {
+//        var id = $(this).data("id");
 
-        function activarEdicion(idProductoSucursal)
-        {
+//        $("#btnUpdateStock-" + id).removeClass("btn-warning");
+//        $("#btnUpdateStock-" + id).addClass("btn-primary").text(" Update").prepend('<i class="bi bi-pencil-square"></i>');
 
+//        $("#stock_" + id).prop("readonly", true);
+//        $("#stock_" + id).prop("disabled", true);
+//        $("#btnGuardarStock-" + id).addClass("d-none");
 
-                if ( $("#btnUpdateStock-" + idProductoSucursal).hasClass("btn btn-primary") && $("#btnGuardarStock-" + idProductoSucursal).hasClass("d-none")  ) {
-
-            $("#btnUpdateStock-" + idProductoSucursal).removeClass("btn btn-primary")
-                  $("#btnUpdateStock-" + idProductoSucursal).text(" Cancelar").addClass("btn btn-warning");
-
-        $("#btnUpdateStock-" + idProductoSucursal).prepend('<i class="bi bi-x-circle"></i>');
-        $("#stock_" + idProductoSucursal).prop("readonly", false);
-        $("#stock_" + idProductoSucursal).prop("disabled", false);
-        $("#btnGuardarStock-" + idProductoSucursal).removeClass("d-none");
-
-                } else if($("#btnUpdateStock-" + idProductoSucursal).hasClass("btn btn-warning") && $("#btnGuardarStock-" + idProductoSucursal).hasClass("btn-success")) {
-            $("#btnUpdateStock-" + idProductoSucursal).removeClass("btn btn-warning")
-
-                  $("#btnUpdateStock-" + idProductoSucursal).text(" Update").addClass("btn btn-primary");
-        $("#btnUpdateStock-" + idProductoSucursal).prepend('<i class="bi bi-pencil-square"></i>');
-        $("#stock_" + idProductoSucursal).prop("readonly", true);
-        $("#stock_" + idProductoSucursal).prop("disabled", true);
-        $("#btnGuardarStock-" + idProductoSucursal).addClass("d-none");
-
-                  // $(".btnUpdateStock-, .d-inline-block ").each(function() {
-            //       if ($(this).hasClass("btnUpdateStock-")) {
-            //          // $(this).prop("disabled", true);
-
-            //           $(this).addClass("d-none");
-            //        } if ($(this).hasClass(".d-inline-block")) {
-
-            // });
-        }
-        else{
-
-            $("#btnUpdateStock-" + idProductoSucursal).removeClass("btn btn-warning")
-                  $("#btnUpdateStock-" + idProductoSucursal).text(" Update").addClass("btn btn-primary");
-        $("#btnUpdateStock-" + idProductoSucursal).prepend('<i class="bi bi-pencil-square"></i>');
-        $("#stock_" + idProductoSucursal).prop("readonly", true);
-        $("#stock_" + idProductoSucursal).prop("disabled", true);
-        $("#btnGuardarStock-" + idProductoSucursal).addClass("d-none");
-                }
-           
+//    });
 
 
+//    if (!bool) {
+//        boton.removeClass("btn-primary").addClass("btn-warning").html('<i class="bi bi-x-circle"></i> Cancelar');
+//        stock.prop("readonly", false).prop("disabled", false);
+//        guardar.removeClass("d-none");
+//    }
+//}
 
-            }
-
-        function guardarStock(idProductoSucursal) {      
-                var nuevoStock = $("#stock_" + idProductoSucursal).val();
-        $.ajax({
-            type: "POST",
-        url: '@Url.Action("UpdateStock", "Sucursal")',
-        data: {
-            IdProductoSucursal: idProductoSucursal,
-        Stock: nuevoStock                
-                     },
-        success: function () {
-            $("#stock_" + idProductoSucursal).prop("readonly", true);
-        $("#stock_" + idProductoSucursal).prop("disabled", true);
-        $("#btnUpdateStock-" + idProductoSucursal).removeClass("btn btn-warning");
-        $("#btnUpdateStock-" + idProductoSucursal).text(" Update").addClass("btn btn-primary");
-        $("#btnUpdateStock-" + idProductoSucursal).prepend('<i class="bi bi-pencil-square"></i>');
-
-        $("#btnGuardarStock-" + idProductoSucursal).addClass("d-none");
-
-        alert("El Stock ha sido actualizazdo correctamente ✅ ");
-                    },
-        error: function () {
-            $(".stock").prop("readonly", true);
-        alert("Error al actualizar el stock ❌");
-                    }
-                });
-            }
 
         function MostraV() {
                 var vistaFiltrar = document.getElementById("VistaFiltrar");
