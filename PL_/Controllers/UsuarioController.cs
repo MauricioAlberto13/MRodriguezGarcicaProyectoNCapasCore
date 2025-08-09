@@ -281,8 +281,8 @@ namespace PL_.Controllers
                 if (usuario.IdUsuario > 0)
                 {
         
-                    //ML.Result result = _usuario.Update(usuario);
-                    ML.Result result = UpdateRest(usuario);
+                   ML.Result result = _usuario.Update(usuario);
+                    //ML.Result result = UpdateRest(usuario);
                      if (!result.Correct.HasValue)
                     {
                         return View(usuario);
