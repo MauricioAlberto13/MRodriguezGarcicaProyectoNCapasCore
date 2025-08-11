@@ -37,9 +37,6 @@ namespace PL_.Controllers
             _usuarioEndpoint = configuration["AppSettings:UsuarioEndPoint"];
         }
 
-
-
-
         [HttpGet]
         [Authorize]
         public IActionResult GetAll()
@@ -64,9 +61,7 @@ namespace PL_.Controllers
             return View(usuario);
         }
 
-
         [NonAction]
-
         public ML.Result GetAllRest()
         {
             ML.Result result = new ML.Result();
@@ -116,9 +111,7 @@ namespace PL_.Controllers
             return result;
         }
 
-
-        [HttpPost]
- 
+        [HttpPost] 
         public IActionResult GetAll(ML.Usuario usuario, IFormFile archivo, string validar)
         {
             //if (usuario.Rol == null)
@@ -185,7 +178,6 @@ namespace PL_.Controllers
             //return Json(result, JsonRequestBehavior.AllowGet);
             return Json(new { success = result.Correct });
         }
-
 
         [HttpGet]
         public IActionResult Form(int? IdUsuario)
@@ -281,8 +273,8 @@ namespace PL_.Controllers
                 if (usuario.IdUsuario > 0)
                 {
         
-                   ML.Result result = _usuario.Update(usuario);
-                    //ML.Result result = UpdateRest(usuario);
+                   //ML.Result result = _usuario.Update(usuario);
+                   ML.Result result = UpdateRest(usuario);
                      if (!result.Correct.HasValue)
                     {
                         return View(usuario);
@@ -344,7 +336,6 @@ namespace PL_.Controllers
             return RedirectToAction("GetAll");
         }
 
-
         [HttpGet]
         public JsonResult GetMunicipioByIdEstado(int IdEstado)
         {
@@ -352,16 +343,12 @@ namespace PL_.Controllers
               return new JsonResult(resultMunicipios);
         }
 
-
         [HttpGet]
         public JsonResult GetColoniaByIdMunicipio(int IdMunicipio)
         {
             var resultColonias = _colonia.GetColoniaByIdMunicipio(IdMunicipio);
             return new JsonResult(resultColonias);
         }
-
-
-
 
         public IActionResult? Delete(int IdUsuario)
 
@@ -386,86 +373,6 @@ namespace PL_.Controllers
             return null;
 
         }
-
-
-        //[HttpGet]
-        //public IActionResult? Form(int IdRestaurante)
-
-        //{
-        //    ML.Restaurante restaurante = new ML.Restaurante();
-
-        //    //ML.Result result = _restaurante.Delete(IdRestaurante);
-
-        //    if (IdRestaurante > 0)
-        //    {
-
-        //        // ML.Result result = _restaurante.GetById(IdRestaurante);
-        //        ML.Result result = GetByIdRest(IdRestaurante);
-
-        //        if (result.Correct)
-        //        {
-        //            restaurante = (ML.Restaurante)result.Object;
-        //        }
-        //    }
-
-        //    return View(restaurante);
-
-        //}
-
-        //[HttpPost]
-        //public IActionResult Form(ML.Restaurante restaurante, IFormFile? imagenRestaurante)
-        //{
-        //    if (imagenRestaurante != null && imagenRestaurante.Length > 0)
-        //    {
-        //        using (var memoryStream = new MemoryStream())
-        //        {
-        //            imagenRestaurante.CopyTo(memoryStream);
-        //            restaurante.Imagen = memoryStream.ToArray();
-        //        }
-        //    }
-        //    if (restaurante.IdRestaurante > 0)
-        //    {
-
-        //        // ML.Result result = _restaurante.Update(restaurante);
-        //        ML.Result result = UpdateRest(restaurante);
-
-        //        if (!result.Correct)
-        //        {
-        //            return View(restaurante);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        // ML.Result result = _restaurante.Add(restaurante);
-        //        ML.Result result = AddRest(restaurante);
-        //        if (!result.Correct)
-        //        {
-        //            return View(restaurante);
-        //        }
-
-
-        //    }
-        //    return RedirectToAction("GetAll");
-
-
-        //}
-
-
-
-
-
-
-//var options = new RestClientOptions("https://api.themoviedb.org/3/account/22090518/favorite");
-//    var client = new RestClient(options);
-//    var request = new RestRequest("");
-//    request.AddHeader("accept", "application/json");
-//request.AddHeader("content-type", "application/json");
-//request.AddHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5YzM3YjY0MGM5YjZkNDcyNTljMTczNmIzYjFmNjlhYiIsIm5iZiI6MTc1MDQ0MTUzNi4xMTIsInN1YiI6IjY4NTU5ZTQwZDdiNTVmMGZlZDI5MDY0NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.eLNLWvOpZ_kEBWa49wLK7uDGHwxBEqpZHZkeUk4BlnQ");
-//var response = await client.PostAsync(request);
-
-//    Console.WriteLine("{0}", response.Content);
-
-
 
         [NonAction]
         public ML.Result GetAllBusquedaAbierta(ML.Usuario usuario)
@@ -495,6 +402,7 @@ namespace PL_.Controllers
             catch (Exception ex) { result.ErrorMessage = ex.Message; result.Ex = ex; }
             return result;
         }
+
         [NonAction]
         public  ML.Result GetByIdRest(int IdUsuario)
         {
@@ -539,6 +447,7 @@ namespace PL_.Controllers
 
             return result;
         }
+
         [NonAction]
         private ML.Result DeleteApiRest(int IdUsuario)
         {
@@ -573,6 +482,7 @@ namespace PL_.Controllers
 
             return resultDelete;
         }
+
         [NonAction]
         public ML.Result UpdateRest(ML.Usuario usuario)
         {
@@ -604,6 +514,7 @@ namespace PL_.Controllers
             return resultUpdate;
 
         }
+
         [NonAction]
         public ML.Result AddRest(ML.Usuario usuario)
         {
@@ -640,8 +551,6 @@ namespace PL_.Controllers
 
             return resultAdd;
         }
-
-
 
         //[NonAction]
         //public ML.Result LoginUsuario(ML.Login login)

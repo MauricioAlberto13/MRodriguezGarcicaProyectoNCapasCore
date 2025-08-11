@@ -107,17 +107,16 @@ namespace PL_.Controllers
                     string password= _config["AppSettings:Pass"];
 
                     string body = "";
-                    //string path = ("~/Content/ArchivosTxt/Errores/");
                     string contentRootPath = _env.ContentRootPath;
 
                     string webRootPath = _env.WebRootPath;
-                    string path = Path.Combine(webRootPath, "css", "email.html");
+                    string path = Path.Combine(webRootPath, "templates", "email.html");
 
                     StreamReader reader = new StreamReader(path);
                     body = reader.ReadToEnd();
                     body = body.Replace("{{NombreUsuario}}", nombre);
                     body = body.Replace("{{emailUser}}", emailUser);
-                    body = body.Replace("{{LINK}}", Url.Action("Index","Home"));
+                    body = body.Replace("{{LINK}}", Url.Action("http://localhost:5274/Producto/GetAllJS"));
 
                 var smptClient = new SmtpClient("smtp.gmail.com")
                 {
@@ -155,7 +154,7 @@ namespace PL_.Controllers
                 EnviarCorreo();
                 return RedirectToAction("GetAll");
             }
-            return null;
+            return RedirectToAction("GetAll");
         }
 
     }
