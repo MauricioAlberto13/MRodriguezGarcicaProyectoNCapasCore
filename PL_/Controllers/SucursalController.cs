@@ -116,9 +116,9 @@ namespace PL_.Controllers
                     body = reader.ReadToEnd();
                     body = body.Replace("{{NombreUsuario}}", nombre);
                     body = body.Replace("{{emailUser}}", emailUser);
-                    body = body.Replace("{{LINK}}", Url.Action("http://localhost:5274/Producto/GetAllJS"));
-
-                var smptClient = new SmtpClient("smtp.gmail.com")
+                //    body = body.Replace("{{LINK}}", Url.Action("http://localhost:5274/Producto/GetAllJS"));
+                  
+                    var smptClient = new SmtpClient("smtp.gmail.com")
                 {
                     Port = 587,
                     UseDefaultCredentials = false,
@@ -128,6 +128,7 @@ namespace PL_.Controllers
 
                 var message = new MailMessage
                 {
+                    
                     From = new MailAddress(correo,"Mauricio Alb"),
                     Subject ="Actualización de Stock",
                     Body = body,
