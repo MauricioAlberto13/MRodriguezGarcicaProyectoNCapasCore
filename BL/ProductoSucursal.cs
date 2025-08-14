@@ -393,5 +393,55 @@ namespace BL
             }
             return result;
         }
+
+
+
+
+        public ML.Result GetByIdProductoSucursal(int idProductoSucursal)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                var item = _context.VwSucursalGetAlls
+                  .FromSqlRaw($"ProductoIdSucursalById1 {idProductoSucursal}")
+                  .AsEnumerable()
+                  .FirstOrDefault();
+
+                if (item != null)
+                {
+                    ML.ProductoSucursal p = new ML.ProductoSucursal();
+
+                    p.Sucursal = new ML.Sucursal();
+                    p.Producto = new ML.Producto();
+
+                    //p.IdProductoSucursal = item.IdProductoSucursal;
+                    p.Producto.Nombre = item.Producto;
+                    //p.Producto.IdProducto = (int)item.IdProducto;
+                    p.Sucursal.Nombre = item.Sucursal;
+                    //p.Sucursal.IdSucursal = (int)item.IdSucursal;
+                    //p.Stock = item.Stock;
+                    //p.Sucursal.Latitud = item.Latitud;
+                    //p.Sucursal.Longitud = item.Longitud;
+                    //p.Producto.Imagen = item.Imagen;
+
+                    result.Object = p;
+                    result.Correct = true;
+                }
+                else
+                {
+                    result.Correct = false;
+                    result.ErrorMessage = "No se encontró el registro.";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+
+            return result;
+        }
+
     }
 }

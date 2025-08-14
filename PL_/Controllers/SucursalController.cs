@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Storage.Json;
 using Microsoft.Extensions.Hosting;
 using System.Net;
 using System.Net.Mail;
+using System.Net.Mime;
 using System.Security.Claims;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
@@ -147,7 +148,7 @@ namespace PL_.Controllers
             return result;
         }
         [NonAction]
-        public ML.Result EnviarCorreo()
+        public ML.Result EnviarCorreo(string nombreProducto,string nombreSucursal)
         {
             ML.Result result = new ML.Result();
             try
@@ -176,9 +177,24 @@ namespace PL_.Controllers
                     body = reader.ReadToEnd();
                     body = body.Replace("{{NombreUsuario}}", nombre);
                     body = body.Replace("{{emailUser}}", emailUser);
-                   // body = body.Replace("{{stockA}}", stockA.ToString());
-                //    body = body.Replace("{{LINK}}", Url.Action("http://localhost:5274/Producto/GetAllJS"));
-                  
+                    body = body.Replace("{{producto}}", nombreProducto.ToString());
+                    body = body.Replace("{{sucursal}}", nombreSucursal.ToString());
+
+                    AlternateView altView = AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
+
+                    // Logo 1 //
+                    string imageSource = Path.Combine(webRootPath, "templates", "1.png");
+                    LinkedResource PictureRes = new LinkedResource(imageSource, MediaTypeNames.Image.Png);
+                    PictureRes.ContentId = "1.png";
+                    altView.LinkedResources.Add(PictureRes);
+
+                    // Logo 2 //
+                    string imageSource2 = Path.Combine(webRootPath, "templates", "2.png");
+                    LinkedResource PictureRes2 = new LinkedResource(imageSource2, MediaTypeNames.Image.Png);
+                    PictureRes2.ContentId = "2.png";
+                    altView.LinkedResources.Add(PictureRes2);
+
+
                     var smptClient = new SmtpClient("smtp.gmail.com")
                 {
                     Port = 587,
@@ -195,7 +211,10 @@ namespace PL_.Controllers
                     Body = body,
                     IsBodyHtml=true
                 };
-                message.To.Add(addresses: email);
+                    ////
+                    message.AlternateViews.Add(altView);
+                    ////
+                    message.To.Add(addresses: email);
                 smptClient.Send(message);
                  }
             }
@@ -207,22 +226,42 @@ namespace PL_.Controllers
             return result;
         }
 
-        public IActionResult? UpdateStock(ML.ProductoSucursal productoSucursal)
 
+        public IActionResult UpdateStock(ML.ProductoSucursal productoSucursal)
         {
-       
-
-            ML.Result result = _productoSucursal.Update(productoSucursal);
-            if ((bool)result.Correct)
+            var result1 = _productoSucursal.GetByIdProductoSucursal(productoSucursal.IdProductoSucursal);
+            if ((bool)result1.Correct)
             {
-                //var producto = _productoSucursal.GetByID2(productoSucursal.IdProductoSucursal);
-                //int stockA = (int)producto.Object;
+                var InfoPro = (ML.ProductoSucursal)result1.Object;
+                string nombreProducto = InfoPro.Producto.Nombre;
+                string nombreSucursal = InfoPro.Sucursal.Nombre;
 
-                EnviarCorreo();
-                return RedirectToAction("GetAll");
+                ML.Result result = _productoSucursal.Update(productoSucursal);
+                if ((bool)result.Correct)
+                {
+      
+                    EnviarCorreo(nombreProducto, nombreSucursal);
+                    return RedirectToAction("GetAll");
+                }
             }
             return RedirectToAction("GetAll");
         }
+        //public IActionResult? UpdateStock(ML.ProductoSucursal productoSucursal)
+
+        //{
+       
+
+        //    ML.Result result = _productoSucursal.Update(productoSucursal);
+        //    if ((bool)result.Correct)
+        //    {
+        //        //var producto = _productoSucursal.GetByID2(productoSucursal.IdProductoSucursal);
+        //        //int stockA = (int)producto.Object;
+
+        //        EnviarCorreo();
+        //        return RedirectToAction("GetAll");
+        //    }
+        //    return RedirectToAction("GetAll");
+        //}
 
     }
 }
