@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Storage.Json;
 using Microsoft.Extensions.Hosting;
 using System.Net;
@@ -75,8 +76,9 @@ namespace PL_.Controllers
         {
 
             ML.Result result = _productoSucursal.Delete2(IdProducto);
-            if (result.Correct.HasValue)
+            if ((bool)result.Correct)
             {
+                EnviarCorreo2();
                 return RedirectToAction("GetAll");
             }
             return null;
@@ -85,7 +87,65 @@ namespace PL_.Controllers
         //{
         //    return View();
         //}
+        [NonAction]
+        public ML.Result EnviarCorreo2()
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
 
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+
+                if (identity != null)
+                {
+                    var nombre = identity.Name;
+                    var emailUser = User.FindFirst(ClaimTypes.Email)?.Value;
+                    var email = "mauricioalbertorg364@gmail.com";
+
+                    //string correo="alber13boy@gmail.com";
+                    //string password= "phqg wmnc wtsr vorz";       
+                    string correo = _config["AppSettings:Correo"];
+                    string password = _config["AppSettings:Pass"];
+
+                    string body = "";
+                    string contentRootPath = _env.ContentRootPath;
+
+                    string webRootPath = _env.WebRootPath;
+                    string path = Path.Combine(webRootPath, "templates", "email2.html");
+
+                    StreamReader reader = new StreamReader(path);
+                    body = reader.ReadToEnd();
+                    body = body.Replace("{{NombreUsuario}}", nombre);
+                    body = body.Replace("{{emailUser}}", emailUser);
+                    //    body = body.Replace("{{LINK}}", Url.Action("http://localhost:5274/Producto/GetAllJS"));
+
+                    var smptClient = new SmtpClient("smtp.gmail.com")
+                    {
+                        Port = 587,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(correo, password),
+                        EnableSsl = true
+                    };
+
+                    var message = new MailMessage
+                    {
+
+                        From = new MailAddress(correo, "Mauricio Alb"),
+                        Subject = "Producto Descontinuado",
+                        Body = body,
+                        IsBodyHtml = true
+                    };
+                    message.To.Add(addresses: email);
+                    smptClient.Send(message);
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
         [NonAction]
         public ML.Result EnviarCorreo()
         {
@@ -116,6 +176,7 @@ namespace PL_.Controllers
                     body = reader.ReadToEnd();
                     body = body.Replace("{{NombreUsuario}}", nombre);
                     body = body.Replace("{{emailUser}}", emailUser);
+                   // body = body.Replace("{{stockA}}", stockA.ToString());
                 //    body = body.Replace("{{LINK}}", Url.Action("http://localhost:5274/Producto/GetAllJS"));
                   
                     var smptClient = new SmtpClient("smtp.gmail.com")
@@ -149,9 +210,14 @@ namespace PL_.Controllers
         public IActionResult? UpdateStock(ML.ProductoSucursal productoSucursal)
 
         {
+       
+
             ML.Result result = _productoSucursal.Update(productoSucursal);
             if ((bool)result.Correct)
             {
+                //var producto = _productoSucursal.GetByID2(productoSucursal.IdProductoSucursal);
+                //int stockA = (int)producto.Object;
+
                 EnviarCorreo();
                 return RedirectToAction("GetAll");
             }

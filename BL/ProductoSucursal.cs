@@ -1,6 +1,7 @@
 ﻿using DL;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using ML;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -156,6 +157,56 @@ namespace BL
         //    }
         //    return result;
         //}
+        public ML.Result GetByID2(int IdproductoSucursal)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                //Se quita el bloque using ya que la conexion ya se encuentra y solo vive en el BL
+                // var query = _context.VwUsuarioGetAlls.FromSqlRaw("select * from vwUsuarioGetAll ").ToList();
+
+                //  var query = _context.VwUsuarioGetAlls.FromSqlRaw("exec UsuarioGetsAllView  '', '', '',0 ").ToList();
+                //int idPro = (int)((productoSucursal.Producto != null) ? productoSucursal.Producto.IdProducto : 0);
+                //int idSuc = (int)((productoSucursal.Producto != null) ? productoSucursal.Producto.IdProducto : 0);
+                var item = _context.VwSucursalGetAlls.FromSqlRaw($"ProductoIdSucursalById1 {IdproductoSucursal}").AsEnumerable()
+       .FirstOrDefault();
+
+                //var query = _context.VwUsuarioGetAlls.FromSqlRaw($"UsuarioGetsAllView ").ToList();
+                //Recuerdad que entity core no mapea los store procedures y se tienen que mandar a llamar con From SQl Raw en caso de que sea una consulta SELECT
+
+                if (item != null)
+                {
+
+                    ML.ProductoSucursal p = new ML.ProductoSucursal();
+
+                    //p.Sucursal = new ML.Sucursal();
+                    //p.Producto = new ML.Producto();
+
+                    //p.IdProductoSucursal = item.IdProductoSucursal;
+                    //p.Producto.Nombre = item.Producto;
+                    //p.Producto.IdProducto = (int)item.IdProducto;
+                    //p.Sucursal.Nombre = item.Sucursal;
+                    //p.Sucursal.IdSucursal = (int)item.IdSucursal;
+                    p.Stock = (int)item.Stock;
+                    //p.Sucursal.Latitud = item.Latitud;
+                    //p.Sucursal.Longitud = item.Longitud;
+                    //p.Producto.Imagen = item.Imagen;
+
+
+                    //////
+                    result.Object = p;
+                    result.Correct = true;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
+        }
 
         public ML.Result GetById(int IdProducto)
         {
@@ -176,7 +227,7 @@ namespace BL
                     producto.Nombre = item.Nombre;
                     producto.Descripcion = item.Descripcion;
                     producto.Precio = item.Precio;
-
+                    
 
                     //////
 

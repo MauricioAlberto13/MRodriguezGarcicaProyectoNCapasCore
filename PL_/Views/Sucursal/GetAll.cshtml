@@ -200,17 +200,19 @@
                                                     Guardar
                                                 </button>
 
-                                                <a href="@Url.Action("Delete", "Sucursal", new { IdProducto = productoSucursal.Producto.IdProducto})"
+@*                                                 <a href="@Url.Action("Delete", "Sucursal", new { IdProducto = productoSucursal.Producto.IdProducto})"
                                                    class="btn btn-danger text-white"
                                                    onclick="return confirm('Estas seguro de que deseas actualizatar el stock a 0 de este producto?');">
                                                     <i class="bi bi-trash"></i>
                                                     Delete
                                                 </a>
-
-               @*                          <button class="card-btn m-1"   
-                                                onclick="eliminar(@productoSucursal.Producto.IdProducto)" >
+ *@
+                                        <button type="button"
+                                                class="btn btn-danger text-white"
+                                                onclick="Eliminar(@productoSucursal.Producto.IdProducto, this)">
                                             <i class="bi bi-trash"></i>
-                                        </button> *@
+                                            Delete
+                                        </button>
 
                                             </td>
 
@@ -275,6 +277,49 @@
         <script>
 
 
+
+
+
+
+        function Eliminar(idProducto) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "El stock de este producto se actualizará a 0.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, actualizar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST", 
+                        url: '@Url.Action("Delete", "Sucursal")',
+                        data: { IdProducto: idProducto },
+                        success: function (response) {
+                            Swal.fire({
+                                title: 'Actualizado',
+                                text: 'El stock ha sido actualizado a 0.',
+                                icon: 'success',
+                                timer: 1500,
+                                showConfirmButton: false
+                            }).then(() => { 
+                                location.reload();
+                            });
+                        }
+                        ,
+                        error: function () {
+                            Swal.fire(
+                                'Error',
+                                'Hubo un problema al actualizar el stock ',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
+        }
 
 
 
